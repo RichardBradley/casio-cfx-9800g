@@ -1,6 +1,6 @@
 "MANDLBROT"
-"RES=1 in "?->r
-[dt] [dt] [dt] X MIN"?->G
+"RES=1 IN "?->r
+"X MIN"?->G
 "X MAX"?->H
 "Y MIN"?->M
 "Y MAX"?->N
@@ -9,7 +9,7 @@ G->A
 M->B
 Lbl 1
 4(A^2+B^2)->U
-U-A1+0.25->V
+U-2A+0.25->V
 (U+8A+15/4)<0=>0->K
 (U+8A+15/4)<0=>Goto 4
 A->E

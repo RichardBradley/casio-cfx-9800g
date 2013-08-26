@@ -89,6 +89,9 @@ class AutoItTranslator
       when 'OPTN -> more -> PROB'
         @text << '{F3}'
         flush_text 'PROB'
+      when 'OPTN -> more -> NUM'
+        @text << '{F4}'
+        flush_text 'NUM'
       else
         raise "Bad menu '#{@menu.join ' -> '}'"
       end
@@ -97,7 +100,8 @@ class AutoItTranslator
 
   # Converts the given txt line into au3
   def translate_line line
-    line.scan /Lbl |Goto |=>|Isz|Dsz|e\^|Deg|Range|->|./ do |token|
+    return if line =~ /^#/
+    line.scan /Lbl |Goto |=>|Isz|Dsz|e\^|Deg|Range |Int |Plot |->|./ do |token|
       case token
       when '#'
         enter_menu 'PRGM'
@@ -115,6 +119,28 @@ class AutoItTranslator
               end
         @text << "{F#{key}}"
         flush_text token
+      when 'Abs ', 'Int ', 'Frac ', 'Rnd ', 'Intg ', 'RndFi '
+        enter_menu 'OPTN -> more -> NUM'
+        key = case token
+              when 'Abs ' then 1
+              when 'Int ' then 2
+              when 'Frac ' then 3
+              when 'Rnd ' then 4
+              when 'Intg ' then 5
+              when 'RndFi ' then 5
+              else raise "invalid token '#{token}'"
+              end
+        @text << "{F#{key}}"
+        flush_text token
+      when 'Range '
+        click 'SHIFT'
+        @text << '{F3}{F1}'
+        flush_text 'ViewWindow'
+      when 'Plot '
+        enter_menu ''
+        click 'SHIFT'
+        @text << '{F4}{F6}{F1}{F1}'
+        flush_text 'Plot'
       when 'r'
         click 'ALPHA'
         click 'x^2', 'rho'
@@ -129,10 +155,10 @@ class AutoItTranslator
         click '->'
       when /^[+^]$/
         @text << "{#{token}}"
-      when /^[-"A-Z0-9?:\/()*=]$/
+      when /^[-"A-Z0-9?:\/()*= ,.<>]$/
         @text << token
       else
-        raise "invalid token '#{token}'"
+        raise "invalid token '#{token}' on line '#{line}'"
       end
     end
     # end of the line: 

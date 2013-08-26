@@ -50,6 +50,11 @@ In program mode, the CFX-9800G has several symbols which are difficult to reprod
 
   ^2   qq
 
+  #    Comments in the text files are allowed with "#"
+
+  Range from my old casio is referred to as 'View Window' in the new casio
+       from the emulator
+
 
 Programming Langauge Quickstart
 ===============================
