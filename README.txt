@@ -8,6 +8,17 @@ http://www.rskey.org/CMS/index.php/7?manufacturer=Casio&model=CFX-9800G
 File Naming Scheme
 ==================
 
+
+Loading the files
+=================
+
+The emulator will save any files you add to "storage memory" to the "gy363.fls" archive, but I can't see how to easily add data into there without typing it into the emulator.
+
+So qq enter keys
+
+Get "AutoIt" from http://www.autoitscript.com/site/autoit/downloads/
+Then qq
+
 Notation
 ========
 
@@ -24,15 +35,20 @@ In program mode, the CFX-9800G has several symbols which are difficult to reprod
   /    is used for the division symbol (U+00F7)
 
   #    is used for the "Display result command", a black down-right triangle,
-       like U+25E2
+       like U+25E2 (seems to be stored as 0x0C by the calc)
 
   !=   is used for the single "not equal" char on the casio
   <=, >= are used for the single char relational operators on the casio
 
-  Lbl, Goto, Prog, Isz, Dsz, Deg ...
+  Lbl, Goto, Prog, Isz, Dsz, Deg, Range ...
        various keywords are treated as a single char on the casio, but are written in full in these files. (This could lead to ambiguity, but not in normal usage.)
 
   "r"  the casio distinguishes between rho and r qq
+
+  [dt] qq
+
+  ^2   qq
+
 
 Programming Langauge Quickstart
 ===============================
