@@ -1,0 +1,34 @@
+"MANDLBROT"
+"RES=1 in "?->r
+[dt] [dt] [dt] X MIN"?->G
+"X MAX"?->H
+"Y MIN"?->M
+"Y MAX"?->N
+Range (G+10),(H+10),100,(M+10),(N+10),100
+G->A
+M->B
+Lbl 1
+4(A^2+B^2)->U
+U-A1+0.25->V
+(U+8A+15/4)<0=>0->K
+(U+8A+15/4)<0=>Goto 4
+A->E
+B->F
+1->K
+Lbl 3
+E^2->U
+F^2->V
+2EF->W
+U-V>16=>Goto 4
+Isz K
+K<=50=>Goto 3
+Lbl 4
+(A+10)->X
+(B+10)->Y
+Int (K/2)=(K/2)=>Plot X,Y
+Int (K/2)!=(K/2)=>Orange Plot X,Y
+A<=H=>A+((H-G)/(8/0.085))r->A
+A>H=>G->A
+A=G=>B+((N-M)/(8/0.13))r->B
+B<=N=>Goto 1
+
