@@ -43,7 +43,8 @@ In program mode, the CFX-9800G has several symbols which are difficult to reprod
   Lbl, Goto, Prog, Isz, Dsz, Deg, Range ...
        various keywords are treated as a single char on the casio, but are written in full in these files. (This could lead to ambiguity, but not in normal usage.)
 
-  "r"  the casio distinguishes between rho and r qq
+  "r"  My casio had no lowercase letters, but had an easily accessible rho and
+       theta letters. These text files use 'r' for rho.
 
   [dt] qq
 

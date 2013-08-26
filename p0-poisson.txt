@@ -3,7 +3,7 @@
 "LAMBDA":?->r
 Lbl 1
 "VALUE":?->X
-e(-r)*(r^X)/X!->C#
+e^(-r)*(r^X)/X!->C#
 "SUM="
 C+S->S#
 Goto 1
