@@ -49,6 +49,7 @@ class AutoItTranslator
           when 'x^2' then [117,413]
           when 'EXIT' then [202,413]
           when 'ln' then [159,451]
+          when '->' then [290,487]
           else raise "Bad button_name '#{button_name}'"
           end
     @out << "MouseClick('left', $x + #{x}, $y + #{y}) ; #{comment}"
@@ -67,7 +68,7 @@ class AutoItTranslator
     # move up the hierarchy to the common ancestor
     curr_spec.each do |menu|
       @menu.pop
-      click 'EXIT'
+      click 'EXIT' unless menu == 'more'
     end
     # move down the hierarchy to the new menu
     menu_spec.each do |menu|
@@ -124,7 +125,11 @@ class AutoItTranslator
         enter_menu 'OPTN -> more -> PROB'
         @text << '{F1}'
         flush_text 'x!'
-      when /[-"A-Z0-9?:\/()*^=+]/
+      when '->'
+        click '->'
+      when /^[+^]$/
+        @text << "{#{token}}"
+      when /^[-"A-Z0-9?:\/()*=]$/
         @text << token
       else
         raise "invalid token '#{token}'"
@@ -190,8 +195,9 @@ END
 
     add_postamble
 
-    puts @out
-     # qq
+    File.open(out_filename, 'w') do |f|
+      f << @out
+    end
   end
 end
 
@@ -202,5 +208,3 @@ raise "Expecting one argument 'prog.txt'" \
 
 tr = AutoItTranslator.new
 tr.translate_file ARGV.first
-
-
