@@ -1,0 +1,71 @@
+"ISLAND"
+Range 2,11,100,2,8,100
+5->B
+Lbl 1
+Green Plot 1,B
+Green Plot 11,B
+Green Line
+B-(3/31)->B
+B>=2=>Goto 1
+6.0->B
+0->t
+Lbl 2
+B-0.1->B
+B-3.5->r
+sqrt(6.25-r^2)->C
+Plot (4-C),B
+Plot (4+C),B
+Line
+t+1->t
+B<=5=>Goto 3
+Frac (t/2)=0=>Goto 2
+Plot (4-C),(10-B)
+Plot (4+C),(10-B)
+Line
+Goto 2
+Lbl 3
+6.5->B
+1->t
+Lbl 4
+B-0.1->B
+B+(8.5/3)-6.5->r
+sqrt((8.5/3)^2-r^2)->C
+Plot (6.5-C),B
+Plot (6.5+C),B
+Line
+t+1->t
+B<5=>Goto 5
+Frac (t/2)=0=>Goto 4
+Plot (6.5-C),(10-B)
+Plot (6.5+C),(10-B)
+Line
+Goto 4
+Lbl 5
+8->B
+1->t
+Lbl 6
+B-(2/21)->B
+Abs (B-7)->r
+sqrt(1-r^2)->C
+Orange Plot (10-C),B
+Orange Plot (10+C),B
+Orange Line
+t+1->t
+B<=6.1=>Goto 7
+Frac (t/3)!=0=>Goto 6
+Orange Plot (10-.75C),(1.5B-7)
+Orange Plot (10+.75C),(1.5B-7)
+Orange Line
+Goto 6
+Lbl 7
+Plot 3.91,7.61
+Plot 4.01,7.61
+Plot 4.11,7.52
+Plot 4.2,7.61
+Plot 4.3,7.61
+Plot 3.24,7.42
+Plot 3.34,7.42
+Plot 3.44,7.32
+Plot 3.53,7.42
+Plot 3.63,7.42
+Line
