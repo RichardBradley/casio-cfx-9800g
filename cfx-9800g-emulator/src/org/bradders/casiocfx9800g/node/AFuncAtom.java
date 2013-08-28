@@ -5,19 +5,19 @@ package org.bradders.casiocfx9800g.node;
 import org.bradders.casiocfx9800g.analysis.*;
 
 @SuppressWarnings("nls")
-public final class AFuncExpression extends PExpression
+public final class AFuncAtom extends PAtom
 {
     private TFunctionName _functionName_;
     private TLparen _lparen_;
     private PArgumentList _argumentList_;
     private TRparen _rparen_;
 
-    public AFuncExpression()
+    public AFuncAtom()
     {
         // Constructor
     }
 
-    public AFuncExpression(
+    public AFuncAtom(
         @SuppressWarnings("hiding") TFunctionName _functionName_,
         @SuppressWarnings("hiding") TLparen _lparen_,
         @SuppressWarnings("hiding") PArgumentList _argumentList_,
@@ -37,7 +37,7 @@ public final class AFuncExpression extends PExpression
     @Override
     public Object clone()
     {
-        return new AFuncExpression(
+        return new AFuncAtom(
             cloneNode(this._functionName_),
             cloneNode(this._lparen_),
             cloneNode(this._argumentList_),
@@ -47,7 +47,7 @@ public final class AFuncExpression extends PExpression
     @Override
     public void apply(Switch sw)
     {
-        ((Analysis) sw).caseAFuncExpression(this);
+        ((Analysis) sw).caseAFuncAtom(this);
     }
 
     public TFunctionName getFunctionName()

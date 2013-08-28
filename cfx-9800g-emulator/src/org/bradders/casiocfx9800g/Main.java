@@ -7,6 +7,7 @@ import java.io.PushbackReader;
 import org.bradders.casiocfx9800g.lexer.Lexer;
 import org.bradders.casiocfx9800g.node.Start;
 import org.bradders.casiocfx9800g.parser.Parser;
+import org.bradders.casiocfx9800g.util.ParseTreePrinterAdapter;
 
 /**
  * The entry class for the Casio CFX 9800G emulator
@@ -40,6 +41,7 @@ public class Main
       ast.apply(new CompileTimeAnalyser());
       
       // run the program
-      // qq
+
+      ast.apply(new ParseTreePrinterAdapter());
    }
 }

@@ -23,7 +23,6 @@ public interface Analysis extends Switch
     void caseAPlusExpression(APlusExpression node);
     void caseAMinusExpression(AMinusExpression node);
     void caseANegateExpression(ANegateExpression node);
-    void caseAFuncExpression(AFuncExpression node);
     void caseAFactorTerm(AFactorTerm node);
     void caseAMultTerm(AMultTerm node);
     void caseADivTerm(ADivTerm node);
@@ -34,6 +33,8 @@ public interface Analysis extends Switch
     void caseANumberAtom(ANumberAtom node);
     void caseAInputAtom(AInputAtom node);
     void caseAExpressionAtom(AExpressionAtom node);
+    void caseAFuncAtom(AFuncAtom node);
+    void caseAFactorialAtom(AFactorialAtom node);
     void caseASingleArgumentList(ASingleArgumentList node);
     void caseASequenceArgumentList(ASequenceArgumentList node);
 
@@ -55,6 +56,7 @@ public interface Analysis extends Switch
     void caseTLabel(TLabel node);
     void caseTGoto(TGoto node);
     void caseTInputPrompt(TInputPrompt node);
+    void caseTBang(TBang node);
     void caseEOF(EOF node);
     void caseInvalidToken(InvalidToken node);
 }

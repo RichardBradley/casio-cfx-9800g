@@ -3,8 +3,8 @@ Package org.bradders.casiocfx9800g;
 Helpers
         digit = ['0' .. '9'];
         any_non_quote_char = [' ' + ['#' .. 'z']] +;
-        newline = 13? 10;
 	colon = ':';
+        newline = 13? 10;
 
 Tokens
 	statement_separator = newline | colon;
@@ -27,10 +27,11 @@ Tokens
 	label = 'Lbl ';
 	goto = 'Goto ';
 	input_prompt = '?';
+	bang = '!';
 
 Productions
         program = 
-		  {single} statement |
+		  {single} statement statement_separator |
 		  {sequence} statement statement_separator program;
         statement =
                   {printtext} quoted_text |
@@ -42,8 +43,7 @@ Productions
                   {term} term |
                   {plus} term plus expression |
 		  {minus} term minus expression |
-		  {negate} minus expression |
-                  {func} function_name lparen argument_list rparen;
+		  {negate} minus expression;
 	term =
 		  {factor} factor |
 		  {mult} factor mult term |
@@ -56,7 +56,9 @@ Productions
 	          {var} variable_name |
 	       	  {number} number_literal |
 		  {input} input_prompt |
-  	       	  {expression} lparen expression rparen;
+  	       	  {expression} lparen expression rparen |
+                  {func} function_name lparen argument_list rparen |
+		  {factorial} atom bang;
 	argument_list =
 		  {single} expression |
 		  {sequence} expression comma argument_list;
