@@ -1,0 +1,57 @@
+Package org.bradders.casiocfx9800g;
+
+Helpers
+        digit = ['0' .. '9'];
+        any_non_quote_char = [' ' + ['#' .. 'z']] +;
+
+Tokens
+        quoted_text = '"' any_non_quote_char* '"';
+        variable_name = ['A' .. 'Z'] | 'r' | 't';
+        number_literal = digit+ | digit* '.' digit+;
+	digit = digit;
+	comma = ',';
+        print_result = '#';
+        plus = '+';
+        minus = '-';
+        mult = '*';
+        div = '/';
+	lparen = '(';
+	rparen = '(';
+        newline = '\r'? '\n';
+	assign_arrow = '->';
+	function_name =
+		  'e^' |
+		  'Plot';
+	pow = '^';
+	label = 'Label ';
+	goto = 'Goto ';
+
+Productions
+        program = 
+		  {single} statement |
+		  {sequence} statement newline program;
+        statement =
+                  {print} quoted_text |
+                  {assign} expression assign_arrow variable_name print_result? |
+                  {func} function_name argument_list print_result? |
+                  {label} label digit |
+                  {goto} goto digit;
+        expression =
+                  {term} term |
+                  {plus} term plus expression |
+		  {minus} term minus expression;
+	term =
+		  {factor} factor |
+		  {mult} factor mult term |
+		  {div} factor div term |
+		  {multadj} factor term;
+        factor =
+		  {atom} atom |
+		  {power} atom pow factor;
+ 	atom =
+	          {var} variable_name |
+	       	  {number} number_literal |
+  	       	  {expression} lparen expression rparen;
+	argument_list =
+		  {single} atom |
+		  {sequence} atom comma argument_list;
