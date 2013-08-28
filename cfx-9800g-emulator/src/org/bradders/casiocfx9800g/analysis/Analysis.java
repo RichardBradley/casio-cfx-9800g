@@ -14,14 +14,16 @@ public interface Analysis extends Switch
     void caseStart(Start node);
     void caseASingleProgram(ASingleProgram node);
     void caseASequenceProgram(ASequenceProgram node);
-    void caseAPrintStatement(APrintStatement node);
+    void caseAPrinttextStatement(APrinttextStatement node);
     void caseAAssignStatement(AAssignStatement node);
-    void caseAFuncStatement(AFuncStatement node);
+    void caseAPrintvalStatement(APrintvalStatement node);
     void caseALabelStatement(ALabelStatement node);
     void caseAGotoStatement(AGotoStatement node);
     void caseATermExpression(ATermExpression node);
     void caseAPlusExpression(APlusExpression node);
     void caseAMinusExpression(AMinusExpression node);
+    void caseANegateExpression(ANegateExpression node);
+    void caseAFuncExpression(AFuncExpression node);
     void caseAFactorTerm(AFactorTerm node);
     void caseAMultTerm(AMultTerm node);
     void caseADivTerm(ADivTerm node);
@@ -30,14 +32,15 @@ public interface Analysis extends Switch
     void caseAPowerFactor(APowerFactor node);
     void caseAVarAtom(AVarAtom node);
     void caseANumberAtom(ANumberAtom node);
+    void caseAInputAtom(AInputAtom node);
     void caseAExpressionAtom(AExpressionAtom node);
     void caseASingleArgumentList(ASingleArgumentList node);
     void caseASequenceArgumentList(ASequenceArgumentList node);
 
+    void caseTStatementSeparator(TStatementSeparator node);
     void caseTQuotedText(TQuotedText node);
     void caseTVariableName(TVariableName node);
     void caseTNumberLiteral(TNumberLiteral node);
-    void caseTDigit(TDigit node);
     void caseTComma(TComma node);
     void caseTPrintResult(TPrintResult node);
     void caseTPlus(TPlus node);
@@ -46,12 +49,12 @@ public interface Analysis extends Switch
     void caseTDiv(TDiv node);
     void caseTLparen(TLparen node);
     void caseTRparen(TRparen node);
-    void caseTNewline(TNewline node);
     void caseTAssignArrow(TAssignArrow node);
     void caseTFunctionName(TFunctionName node);
     void caseTPow(TPow node);
     void caseTLabel(TLabel node);
     void caseTGoto(TGoto node);
+    void caseTInputPrompt(TInputPrompt node);
     void caseEOF(EOF node);
     void caseInvalidToken(InvalidToken node);
 }

@@ -5,46 +5,46 @@ package org.bradders.casiocfx9800g.node;
 import org.bradders.casiocfx9800g.analysis.*;
 
 @SuppressWarnings("nls")
-public final class ASingleArgumentList extends PArgumentList
+public final class AInputAtom extends PAtom
 {
-    private PExpression _expression_;
+    private TInputPrompt _inputPrompt_;
 
-    public ASingleArgumentList()
+    public AInputAtom()
     {
         // Constructor
     }
 
-    public ASingleArgumentList(
-        @SuppressWarnings("hiding") PExpression _expression_)
+    public AInputAtom(
+        @SuppressWarnings("hiding") TInputPrompt _inputPrompt_)
     {
         // Constructor
-        setExpression(_expression_);
+        setInputPrompt(_inputPrompt_);
 
     }
 
     @Override
     public Object clone()
     {
-        return new ASingleArgumentList(
-            cloneNode(this._expression_));
+        return new AInputAtom(
+            cloneNode(this._inputPrompt_));
     }
 
     @Override
     public void apply(Switch sw)
     {
-        ((Analysis) sw).caseASingleArgumentList(this);
+        ((Analysis) sw).caseAInputAtom(this);
     }
 
-    public PExpression getExpression()
+    public TInputPrompt getInputPrompt()
     {
-        return this._expression_;
+        return this._inputPrompt_;
     }
 
-    public void setExpression(PExpression node)
+    public void setInputPrompt(TInputPrompt node)
     {
-        if(this._expression_ != null)
+        if(this._inputPrompt_ != null)
         {
-            this._expression_.parent(null);
+            this._inputPrompt_.parent(null);
         }
 
         if(node != null)
@@ -57,23 +57,23 @@ public final class ASingleArgumentList extends PArgumentList
             node.parent(this);
         }
 
-        this._expression_ = node;
+        this._inputPrompt_ = node;
     }
 
     @Override
     public String toString()
     {
         return ""
-            + toString(this._expression_);
+            + toString(this._inputPrompt_);
     }
 
     @Override
     void removeChild(@SuppressWarnings("unused") Node child)
     {
         // Remove child
-        if(this._expression_ == child)
+        if(this._inputPrompt_ == child)
         {
-            this._expression_ = null;
+            this._inputPrompt_ = null;
             return;
         }
 
@@ -84,9 +84,9 @@ public final class ASingleArgumentList extends PArgumentList
     void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild)
     {
         // Replace child
-        if(this._expression_ == oldChild)
+        if(this._inputPrompt_ == oldChild)
         {
-            setExpression((PExpression) newChild);
+            setInputPrompt((TInputPrompt) newChild);
             return;
         }
 

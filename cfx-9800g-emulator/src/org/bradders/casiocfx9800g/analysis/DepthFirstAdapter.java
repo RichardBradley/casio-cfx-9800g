@@ -75,9 +75,9 @@ public class DepthFirstAdapter extends AnalysisAdapter
         {
             node.getStatement().apply(this);
         }
-        if(node.getNewline() != null)
+        if(node.getStatementSeparator() != null)
         {
-            node.getNewline().apply(this);
+            node.getStatementSeparator().apply(this);
         }
         if(node.getProgram() != null)
         {
@@ -86,25 +86,25 @@ public class DepthFirstAdapter extends AnalysisAdapter
         outASequenceProgram(node);
     }
 
-    public void inAPrintStatement(APrintStatement node)
+    public void inAPrinttextStatement(APrinttextStatement node)
     {
         defaultIn(node);
     }
 
-    public void outAPrintStatement(APrintStatement node)
+    public void outAPrinttextStatement(APrinttextStatement node)
     {
         defaultOut(node);
     }
 
     @Override
-    public void caseAPrintStatement(APrintStatement node)
+    public void caseAPrinttextStatement(APrinttextStatement node)
     {
-        inAPrintStatement(node);
+        inAPrinttextStatement(node);
         if(node.getQuotedText() != null)
         {
             node.getQuotedText().apply(this);
         }
-        outAPrintStatement(node);
+        outAPrinttextStatement(node);
     }
 
     public void inAAssignStatement(AAssignStatement node)
@@ -140,33 +140,29 @@ public class DepthFirstAdapter extends AnalysisAdapter
         outAAssignStatement(node);
     }
 
-    public void inAFuncStatement(AFuncStatement node)
+    public void inAPrintvalStatement(APrintvalStatement node)
     {
         defaultIn(node);
     }
 
-    public void outAFuncStatement(AFuncStatement node)
+    public void outAPrintvalStatement(APrintvalStatement node)
     {
         defaultOut(node);
     }
 
     @Override
-    public void caseAFuncStatement(AFuncStatement node)
+    public void caseAPrintvalStatement(APrintvalStatement node)
     {
-        inAFuncStatement(node);
-        if(node.getFunctionName() != null)
+        inAPrintvalStatement(node);
+        if(node.getExpression() != null)
         {
-            node.getFunctionName().apply(this);
-        }
-        if(node.getArgumentList() != null)
-        {
-            node.getArgumentList().apply(this);
+            node.getExpression().apply(this);
         }
         if(node.getPrintResult() != null)
         {
             node.getPrintResult().apply(this);
         }
-        outAFuncStatement(node);
+        outAPrintvalStatement(node);
     }
 
     public void inALabelStatement(ALabelStatement node)
@@ -187,9 +183,9 @@ public class DepthFirstAdapter extends AnalysisAdapter
         {
             node.getLabel().apply(this);
         }
-        if(node.getDigit() != null)
+        if(node.getNumberLiteral() != null)
         {
-            node.getDigit().apply(this);
+            node.getNumberLiteral().apply(this);
         }
         outALabelStatement(node);
     }
@@ -212,9 +208,9 @@ public class DepthFirstAdapter extends AnalysisAdapter
         {
             node.getGoto().apply(this);
         }
-        if(node.getDigit() != null)
+        if(node.getNumberLiteral() != null)
         {
-            node.getDigit().apply(this);
+            node.getNumberLiteral().apply(this);
         }
         outAGotoStatement(node);
     }
@@ -296,6 +292,64 @@ public class DepthFirstAdapter extends AnalysisAdapter
             node.getExpression().apply(this);
         }
         outAMinusExpression(node);
+    }
+
+    public void inANegateExpression(ANegateExpression node)
+    {
+        defaultIn(node);
+    }
+
+    public void outANegateExpression(ANegateExpression node)
+    {
+        defaultOut(node);
+    }
+
+    @Override
+    public void caseANegateExpression(ANegateExpression node)
+    {
+        inANegateExpression(node);
+        if(node.getMinus() != null)
+        {
+            node.getMinus().apply(this);
+        }
+        if(node.getExpression() != null)
+        {
+            node.getExpression().apply(this);
+        }
+        outANegateExpression(node);
+    }
+
+    public void inAFuncExpression(AFuncExpression node)
+    {
+        defaultIn(node);
+    }
+
+    public void outAFuncExpression(AFuncExpression node)
+    {
+        defaultOut(node);
+    }
+
+    @Override
+    public void caseAFuncExpression(AFuncExpression node)
+    {
+        inAFuncExpression(node);
+        if(node.getFunctionName() != null)
+        {
+            node.getFunctionName().apply(this);
+        }
+        if(node.getLparen() != null)
+        {
+            node.getLparen().apply(this);
+        }
+        if(node.getArgumentList() != null)
+        {
+            node.getArgumentList().apply(this);
+        }
+        if(node.getRparen() != null)
+        {
+            node.getRparen().apply(this);
+        }
+        outAFuncExpression(node);
     }
 
     public void inAFactorTerm(AFactorTerm node)
@@ -494,6 +548,27 @@ public class DepthFirstAdapter extends AnalysisAdapter
         outANumberAtom(node);
     }
 
+    public void inAInputAtom(AInputAtom node)
+    {
+        defaultIn(node);
+    }
+
+    public void outAInputAtom(AInputAtom node)
+    {
+        defaultOut(node);
+    }
+
+    @Override
+    public void caseAInputAtom(AInputAtom node)
+    {
+        inAInputAtom(node);
+        if(node.getInputPrompt() != null)
+        {
+            node.getInputPrompt().apply(this);
+        }
+        outAInputAtom(node);
+    }
+
     public void inAExpressionAtom(AExpressionAtom node)
     {
         defaultIn(node);
@@ -537,9 +612,9 @@ public class DepthFirstAdapter extends AnalysisAdapter
     public void caseASingleArgumentList(ASingleArgumentList node)
     {
         inASingleArgumentList(node);
-        if(node.getAtom() != null)
+        if(node.getExpression() != null)
         {
-            node.getAtom().apply(this);
+            node.getExpression().apply(this);
         }
         outASingleArgumentList(node);
     }
@@ -558,9 +633,9 @@ public class DepthFirstAdapter extends AnalysisAdapter
     public void caseASequenceArgumentList(ASequenceArgumentList node)
     {
         inASequenceArgumentList(node);
-        if(node.getAtom() != null)
+        if(node.getExpression() != null)
         {
-            node.getAtom().apply(this);
+            node.getExpression().apply(this);
         }
         if(node.getComma() != null)
         {

@@ -8,7 +8,7 @@ import org.bradders.casiocfx9800g.analysis.*;
 public final class AGotoStatement extends PStatement
 {
     private TGoto _goto_;
-    private TDigit _digit_;
+    private TNumberLiteral _numberLiteral_;
 
     public AGotoStatement()
     {
@@ -17,12 +17,12 @@ public final class AGotoStatement extends PStatement
 
     public AGotoStatement(
         @SuppressWarnings("hiding") TGoto _goto_,
-        @SuppressWarnings("hiding") TDigit _digit_)
+        @SuppressWarnings("hiding") TNumberLiteral _numberLiteral_)
     {
         // Constructor
         setGoto(_goto_);
 
-        setDigit(_digit_);
+        setNumberLiteral(_numberLiteral_);
 
     }
 
@@ -31,7 +31,7 @@ public final class AGotoStatement extends PStatement
     {
         return new AGotoStatement(
             cloneNode(this._goto_),
-            cloneNode(this._digit_));
+            cloneNode(this._numberLiteral_));
     }
 
     @Override
@@ -65,16 +65,16 @@ public final class AGotoStatement extends PStatement
         this._goto_ = node;
     }
 
-    public TDigit getDigit()
+    public TNumberLiteral getNumberLiteral()
     {
-        return this._digit_;
+        return this._numberLiteral_;
     }
 
-    public void setDigit(TDigit node)
+    public void setNumberLiteral(TNumberLiteral node)
     {
-        if(this._digit_ != null)
+        if(this._numberLiteral_ != null)
         {
-            this._digit_.parent(null);
+            this._numberLiteral_.parent(null);
         }
 
         if(node != null)
@@ -87,7 +87,7 @@ public final class AGotoStatement extends PStatement
             node.parent(this);
         }
 
-        this._digit_ = node;
+        this._numberLiteral_ = node;
     }
 
     @Override
@@ -95,7 +95,7 @@ public final class AGotoStatement extends PStatement
     {
         return ""
             + toString(this._goto_)
-            + toString(this._digit_);
+            + toString(this._numberLiteral_);
     }
 
     @Override
@@ -108,9 +108,9 @@ public final class AGotoStatement extends PStatement
             return;
         }
 
-        if(this._digit_ == child)
+        if(this._numberLiteral_ == child)
         {
-            this._digit_ = null;
+            this._numberLiteral_ = null;
             return;
         }
 
@@ -127,9 +127,9 @@ public final class AGotoStatement extends PStatement
             return;
         }
 
-        if(this._digit_ == oldChild)
+        if(this._numberLiteral_ == oldChild)
         {
-            setDigit((TDigit) newChild);
+            setNumberLiteral((TNumberLiteral) newChild);
             return;
         }
 

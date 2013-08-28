@@ -5,16 +5,16 @@ package org.bradders.casiocfx9800g.node;
 import org.bradders.casiocfx9800g.analysis.*;
 
 @SuppressWarnings("nls")
-public final class TRparen extends Token
+public final class TInputPrompt extends Token
 {
-    public TRparen()
+    public TInputPrompt()
     {
-        super.setText(")");
+        super.setText("?");
     }
 
-    public TRparen(int line, int pos)
+    public TInputPrompt(int line, int pos)
     {
-        super.setText(")");
+        super.setText("?");
         setLine(line);
         setPos(pos);
     }
@@ -22,18 +22,18 @@ public final class TRparen extends Token
     @Override
     public Object clone()
     {
-      return new TRparen(getLine(), getPos());
+      return new TInputPrompt(getLine(), getPos());
     }
 
     @Override
     public void apply(Switch sw)
     {
-        ((Analysis) sw).caseTRparen(this);
+        ((Analysis) sw).caseTInputPrompt(this);
     }
 
     @Override
     public void setText(@SuppressWarnings("unused") String text)
     {
-        throw new RuntimeException("Cannot change TRparen text.");
+        throw new RuntimeException("Cannot change TInputPrompt text.");
     }
 }

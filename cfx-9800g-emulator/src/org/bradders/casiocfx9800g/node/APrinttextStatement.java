@@ -5,16 +5,16 @@ package org.bradders.casiocfx9800g.node;
 import org.bradders.casiocfx9800g.analysis.*;
 
 @SuppressWarnings("nls")
-public final class APrintStatement extends PStatement
+public final class APrinttextStatement extends PStatement
 {
     private TQuotedText _quotedText_;
 
-    public APrintStatement()
+    public APrinttextStatement()
     {
         // Constructor
     }
 
-    public APrintStatement(
+    public APrinttextStatement(
         @SuppressWarnings("hiding") TQuotedText _quotedText_)
     {
         // Constructor
@@ -25,14 +25,14 @@ public final class APrintStatement extends PStatement
     @Override
     public Object clone()
     {
-        return new APrintStatement(
+        return new APrinttextStatement(
             cloneNode(this._quotedText_));
     }
 
     @Override
     public void apply(Switch sw)
     {
-        ((Analysis) sw).caseAPrintStatement(this);
+        ((Analysis) sw).caseAPrinttextStatement(this);
     }
 
     public TQuotedText getQuotedText()

@@ -9,12 +9,12 @@ public final class TLabel extends Token
 {
     public TLabel()
     {
-        super.setText("Label ");
+        super.setText("Lbl ");
     }
 
     public TLabel(int line, int pos)
     {
-        super.setText("Label ");
+        super.setText("Lbl ");
         setLine(line);
         setPos(pos);
     }

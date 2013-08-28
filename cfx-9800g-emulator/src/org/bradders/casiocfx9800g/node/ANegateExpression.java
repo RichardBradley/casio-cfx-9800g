@@ -5,19 +5,23 @@ package org.bradders.casiocfx9800g.node;
 import org.bradders.casiocfx9800g.analysis.*;
 
 @SuppressWarnings("nls")
-public final class ASingleArgumentList extends PArgumentList
+public final class ANegateExpression extends PExpression
 {
+    private TMinus _minus_;
     private PExpression _expression_;
 
-    public ASingleArgumentList()
+    public ANegateExpression()
     {
         // Constructor
     }
 
-    public ASingleArgumentList(
+    public ANegateExpression(
+        @SuppressWarnings("hiding") TMinus _minus_,
         @SuppressWarnings("hiding") PExpression _expression_)
     {
         // Constructor
+        setMinus(_minus_);
+
         setExpression(_expression_);
 
     }
@@ -25,14 +29,40 @@ public final class ASingleArgumentList extends PArgumentList
     @Override
     public Object clone()
     {
-        return new ASingleArgumentList(
+        return new ANegateExpression(
+            cloneNode(this._minus_),
             cloneNode(this._expression_));
     }
 
     @Override
     public void apply(Switch sw)
     {
-        ((Analysis) sw).caseASingleArgumentList(this);
+        ((Analysis) sw).caseANegateExpression(this);
+    }
+
+    public TMinus getMinus()
+    {
+        return this._minus_;
+    }
+
+    public void setMinus(TMinus node)
+    {
+        if(this._minus_ != null)
+        {
+            this._minus_.parent(null);
+        }
+
+        if(node != null)
+        {
+            if(node.parent() != null)
+            {
+                node.parent().removeChild(node);
+            }
+
+            node.parent(this);
+        }
+
+        this._minus_ = node;
     }
 
     public PExpression getExpression()
@@ -64,6 +94,7 @@ public final class ASingleArgumentList extends PArgumentList
     public String toString()
     {
         return ""
+            + toString(this._minus_)
             + toString(this._expression_);
     }
 
@@ -71,6 +102,12 @@ public final class ASingleArgumentList extends PArgumentList
     void removeChild(@SuppressWarnings("unused") Node child)
     {
         // Remove child
+        if(this._minus_ == child)
+        {
+            this._minus_ = null;
+            return;
+        }
+
         if(this._expression_ == child)
         {
             this._expression_ = null;
@@ -84,6 +121,12 @@ public final class ASingleArgumentList extends PArgumentList
     void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild)
     {
         // Replace child
+        if(this._minus_ == oldChild)
+        {
+            setMinus((TMinus) newChild);
+            return;
+        }
+
         if(this._expression_ == oldChild)
         {
             setExpression((PExpression) newChild);

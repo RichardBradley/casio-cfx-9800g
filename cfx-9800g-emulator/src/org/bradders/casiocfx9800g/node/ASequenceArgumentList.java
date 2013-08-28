@@ -7,7 +7,7 @@ import org.bradders.casiocfx9800g.analysis.*;
 @SuppressWarnings("nls")
 public final class ASequenceArgumentList extends PArgumentList
 {
-    private PAtom _atom_;
+    private PExpression _expression_;
     private TComma _comma_;
     private PArgumentList _argumentList_;
 
@@ -17,12 +17,12 @@ public final class ASequenceArgumentList extends PArgumentList
     }
 
     public ASequenceArgumentList(
-        @SuppressWarnings("hiding") PAtom _atom_,
+        @SuppressWarnings("hiding") PExpression _expression_,
         @SuppressWarnings("hiding") TComma _comma_,
         @SuppressWarnings("hiding") PArgumentList _argumentList_)
     {
         // Constructor
-        setAtom(_atom_);
+        setExpression(_expression_);
 
         setComma(_comma_);
 
@@ -34,7 +34,7 @@ public final class ASequenceArgumentList extends PArgumentList
     public Object clone()
     {
         return new ASequenceArgumentList(
-            cloneNode(this._atom_),
+            cloneNode(this._expression_),
             cloneNode(this._comma_),
             cloneNode(this._argumentList_));
     }
@@ -45,16 +45,16 @@ public final class ASequenceArgumentList extends PArgumentList
         ((Analysis) sw).caseASequenceArgumentList(this);
     }
 
-    public PAtom getAtom()
+    public PExpression getExpression()
     {
-        return this._atom_;
+        return this._expression_;
     }
 
-    public void setAtom(PAtom node)
+    public void setExpression(PExpression node)
     {
-        if(this._atom_ != null)
+        if(this._expression_ != null)
         {
-            this._atom_.parent(null);
+            this._expression_.parent(null);
         }
 
         if(node != null)
@@ -67,7 +67,7 @@ public final class ASequenceArgumentList extends PArgumentList
             node.parent(this);
         }
 
-        this._atom_ = node;
+        this._expression_ = node;
     }
 
     public TComma getComma()
@@ -124,7 +124,7 @@ public final class ASequenceArgumentList extends PArgumentList
     public String toString()
     {
         return ""
-            + toString(this._atom_)
+            + toString(this._expression_)
             + toString(this._comma_)
             + toString(this._argumentList_);
     }
@@ -133,9 +133,9 @@ public final class ASequenceArgumentList extends PArgumentList
     void removeChild(@SuppressWarnings("unused") Node child)
     {
         // Remove child
-        if(this._atom_ == child)
+        if(this._expression_ == child)
         {
-            this._atom_ = null;
+            this._expression_ = null;
             return;
         }
 
@@ -158,9 +158,9 @@ public final class ASequenceArgumentList extends PArgumentList
     void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild)
     {
         // Replace child
-        if(this._atom_ == oldChild)
+        if(this._expression_ == oldChild)
         {
-            setAtom((PAtom) newChild);
+            setExpression((PExpression) newChild);
             return;
         }
 

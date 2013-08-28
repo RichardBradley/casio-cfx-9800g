@@ -5,44 +5,49 @@ package org.bradders.casiocfx9800g.node;
 import org.bradders.casiocfx9800g.analysis.*;
 
 @SuppressWarnings("nls")
-public final class AFuncStatement extends PStatement
+public final class AFuncExpression extends PExpression
 {
     private TFunctionName _functionName_;
+    private TLparen _lparen_;
     private PArgumentList _argumentList_;
-    private TPrintResult _printResult_;
+    private TRparen _rparen_;
 
-    public AFuncStatement()
+    public AFuncExpression()
     {
         // Constructor
     }
 
-    public AFuncStatement(
+    public AFuncExpression(
         @SuppressWarnings("hiding") TFunctionName _functionName_,
+        @SuppressWarnings("hiding") TLparen _lparen_,
         @SuppressWarnings("hiding") PArgumentList _argumentList_,
-        @SuppressWarnings("hiding") TPrintResult _printResult_)
+        @SuppressWarnings("hiding") TRparen _rparen_)
     {
         // Constructor
         setFunctionName(_functionName_);
 
+        setLparen(_lparen_);
+
         setArgumentList(_argumentList_);
 
-        setPrintResult(_printResult_);
+        setRparen(_rparen_);
 
     }
 
     @Override
     public Object clone()
     {
-        return new AFuncStatement(
+        return new AFuncExpression(
             cloneNode(this._functionName_),
+            cloneNode(this._lparen_),
             cloneNode(this._argumentList_),
-            cloneNode(this._printResult_));
+            cloneNode(this._rparen_));
     }
 
     @Override
     public void apply(Switch sw)
     {
-        ((Analysis) sw).caseAFuncStatement(this);
+        ((Analysis) sw).caseAFuncExpression(this);
     }
 
     public TFunctionName getFunctionName()
@@ -70,6 +75,31 @@ public final class AFuncStatement extends PStatement
         this._functionName_ = node;
     }
 
+    public TLparen getLparen()
+    {
+        return this._lparen_;
+    }
+
+    public void setLparen(TLparen node)
+    {
+        if(this._lparen_ != null)
+        {
+            this._lparen_.parent(null);
+        }
+
+        if(node != null)
+        {
+            if(node.parent() != null)
+            {
+                node.parent().removeChild(node);
+            }
+
+            node.parent(this);
+        }
+
+        this._lparen_ = node;
+    }
+
     public PArgumentList getArgumentList()
     {
         return this._argumentList_;
@@ -95,16 +125,16 @@ public final class AFuncStatement extends PStatement
         this._argumentList_ = node;
     }
 
-    public TPrintResult getPrintResult()
+    public TRparen getRparen()
     {
-        return this._printResult_;
+        return this._rparen_;
     }
 
-    public void setPrintResult(TPrintResult node)
+    public void setRparen(TRparen node)
     {
-        if(this._printResult_ != null)
+        if(this._rparen_ != null)
         {
-            this._printResult_.parent(null);
+            this._rparen_.parent(null);
         }
 
         if(node != null)
@@ -117,7 +147,7 @@ public final class AFuncStatement extends PStatement
             node.parent(this);
         }
 
-        this._printResult_ = node;
+        this._rparen_ = node;
     }
 
     @Override
@@ -125,8 +155,9 @@ public final class AFuncStatement extends PStatement
     {
         return ""
             + toString(this._functionName_)
+            + toString(this._lparen_)
             + toString(this._argumentList_)
-            + toString(this._printResult_);
+            + toString(this._rparen_);
     }
 
     @Override
@@ -139,15 +170,21 @@ public final class AFuncStatement extends PStatement
             return;
         }
 
+        if(this._lparen_ == child)
+        {
+            this._lparen_ = null;
+            return;
+        }
+
         if(this._argumentList_ == child)
         {
             this._argumentList_ = null;
             return;
         }
 
-        if(this._printResult_ == child)
+        if(this._rparen_ == child)
         {
-            this._printResult_ = null;
+            this._rparen_ = null;
             return;
         }
 
@@ -164,15 +201,21 @@ public final class AFuncStatement extends PStatement
             return;
         }
 
+        if(this._lparen_ == oldChild)
+        {
+            setLparen((TLparen) newChild);
+            return;
+        }
+
         if(this._argumentList_ == oldChild)
         {
             setArgumentList((PArgumentList) newChild);
             return;
         }
 
-        if(this._printResult_ == oldChild)
+        if(this._rparen_ == oldChild)
         {
-            setPrintResult((TPrintResult) newChild);
+            setRparen((TRparen) newChild);
             return;
         }
 

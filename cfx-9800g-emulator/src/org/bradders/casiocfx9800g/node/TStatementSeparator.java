@@ -5,14 +5,14 @@ package org.bradders.casiocfx9800g.node;
 import org.bradders.casiocfx9800g.analysis.*;
 
 @SuppressWarnings("nls")
-public final class TNewline extends Token
+public final class TStatementSeparator extends Token
 {
-    public TNewline(String text)
+    public TStatementSeparator(String text)
     {
         setText(text);
     }
 
-    public TNewline(String text, int line, int pos)
+    public TStatementSeparator(String text, int line, int pos)
     {
         setText(text);
         setLine(line);
@@ -22,12 +22,12 @@ public final class TNewline extends Token
     @Override
     public Object clone()
     {
-      return new TNewline(getText(), getLine(), getPos());
+      return new TStatementSeparator(getText(), getLine(), getPos());
     }
 
     @Override
     public void apply(Switch sw)
     {
-        ((Analysis) sw).caseTNewline(this);
+        ((Analysis) sw).caseTStatementSeparator(this);
     }
 }

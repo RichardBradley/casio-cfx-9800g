@@ -5,34 +5,39 @@ package org.bradders.casiocfx9800g.node;
 import org.bradders.casiocfx9800g.analysis.*;
 
 @SuppressWarnings("nls")
-public final class ASingleArgumentList extends PArgumentList
+public final class APrintvalStatement extends PStatement
 {
     private PExpression _expression_;
+    private TPrintResult _printResult_;
 
-    public ASingleArgumentList()
+    public APrintvalStatement()
     {
         // Constructor
     }
 
-    public ASingleArgumentList(
-        @SuppressWarnings("hiding") PExpression _expression_)
+    public APrintvalStatement(
+        @SuppressWarnings("hiding") PExpression _expression_,
+        @SuppressWarnings("hiding") TPrintResult _printResult_)
     {
         // Constructor
         setExpression(_expression_);
+
+        setPrintResult(_printResult_);
 
     }
 
     @Override
     public Object clone()
     {
-        return new ASingleArgumentList(
-            cloneNode(this._expression_));
+        return new APrintvalStatement(
+            cloneNode(this._expression_),
+            cloneNode(this._printResult_));
     }
 
     @Override
     public void apply(Switch sw)
     {
-        ((Analysis) sw).caseASingleArgumentList(this);
+        ((Analysis) sw).caseAPrintvalStatement(this);
     }
 
     public PExpression getExpression()
@@ -60,11 +65,37 @@ public final class ASingleArgumentList extends PArgumentList
         this._expression_ = node;
     }
 
+    public TPrintResult getPrintResult()
+    {
+        return this._printResult_;
+    }
+
+    public void setPrintResult(TPrintResult node)
+    {
+        if(this._printResult_ != null)
+        {
+            this._printResult_.parent(null);
+        }
+
+        if(node != null)
+        {
+            if(node.parent() != null)
+            {
+                node.parent().removeChild(node);
+            }
+
+            node.parent(this);
+        }
+
+        this._printResult_ = node;
+    }
+
     @Override
     public String toString()
     {
         return ""
-            + toString(this._expression_);
+            + toString(this._expression_)
+            + toString(this._printResult_);
     }
 
     @Override
@@ -74,6 +105,12 @@ public final class ASingleArgumentList extends PArgumentList
         if(this._expression_ == child)
         {
             this._expression_ = null;
+            return;
+        }
+
+        if(this._printResult_ == child)
+        {
+            this._printResult_ = null;
             return;
         }
 
@@ -87,6 +124,12 @@ public final class ASingleArgumentList extends PArgumentList
         if(this._expression_ == oldChild)
         {
             setExpression((PExpression) newChild);
+            return;
+        }
+
+        if(this._printResult_ == oldChild)
+        {
+            setPrintResult((TPrintResult) newChild);
             return;
         }
 

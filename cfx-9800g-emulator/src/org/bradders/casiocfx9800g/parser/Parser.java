@@ -210,7 +210,7 @@ public class Parser
                 push(goTo(0), list, false);
             }
             break;
-            case 2: /* reduce APrintStatement */
+            case 2: /* reduce APrinttextStatement */
             {
                 ArrayList<Object> list = new2();
                 push(goTo(1), list, false);
@@ -228,13 +228,13 @@ public class Parser
                 push(goTo(1), list, false);
             }
             break;
-            case 5: /* reduce AAfuncstatement1Statement */
+            case 5: /* reduce AAprintvalstatement1Statement */
             {
                 ArrayList<Object> list = new5();
                 push(goTo(1), list, false);
             }
             break;
-            case 6: /* reduce AAfuncstatement2Statement */
+            case 6: /* reduce AAprintvalstatement2Statement */
             {
                 ArrayList<Object> list = new6();
                 push(goTo(1), list, false);
@@ -270,69 +270,87 @@ public class Parser
                 push(goTo(2), list, false);
             }
             break;
-            case 12: /* reduce AFactorTerm */
+            case 12: /* reduce ANegateExpression */
             {
                 ArrayList<Object> list = new12();
-                push(goTo(3), list, false);
+                push(goTo(2), list, false);
             }
             break;
-            case 13: /* reduce AMultTerm */
+            case 13: /* reduce AFuncExpression */
             {
                 ArrayList<Object> list = new13();
-                push(goTo(3), list, false);
+                push(goTo(2), list, false);
             }
             break;
-            case 14: /* reduce ADivTerm */
+            case 14: /* reduce AFactorTerm */
             {
                 ArrayList<Object> list = new14();
                 push(goTo(3), list, false);
             }
             break;
-            case 15: /* reduce AMultadjTerm */
+            case 15: /* reduce AMultTerm */
             {
                 ArrayList<Object> list = new15();
                 push(goTo(3), list, false);
             }
             break;
-            case 16: /* reduce AAtomFactor */
+            case 16: /* reduce ADivTerm */
             {
                 ArrayList<Object> list = new16();
-                push(goTo(4), list, false);
+                push(goTo(3), list, false);
             }
             break;
-            case 17: /* reduce APowerFactor */
+            case 17: /* reduce AMultadjTerm */
             {
                 ArrayList<Object> list = new17();
+                push(goTo(3), list, false);
+            }
+            break;
+            case 18: /* reduce AAtomFactor */
+            {
+                ArrayList<Object> list = new18();
                 push(goTo(4), list, false);
             }
             break;
-            case 18: /* reduce AVarAtom */
-            {
-                ArrayList<Object> list = new18();
-                push(goTo(5), list, false);
-            }
-            break;
-            case 19: /* reduce ANumberAtom */
+            case 19: /* reduce APowerFactor */
             {
                 ArrayList<Object> list = new19();
-                push(goTo(5), list, false);
+                push(goTo(4), list, false);
             }
             break;
-            case 20: /* reduce AExpressionAtom */
+            case 20: /* reduce AVarAtom */
             {
                 ArrayList<Object> list = new20();
                 push(goTo(5), list, false);
             }
             break;
-            case 21: /* reduce ASingleArgumentList */
+            case 21: /* reduce ANumberAtom */
             {
                 ArrayList<Object> list = new21();
+                push(goTo(5), list, false);
+            }
+            break;
+            case 22: /* reduce AInputAtom */
+            {
+                ArrayList<Object> list = new22();
+                push(goTo(5), list, false);
+            }
+            break;
+            case 23: /* reduce AExpressionAtom */
+            {
+                ArrayList<Object> list = new23();
+                push(goTo(5), list, false);
+            }
+            break;
+            case 24: /* reduce ASingleArgumentList */
+            {
+                ArrayList<Object> list = new24();
                 push(goTo(6), list, false);
             }
             break;
-            case 22: /* reduce ASequenceArgumentList */
+            case 25: /* reduce ASequenceArgumentList */
             {
-                ArrayList<Object> list = new22();
+                ArrayList<Object> list = new25();
                 push(goTo(6), list, false);
             }
             break;
@@ -373,13 +391,13 @@ public class Parser
         {
             // Block
         PStatement pstatementNode2;
-        TNewline tnewlineNode3;
+        TStatementSeparator tstatementseparatorNode3;
         PProgram pprogramNode4;
         pstatementNode2 = (PStatement)nodeArrayList1.get(0);
-        tnewlineNode3 = (TNewline)nodeArrayList2.get(0);
+        tstatementseparatorNode3 = (TStatementSeparator)nodeArrayList2.get(0);
         pprogramNode4 = (PProgram)nodeArrayList3.get(0);
 
-        pprogramNode1 = new ASequenceProgram(pstatementNode2, tnewlineNode3, pprogramNode4);
+        pprogramNode1 = new ASequenceProgram(pstatementNode2, tstatementseparatorNode3, pprogramNode4);
         }
 	nodeList.add(pprogramNode1);
         return nodeList;
@@ -388,7 +406,7 @@ public class Parser
 
 
     @SuppressWarnings({ "unchecked", "rawtypes" })
-    ArrayList<Object> new2() /* reduce APrintStatement */
+    ArrayList<Object> new2() /* reduce APrinttextStatement */
     {
         @SuppressWarnings("hiding") ArrayList<Object> nodeList = new ArrayList<Object>();
 
@@ -399,7 +417,7 @@ public class Parser
         TQuotedText tquotedtextNode2;
         tquotedtextNode2 = (TQuotedText)nodeArrayList1.get(0);
 
-        pstatementNode1 = new APrintStatement(tquotedtextNode2);
+        pstatementNode1 = new APrinttextStatement(tquotedtextNode2);
         }
 	nodeList.add(pstatementNode1);
         return nodeList;
@@ -464,22 +482,19 @@ public class Parser
 
 
     @SuppressWarnings({ "unchecked", "rawtypes" })
-    ArrayList<Object> new5() /* reduce AAfuncstatement1Statement */
+    ArrayList<Object> new5() /* reduce AAprintvalstatement1Statement */
     {
         @SuppressWarnings("hiding") ArrayList<Object> nodeList = new ArrayList<Object>();
 
-        @SuppressWarnings("unused") ArrayList<Object> nodeArrayList2 = pop();
         @SuppressWarnings("unused") ArrayList<Object> nodeArrayList1 = pop();
         PStatement pstatementNode1;
         {
             // Block
-        TFunctionName tfunctionnameNode2;
-        PArgumentList pargumentlistNode3;
-        @SuppressWarnings("unused") Object nullNode4 = null;
-        tfunctionnameNode2 = (TFunctionName)nodeArrayList1.get(0);
-        pargumentlistNode3 = (PArgumentList)nodeArrayList2.get(0);
+        PExpression pexpressionNode2;
+        @SuppressWarnings("unused") Object nullNode3 = null;
+        pexpressionNode2 = (PExpression)nodeArrayList1.get(0);
 
-        pstatementNode1 = new AFuncStatement(tfunctionnameNode2, pargumentlistNode3, null);
+        pstatementNode1 = new APrintvalStatement(pexpressionNode2, null);
         }
 	nodeList.add(pstatementNode1);
         return nodeList;
@@ -488,24 +503,21 @@ public class Parser
 
 
     @SuppressWarnings({ "unchecked", "rawtypes" })
-    ArrayList<Object> new6() /* reduce AAfuncstatement2Statement */
+    ArrayList<Object> new6() /* reduce AAprintvalstatement2Statement */
     {
         @SuppressWarnings("hiding") ArrayList<Object> nodeList = new ArrayList<Object>();
 
-        @SuppressWarnings("unused") ArrayList<Object> nodeArrayList3 = pop();
         @SuppressWarnings("unused") ArrayList<Object> nodeArrayList2 = pop();
         @SuppressWarnings("unused") ArrayList<Object> nodeArrayList1 = pop();
         PStatement pstatementNode1;
         {
             // Block
-        TFunctionName tfunctionnameNode2;
-        PArgumentList pargumentlistNode3;
-        TPrintResult tprintresultNode4;
-        tfunctionnameNode2 = (TFunctionName)nodeArrayList1.get(0);
-        pargumentlistNode3 = (PArgumentList)nodeArrayList2.get(0);
-        tprintresultNode4 = (TPrintResult)nodeArrayList3.get(0);
+        PExpression pexpressionNode2;
+        TPrintResult tprintresultNode3;
+        pexpressionNode2 = (PExpression)nodeArrayList1.get(0);
+        tprintresultNode3 = (TPrintResult)nodeArrayList2.get(0);
 
-        pstatementNode1 = new AFuncStatement(tfunctionnameNode2, pargumentlistNode3, tprintresultNode4);
+        pstatementNode1 = new APrintvalStatement(pexpressionNode2, tprintresultNode3);
         }
 	nodeList.add(pstatementNode1);
         return nodeList;
@@ -524,11 +536,11 @@ public class Parser
         {
             // Block
         TLabel tlabelNode2;
-        TDigit tdigitNode3;
+        TNumberLiteral tnumberliteralNode3;
         tlabelNode2 = (TLabel)nodeArrayList1.get(0);
-        tdigitNode3 = (TDigit)nodeArrayList2.get(0);
+        tnumberliteralNode3 = (TNumberLiteral)nodeArrayList2.get(0);
 
-        pstatementNode1 = new ALabelStatement(tlabelNode2, tdigitNode3);
+        pstatementNode1 = new ALabelStatement(tlabelNode2, tnumberliteralNode3);
         }
 	nodeList.add(pstatementNode1);
         return nodeList;
@@ -547,11 +559,11 @@ public class Parser
         {
             // Block
         TGoto tgotoNode2;
-        TDigit tdigitNode3;
+        TNumberLiteral tnumberliteralNode3;
         tgotoNode2 = (TGoto)nodeArrayList1.get(0);
-        tdigitNode3 = (TDigit)nodeArrayList2.get(0);
+        tnumberliteralNode3 = (TNumberLiteral)nodeArrayList2.get(0);
 
-        pstatementNode1 = new AGotoStatement(tgotoNode2, tdigitNode3);
+        pstatementNode1 = new AGotoStatement(tgotoNode2, tnumberliteralNode3);
         }
 	nodeList.add(pstatementNode1);
         return nodeList;
@@ -632,7 +644,59 @@ public class Parser
 
 
     @SuppressWarnings({ "unchecked", "rawtypes" })
-    ArrayList<Object> new12() /* reduce AFactorTerm */
+    ArrayList<Object> new12() /* reduce ANegateExpression */
+    {
+        @SuppressWarnings("hiding") ArrayList<Object> nodeList = new ArrayList<Object>();
+
+        @SuppressWarnings("unused") ArrayList<Object> nodeArrayList2 = pop();
+        @SuppressWarnings("unused") ArrayList<Object> nodeArrayList1 = pop();
+        PExpression pexpressionNode1;
+        {
+            // Block
+        TMinus tminusNode2;
+        PExpression pexpressionNode3;
+        tminusNode2 = (TMinus)nodeArrayList1.get(0);
+        pexpressionNode3 = (PExpression)nodeArrayList2.get(0);
+
+        pexpressionNode1 = new ANegateExpression(tminusNode2, pexpressionNode3);
+        }
+	nodeList.add(pexpressionNode1);
+        return nodeList;
+    }
+
+
+
+    @SuppressWarnings({ "unchecked", "rawtypes" })
+    ArrayList<Object> new13() /* reduce AFuncExpression */
+    {
+        @SuppressWarnings("hiding") ArrayList<Object> nodeList = new ArrayList<Object>();
+
+        @SuppressWarnings("unused") ArrayList<Object> nodeArrayList4 = pop();
+        @SuppressWarnings("unused") ArrayList<Object> nodeArrayList3 = pop();
+        @SuppressWarnings("unused") ArrayList<Object> nodeArrayList2 = pop();
+        @SuppressWarnings("unused") ArrayList<Object> nodeArrayList1 = pop();
+        PExpression pexpressionNode1;
+        {
+            // Block
+        TFunctionName tfunctionnameNode2;
+        TLparen tlparenNode3;
+        PArgumentList pargumentlistNode4;
+        TRparen trparenNode5;
+        tfunctionnameNode2 = (TFunctionName)nodeArrayList1.get(0);
+        tlparenNode3 = (TLparen)nodeArrayList2.get(0);
+        pargumentlistNode4 = (PArgumentList)nodeArrayList3.get(0);
+        trparenNode5 = (TRparen)nodeArrayList4.get(0);
+
+        pexpressionNode1 = new AFuncExpression(tfunctionnameNode2, tlparenNode3, pargumentlistNode4, trparenNode5);
+        }
+	nodeList.add(pexpressionNode1);
+        return nodeList;
+    }
+
+
+
+    @SuppressWarnings({ "unchecked", "rawtypes" })
+    ArrayList<Object> new14() /* reduce AFactorTerm */
     {
         @SuppressWarnings("hiding") ArrayList<Object> nodeList = new ArrayList<Object>();
 
@@ -652,7 +716,7 @@ public class Parser
 
 
     @SuppressWarnings({ "unchecked", "rawtypes" })
-    ArrayList<Object> new13() /* reduce AMultTerm */
+    ArrayList<Object> new15() /* reduce AMultTerm */
     {
         @SuppressWarnings("hiding") ArrayList<Object> nodeList = new ArrayList<Object>();
 
@@ -678,7 +742,7 @@ public class Parser
 
 
     @SuppressWarnings({ "unchecked", "rawtypes" })
-    ArrayList<Object> new14() /* reduce ADivTerm */
+    ArrayList<Object> new16() /* reduce ADivTerm */
     {
         @SuppressWarnings("hiding") ArrayList<Object> nodeList = new ArrayList<Object>();
 
@@ -704,7 +768,7 @@ public class Parser
 
 
     @SuppressWarnings({ "unchecked", "rawtypes" })
-    ArrayList<Object> new15() /* reduce AMultadjTerm */
+    ArrayList<Object> new17() /* reduce AMultadjTerm */
     {
         @SuppressWarnings("hiding") ArrayList<Object> nodeList = new ArrayList<Object>();
 
@@ -727,7 +791,7 @@ public class Parser
 
 
     @SuppressWarnings({ "unchecked", "rawtypes" })
-    ArrayList<Object> new16() /* reduce AAtomFactor */
+    ArrayList<Object> new18() /* reduce AAtomFactor */
     {
         @SuppressWarnings("hiding") ArrayList<Object> nodeList = new ArrayList<Object>();
 
@@ -747,7 +811,7 @@ public class Parser
 
 
     @SuppressWarnings({ "unchecked", "rawtypes" })
-    ArrayList<Object> new17() /* reduce APowerFactor */
+    ArrayList<Object> new19() /* reduce APowerFactor */
     {
         @SuppressWarnings("hiding") ArrayList<Object> nodeList = new ArrayList<Object>();
 
@@ -773,7 +837,7 @@ public class Parser
 
 
     @SuppressWarnings({ "unchecked", "rawtypes" })
-    ArrayList<Object> new18() /* reduce AVarAtom */
+    ArrayList<Object> new20() /* reduce AVarAtom */
     {
         @SuppressWarnings("hiding") ArrayList<Object> nodeList = new ArrayList<Object>();
 
@@ -793,7 +857,7 @@ public class Parser
 
 
     @SuppressWarnings({ "unchecked", "rawtypes" })
-    ArrayList<Object> new19() /* reduce ANumberAtom */
+    ArrayList<Object> new21() /* reduce ANumberAtom */
     {
         @SuppressWarnings("hiding") ArrayList<Object> nodeList = new ArrayList<Object>();
 
@@ -813,7 +877,27 @@ public class Parser
 
 
     @SuppressWarnings({ "unchecked", "rawtypes" })
-    ArrayList<Object> new20() /* reduce AExpressionAtom */
+    ArrayList<Object> new22() /* reduce AInputAtom */
+    {
+        @SuppressWarnings("hiding") ArrayList<Object> nodeList = new ArrayList<Object>();
+
+        @SuppressWarnings("unused") ArrayList<Object> nodeArrayList1 = pop();
+        PAtom patomNode1;
+        {
+            // Block
+        TInputPrompt tinputpromptNode2;
+        tinputpromptNode2 = (TInputPrompt)nodeArrayList1.get(0);
+
+        patomNode1 = new AInputAtom(tinputpromptNode2);
+        }
+	nodeList.add(patomNode1);
+        return nodeList;
+    }
+
+
+
+    @SuppressWarnings({ "unchecked", "rawtypes" })
+    ArrayList<Object> new23() /* reduce AExpressionAtom */
     {
         @SuppressWarnings("hiding") ArrayList<Object> nodeList = new ArrayList<Object>();
 
@@ -839,7 +923,7 @@ public class Parser
 
 
     @SuppressWarnings({ "unchecked", "rawtypes" })
-    ArrayList<Object> new21() /* reduce ASingleArgumentList */
+    ArrayList<Object> new24() /* reduce ASingleArgumentList */
     {
         @SuppressWarnings("hiding") ArrayList<Object> nodeList = new ArrayList<Object>();
 
@@ -847,10 +931,10 @@ public class Parser
         PArgumentList pargumentlistNode1;
         {
             // Block
-        PAtom patomNode2;
-        patomNode2 = (PAtom)nodeArrayList1.get(0);
+        PExpression pexpressionNode2;
+        pexpressionNode2 = (PExpression)nodeArrayList1.get(0);
 
-        pargumentlistNode1 = new ASingleArgumentList(patomNode2);
+        pargumentlistNode1 = new ASingleArgumentList(pexpressionNode2);
         }
 	nodeList.add(pargumentlistNode1);
         return nodeList;
@@ -859,7 +943,7 @@ public class Parser
 
 
     @SuppressWarnings({ "unchecked", "rawtypes" })
-    ArrayList<Object> new22() /* reduce ASequenceArgumentList */
+    ArrayList<Object> new25() /* reduce ASequenceArgumentList */
     {
         @SuppressWarnings("hiding") ArrayList<Object> nodeList = new ArrayList<Object>();
 
@@ -869,14 +953,14 @@ public class Parser
         PArgumentList pargumentlistNode1;
         {
             // Block
-        PAtom patomNode2;
+        PExpression pexpressionNode2;
         TComma tcommaNode3;
         PArgumentList pargumentlistNode4;
-        patomNode2 = (PAtom)nodeArrayList1.get(0);
+        pexpressionNode2 = (PExpression)nodeArrayList1.get(0);
         tcommaNode3 = (TComma)nodeArrayList2.get(0);
         pargumentlistNode4 = (PArgumentList)nodeArrayList3.get(0);
 
-        pargumentlistNode1 = new ASequenceArgumentList(patomNode2, tcommaNode3, pargumentlistNode4);
+        pargumentlistNode1 = new ASequenceArgumentList(pexpressionNode2, tcommaNode3, pargumentlistNode4);
         }
 	nodeList.add(pargumentlistNode1);
         return nodeList;
@@ -886,77 +970,83 @@ public class Parser
 
     private static int[][][] actionTable;
 /*      {
-			{{-1, ERROR, 0}, {0, SHIFT, 1}, {1, SHIFT, 2}, {2, SHIFT, 3}, {10, SHIFT, 4}, {14, SHIFT, 5}, {16, SHIFT, 6}, {17, SHIFT, 7}, },
+			{{-1, ERROR, 0}, {1, SHIFT, 1}, {2, SHIFT, 2}, {3, SHIFT, 3}, {7, SHIFT, 4}, {10, SHIFT, 5}, {13, SHIFT, 6}, {15, SHIFT, 7}, {16, SHIFT, 8}, {17, SHIFT, 9}, },
 			{{-1, REDUCE, 2}, },
-			{{-1, REDUCE, 18}, },
-			{{-1, REDUCE, 19}, },
-			{{-1, ERROR, 4}, {1, SHIFT, 2}, {2, SHIFT, 3}, {10, SHIFT, 4}, },
-			{{-1, ERROR, 5}, {1, SHIFT, 2}, {2, SHIFT, 3}, {10, SHIFT, 4}, },
-			{{-1, ERROR, 6}, {3, SHIFT, 17}, },
-			{{-1, ERROR, 7}, {3, SHIFT, 18}, },
-			{{-1, ERROR, 8}, {18, ACCEPT, -1}, },
-			{{-1, REDUCE, 0}, {12, SHIFT, 19}, },
-			{{-1, ERROR, 10}, {13, SHIFT, 20}, },
-			{{-1, REDUCE, 9}, {6, SHIFT, 21}, {7, SHIFT, 22}, },
-			{{-1, REDUCE, 12}, {1, SHIFT, 2}, {2, SHIFT, 3}, {8, SHIFT, 23}, {9, SHIFT, 24}, {10, SHIFT, 4}, },
-			{{-1, REDUCE, 16}, {15, SHIFT, 26}, },
-			{{-1, ERROR, 14}, {11, SHIFT, 27}, },
-			{{-1, REDUCE, 21}, {4, SHIFT, 28}, },
-			{{-1, REDUCE, 5}, {5, SHIFT, 29}, },
+			{{-1, REDUCE, 20}, },
+			{{-1, REDUCE, 21}, },
+			{{-1, ERROR, 4}, {2, SHIFT, 2}, {3, SHIFT, 3}, {7, SHIFT, 4}, {10, SHIFT, 5}, {13, SHIFT, 6}, {17, SHIFT, 9}, },
+			{{-1, ERROR, 5}, {2, SHIFT, 2}, {3, SHIFT, 3}, {7, SHIFT, 4}, {10, SHIFT, 5}, {13, SHIFT, 6}, {17, SHIFT, 9}, },
+			{{-1, ERROR, 6}, {10, SHIFT, 18}, },
+			{{-1, ERROR, 7}, {3, SHIFT, 19}, },
+			{{-1, ERROR, 8}, {3, SHIFT, 20}, },
+			{{-1, REDUCE, 22}, },
+			{{-1, ERROR, 10}, {18, ACCEPT, -1}, },
+			{{-1, REDUCE, 0}, {0, SHIFT, 21}, },
+			{{-1, REDUCE, 5}, {5, SHIFT, 22}, {12, SHIFT, 23}, },
+			{{-1, REDUCE, 9}, {6, SHIFT, 24}, {7, SHIFT, 25}, },
+			{{-1, REDUCE, 14}, {2, SHIFT, 2}, {3, SHIFT, 3}, {8, SHIFT, 26}, {9, SHIFT, 27}, {10, SHIFT, 5}, {17, SHIFT, 9}, },
+			{{-1, REDUCE, 18}, {14, SHIFT, 29}, },
+			{{-1, REDUCE, 12}, },
+			{{-1, ERROR, 17}, {11, SHIFT, 30}, },
+			{{-1, ERROR, 18}, {2, SHIFT, 2}, {3, SHIFT, 3}, {7, SHIFT, 4}, {10, SHIFT, 5}, {13, SHIFT, 6}, {17, SHIFT, 9}, },
 			{{-1, REDUCE, 7}, },
 			{{-1, REDUCE, 8}, },
-			{{-1, ERROR, 19}, {0, SHIFT, 1}, {1, SHIFT, 2}, {2, SHIFT, 3}, {10, SHIFT, 4}, {14, SHIFT, 5}, {16, SHIFT, 6}, {17, SHIFT, 7}, },
-			{{-1, ERROR, 20}, {1, SHIFT, 31}, },
-			{{-1, ERROR, 21}, {1, SHIFT, 2}, {2, SHIFT, 3}, {10, SHIFT, 4}, },
-			{{-1, ERROR, 22}, {1, SHIFT, 2}, {2, SHIFT, 3}, {10, SHIFT, 4}, },
-			{{-1, ERROR, 23}, {1, SHIFT, 2}, {2, SHIFT, 3}, {10, SHIFT, 4}, },
-			{{-1, ERROR, 24}, {1, SHIFT, 2}, {2, SHIFT, 3}, {10, SHIFT, 4}, },
-			{{-1, REDUCE, 15}, },
-			{{-1, ERROR, 26}, {1, SHIFT, 2}, {2, SHIFT, 3}, {10, SHIFT, 4}, },
-			{{-1, REDUCE, 20}, },
-			{{-1, ERROR, 28}, {1, SHIFT, 2}, {2, SHIFT, 3}, {10, SHIFT, 4}, },
+			{{-1, ERROR, 21}, {1, SHIFT, 1}, {2, SHIFT, 2}, {3, SHIFT, 3}, {7, SHIFT, 4}, {10, SHIFT, 5}, {13, SHIFT, 6}, {15, SHIFT, 7}, {16, SHIFT, 8}, {17, SHIFT, 9}, },
 			{{-1, REDUCE, 6}, },
+			{{-1, ERROR, 23}, {2, SHIFT, 34}, },
+			{{-1, ERROR, 24}, {2, SHIFT, 2}, {3, SHIFT, 3}, {7, SHIFT, 4}, {10, SHIFT, 5}, {13, SHIFT, 6}, {17, SHIFT, 9}, },
+			{{-1, ERROR, 25}, {2, SHIFT, 2}, {3, SHIFT, 3}, {7, SHIFT, 4}, {10, SHIFT, 5}, {13, SHIFT, 6}, {17, SHIFT, 9}, },
+			{{-1, ERROR, 26}, {2, SHIFT, 2}, {3, SHIFT, 3}, {10, SHIFT, 5}, {17, SHIFT, 9}, },
+			{{-1, ERROR, 27}, {2, SHIFT, 2}, {3, SHIFT, 3}, {10, SHIFT, 5}, {17, SHIFT, 9}, },
+			{{-1, REDUCE, 17}, },
+			{{-1, ERROR, 29}, {2, SHIFT, 2}, {3, SHIFT, 3}, {10, SHIFT, 5}, {17, SHIFT, 9}, },
+			{{-1, REDUCE, 23}, },
+			{{-1, REDUCE, 24}, {4, SHIFT, 40}, },
+			{{-1, ERROR, 32}, {11, SHIFT, 41}, },
 			{{-1, REDUCE, 1}, },
-			{{-1, REDUCE, 3}, {5, SHIFT, 38}, },
+			{{-1, REDUCE, 3}, {5, SHIFT, 42}, },
 			{{-1, REDUCE, 10}, },
 			{{-1, REDUCE, 11}, },
+			{{-1, REDUCE, 15}, },
+			{{-1, REDUCE, 16}, },
+			{{-1, REDUCE, 19}, },
+			{{-1, ERROR, 40}, {2, SHIFT, 2}, {3, SHIFT, 3}, {7, SHIFT, 4}, {10, SHIFT, 5}, {13, SHIFT, 6}, {17, SHIFT, 9}, },
 			{{-1, REDUCE, 13}, },
-			{{-1, REDUCE, 14}, },
-			{{-1, REDUCE, 17}, },
-			{{-1, REDUCE, 22}, },
 			{{-1, REDUCE, 4}, },
+			{{-1, REDUCE, 25}, },
         };*/
     private static int[][][] gotoTable;
 /*      {
-			{{-1, 8}, {19, 30}, },
-			{{-1, 9}, },
-			{{-1, 10}, {4, 14}, {21, 32}, {22, 33}, },
-			{{-1, 11}, {12, 25}, {23, 34}, {24, 35}, },
-			{{-1, 12}, {26, 36}, },
-			{{-1, 13}, {5, 15}, {28, 15}, },
-			{{-1, 16}, {28, 37}, },
+			{{-1, 10}, {21, 33}, },
+			{{-1, 11}, },
+			{{-1, 12}, {4, 16}, {5, 17}, {18, 31}, {24, 35}, {25, 36}, {40, 31}, },
+			{{-1, 13}, {14, 28}, {26, 37}, {27, 38}, },
+			{{-1, 14}, {29, 39}, },
+			{{-1, 15}, },
+			{{-1, 32}, {40, 43}, },
         };*/
     private static String[] errorMessages;
 /*      {
-			"expecting: quoted text, variable name, number literal, '(', function name, 'Label ', 'Goto '",
-			"expecting: newline, EOF",
-			"expecting: variable name, number literal, ',', '#', '+', '-', '*', '/', '(', '(', newline, '->', '^', EOF",
-			"expecting: variable name, number literal, '('",
-			"expecting: digit",
-			"expecting: EOF",
-			"expecting: '->'",
-			"expecting: '+', '-', '(', '->'",
-			"expecting: variable name, number literal, '+', '-', '*', '/', '(', '(', '->'",
-			"expecting: variable name, number literal, '+', '-', '*', '/', '(', '(', '->', '^'",
+			"expecting: quoted text, variable name, number literal, '-', '(', function name, 'Lbl ', 'Goto ', '?'",
+			"expecting: statement separator, EOF",
+			"expecting: statement separator, variable name, number literal, ',', '#', '+', '-', '*', '/', '(', ')', '->', '^', '?', EOF",
+			"expecting: variable name, number literal, '-', '(', function name, '?'",
 			"expecting: '('",
-			"expecting: ',', '#', newline, EOF",
-			"expecting: '#', newline, EOF",
+			"expecting: number literal",
+			"expecting: EOF",
+			"expecting: statement separator, '#', '->', EOF",
+			"expecting: statement separator, ',', '#', '+', '-', ')', '->', EOF",
+			"expecting: statement separator, variable name, number literal, ',', '#', '+', '-', '*', '/', '(', ')', '->', '?', EOF",
+			"expecting: statement separator, ',', '#', ')', '->', EOF",
+			"expecting: ')'",
 			"expecting: variable name",
-			"expecting: '(', '->'",
+			"expecting: variable name, number literal, '(', '?'",
+			"expecting: ',', ')'",
+			"expecting: statement separator, '#', EOF",
         };*/
     private static int[] errors;
 /*      {
-			0, 1, 2, 2, 3, 3, 4, 4, 5, 1, 6, 7, 8, 9, 10, 11, 12, 1, 1, 0, 13, 3, 3, 3, 3, 7, 3, 2, 3, 1, 5, 12, 14, 14, 7, 7, 8, 12, 1, 
+			0, 1, 2, 2, 3, 3, 4, 5, 5, 2, 6, 1, 7, 8, 9, 2, 10, 11, 3, 1, 1, 0, 1, 12, 3, 3, 13, 13, 8, 13, 2, 14, 11, 6, 15, 10, 10, 8, 8, 9, 3, 10, 1, 11, 
         };*/
 
     static 

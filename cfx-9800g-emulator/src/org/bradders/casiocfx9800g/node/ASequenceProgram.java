@@ -8,7 +8,7 @@ import org.bradders.casiocfx9800g.analysis.*;
 public final class ASequenceProgram extends PProgram
 {
     private PStatement _statement_;
-    private TNewline _newline_;
+    private TStatementSeparator _statementSeparator_;
     private PProgram _program_;
 
     public ASequenceProgram()
@@ -18,13 +18,13 @@ public final class ASequenceProgram extends PProgram
 
     public ASequenceProgram(
         @SuppressWarnings("hiding") PStatement _statement_,
-        @SuppressWarnings("hiding") TNewline _newline_,
+        @SuppressWarnings("hiding") TStatementSeparator _statementSeparator_,
         @SuppressWarnings("hiding") PProgram _program_)
     {
         // Constructor
         setStatement(_statement_);
 
-        setNewline(_newline_);
+        setStatementSeparator(_statementSeparator_);
 
         setProgram(_program_);
 
@@ -35,7 +35,7 @@ public final class ASequenceProgram extends PProgram
     {
         return new ASequenceProgram(
             cloneNode(this._statement_),
-            cloneNode(this._newline_),
+            cloneNode(this._statementSeparator_),
             cloneNode(this._program_));
     }
 
@@ -70,16 +70,16 @@ public final class ASequenceProgram extends PProgram
         this._statement_ = node;
     }
 
-    public TNewline getNewline()
+    public TStatementSeparator getStatementSeparator()
     {
-        return this._newline_;
+        return this._statementSeparator_;
     }
 
-    public void setNewline(TNewline node)
+    public void setStatementSeparator(TStatementSeparator node)
     {
-        if(this._newline_ != null)
+        if(this._statementSeparator_ != null)
         {
-            this._newline_.parent(null);
+            this._statementSeparator_.parent(null);
         }
 
         if(node != null)
@@ -92,7 +92,7 @@ public final class ASequenceProgram extends PProgram
             node.parent(this);
         }
 
-        this._newline_ = node;
+        this._statementSeparator_ = node;
     }
 
     public PProgram getProgram()
@@ -125,7 +125,7 @@ public final class ASequenceProgram extends PProgram
     {
         return ""
             + toString(this._statement_)
-            + toString(this._newline_)
+            + toString(this._statementSeparator_)
             + toString(this._program_);
     }
 
@@ -139,9 +139,9 @@ public final class ASequenceProgram extends PProgram
             return;
         }
 
-        if(this._newline_ == child)
+        if(this._statementSeparator_ == child)
         {
-            this._newline_ = null;
+            this._statementSeparator_ = null;
             return;
         }
 
@@ -164,9 +164,9 @@ public final class ASequenceProgram extends PProgram
             return;
         }
 
-        if(this._newline_ == oldChild)
+        if(this._statementSeparator_ == oldChild)
         {
-            setNewline((TNewline) newChild);
+            setStatementSeparator((TStatementSeparator) newChild);
             return;
         }
 

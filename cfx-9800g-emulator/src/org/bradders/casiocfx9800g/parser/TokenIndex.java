@@ -10,25 +10,25 @@ class TokenIndex extends AnalysisAdapter
     int index;
 
     @Override
-    public void caseTQuotedText(@SuppressWarnings("unused") TQuotedText node)
+    public void caseTStatementSeparator(@SuppressWarnings("unused") TStatementSeparator node)
     {
         this.index = 0;
     }
 
     @Override
-    public void caseTVariableName(@SuppressWarnings("unused") TVariableName node)
+    public void caseTQuotedText(@SuppressWarnings("unused") TQuotedText node)
     {
         this.index = 1;
     }
 
     @Override
-    public void caseTNumberLiteral(@SuppressWarnings("unused") TNumberLiteral node)
+    public void caseTVariableName(@SuppressWarnings("unused") TVariableName node)
     {
         this.index = 2;
     }
 
     @Override
-    public void caseTDigit(@SuppressWarnings("unused") TDigit node)
+    public void caseTNumberLiteral(@SuppressWarnings("unused") TNumberLiteral node)
     {
         this.index = 3;
     }
@@ -82,37 +82,37 @@ class TokenIndex extends AnalysisAdapter
     }
 
     @Override
-    public void caseTNewline(@SuppressWarnings("unused") TNewline node)
+    public void caseTAssignArrow(@SuppressWarnings("unused") TAssignArrow node)
     {
         this.index = 12;
     }
 
     @Override
-    public void caseTAssignArrow(@SuppressWarnings("unused") TAssignArrow node)
+    public void caseTFunctionName(@SuppressWarnings("unused") TFunctionName node)
     {
         this.index = 13;
     }
 
     @Override
-    public void caseTFunctionName(@SuppressWarnings("unused") TFunctionName node)
+    public void caseTPow(@SuppressWarnings("unused") TPow node)
     {
         this.index = 14;
     }
 
     @Override
-    public void caseTPow(@SuppressWarnings("unused") TPow node)
+    public void caseTLabel(@SuppressWarnings("unused") TLabel node)
     {
         this.index = 15;
     }
 
     @Override
-    public void caseTLabel(@SuppressWarnings("unused") TLabel node)
+    public void caseTGoto(@SuppressWarnings("unused") TGoto node)
     {
         this.index = 16;
     }
 
     @Override
-    public void caseTGoto(@SuppressWarnings("unused") TGoto node)
+    public void caseTInputPrompt(@SuppressWarnings("unused") TInputPrompt node)
     {
         this.index = 17;
     }

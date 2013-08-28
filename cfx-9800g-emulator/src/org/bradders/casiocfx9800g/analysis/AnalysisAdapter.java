@@ -87,7 +87,7 @@ public class AnalysisAdapter implements Analysis
     }
 
     @Override
-    public void caseAPrintStatement(APrintStatement node)
+    public void caseAPrinttextStatement(APrinttextStatement node)
     {
         defaultCase(node);
     }
@@ -99,7 +99,7 @@ public class AnalysisAdapter implements Analysis
     }
 
     @Override
-    public void caseAFuncStatement(AFuncStatement node)
+    public void caseAPrintvalStatement(APrintvalStatement node)
     {
         defaultCase(node);
     }
@@ -130,6 +130,18 @@ public class AnalysisAdapter implements Analysis
 
     @Override
     public void caseAMinusExpression(AMinusExpression node)
+    {
+        defaultCase(node);
+    }
+
+    @Override
+    public void caseANegateExpression(ANegateExpression node)
+    {
+        defaultCase(node);
+    }
+
+    @Override
+    public void caseAFuncExpression(AFuncExpression node)
     {
         defaultCase(node);
     }
@@ -183,6 +195,12 @@ public class AnalysisAdapter implements Analysis
     }
 
     @Override
+    public void caseAInputAtom(AInputAtom node)
+    {
+        defaultCase(node);
+    }
+
+    @Override
     public void caseAExpressionAtom(AExpressionAtom node)
     {
         defaultCase(node);
@@ -201,6 +219,12 @@ public class AnalysisAdapter implements Analysis
     }
 
     @Override
+    public void caseTStatementSeparator(TStatementSeparator node)
+    {
+        defaultCase(node);
+    }
+
+    @Override
     public void caseTQuotedText(TQuotedText node)
     {
         defaultCase(node);
@@ -214,12 +238,6 @@ public class AnalysisAdapter implements Analysis
 
     @Override
     public void caseTNumberLiteral(TNumberLiteral node)
-    {
-        defaultCase(node);
-    }
-
-    @Override
-    public void caseTDigit(TDigit node)
     {
         defaultCase(node);
     }
@@ -273,12 +291,6 @@ public class AnalysisAdapter implements Analysis
     }
 
     @Override
-    public void caseTNewline(TNewline node)
-    {
-        defaultCase(node);
-    }
-
-    @Override
     public void caseTAssignArrow(TAssignArrow node)
     {
         defaultCase(node);
@@ -304,6 +316,12 @@ public class AnalysisAdapter implements Analysis
 
     @Override
     public void caseTGoto(TGoto node)
+    {
+        defaultCase(node);
+    }
+
+    @Override
+    public void caseTInputPrompt(TInputPrompt node)
     {
         defaultCase(node);
     }
