@@ -3,6 +3,7 @@ package org.bradders.casiocfx9800g;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.PushbackReader;
+import java.io.Reader;
 
 import org.bradders.casiocfx9800g.lexer.Lexer;
 import org.bradders.casiocfx9800g.node.Start;
@@ -31,17 +32,24 @@ public class Main
          return;
       }
       
-      Lexer lexer = new Lexer(new PushbackReader(new BufferedReader(new FileReader(args[0])), 1024));
+      BufferedReader file = new BufferedReader(new FileReader(args[0]));
+      
+      RuntimeContext context = new RuntimeContext();
+
+      Start ast = compile(context, file);
+      
+      ast.apply(new ParseTreePrinterAdapter());
+   }
+
+   public static Start compile(RuntimeContext context, Reader programText)
+      throws Exception
+   {
+      Lexer lexer = new Lexer(new PushbackReader(programText, 1024));
       Parser parser = new Parser(lexer);
       Start ast = parser.parse();
 
-      RuntimeContext context = new RuntimeContext();
-
       // apply compile-time checks
-      ast.apply(new CompileTimeAnalyser());
-      
-      // run the program
-
-      ast.apply(new ParseTreePrinterAdapter());
+      ast.apply(new CompileTimeAnalyser(context));
+      return ast;
    }
 }
