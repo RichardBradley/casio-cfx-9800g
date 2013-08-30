@@ -358,17 +358,17 @@ public class ReversedDepthFirstAdapter extends AnalysisAdapter
     public void caseAMultTerm(AMultTerm node)
     {
         inAMultTerm(node);
-        if(node.getTerm() != null)
+        if(node.getFactor() != null)
         {
-            node.getTerm().apply(this);
+            node.getFactor().apply(this);
         }
         if(node.getMult() != null)
         {
             node.getMult().apply(this);
         }
-        if(node.getFactor() != null)
+        if(node.getTerm() != null)
         {
-            node.getFactor().apply(this);
+            node.getTerm().apply(this);
         }
         outAMultTerm(node);
     }
@@ -387,94 +387,115 @@ public class ReversedDepthFirstAdapter extends AnalysisAdapter
     public void caseADivTerm(ADivTerm node)
     {
         inADivTerm(node);
-        if(node.getTerm() != null)
+        if(node.getFactor() != null)
         {
-            node.getTerm().apply(this);
+            node.getFactor().apply(this);
         }
         if(node.getDiv() != null)
         {
             node.getDiv().apply(this);
         }
-        if(node.getFactor() != null)
-        {
-            node.getFactor().apply(this);
-        }
-        outADivTerm(node);
-    }
-
-    public void inAMultadjTerm(AMultadjTerm node)
-    {
-        defaultIn(node);
-    }
-
-    public void outAMultadjTerm(AMultadjTerm node)
-    {
-        defaultOut(node);
-    }
-
-    @Override
-    public void caseAMultadjTerm(AMultadjTerm node)
-    {
-        inAMultadjTerm(node);
         if(node.getTerm() != null)
         {
             node.getTerm().apply(this);
         }
-        if(node.getFactor() != null)
-        {
-            node.getFactor().apply(this);
-        }
-        outAMultadjTerm(node);
+        outADivTerm(node);
     }
 
-    public void inAAtomFactor(AAtomFactor node)
+    public void inASingleFactor(ASingleFactor node)
     {
         defaultIn(node);
     }
 
-    public void outAAtomFactor(AAtomFactor node)
+    public void outASingleFactor(ASingleFactor node)
     {
         defaultOut(node);
     }
 
     @Override
-    public void caseAAtomFactor(AAtomFactor node)
+    public void caseASingleFactor(ASingleFactor node)
     {
-        inAAtomFactor(node);
+        inASingleFactor(node);
+        if(node.getMultgroup() != null)
+        {
+            node.getMultgroup().apply(this);
+        }
+        outASingleFactor(node);
+    }
+
+    public void inAMultgroupFactor(AMultgroupFactor node)
+    {
+        defaultIn(node);
+    }
+
+    public void outAMultgroupFactor(AMultgroupFactor node)
+    {
+        defaultOut(node);
+    }
+
+    @Override
+    public void caseAMultgroupFactor(AMultgroupFactor node)
+    {
+        inAMultgroupFactor(node);
+        if(node.getMultgroup() != null)
+        {
+            node.getMultgroup().apply(this);
+        }
+        if(node.getFactor() != null)
+        {
+            node.getFactor().apply(this);
+        }
+        outAMultgroupFactor(node);
+    }
+
+    public void inAAtomMultgroup(AAtomMultgroup node)
+    {
+        defaultIn(node);
+    }
+
+    public void outAAtomMultgroup(AAtomMultgroup node)
+    {
+        defaultOut(node);
+    }
+
+    @Override
+    public void caseAAtomMultgroup(AAtomMultgroup node)
+    {
+        inAAtomMultgroup(node);
         if(node.getAtom() != null)
         {
             node.getAtom().apply(this);
         }
-        outAAtomFactor(node);
+        outAAtomMultgroup(node);
     }
 
-    public void inAPowerFactor(APowerFactor node)
+    public void inAPowerMultgroup(APowerMultgroup node)
     {
         defaultIn(node);
     }
 
-    public void outAPowerFactor(APowerFactor node)
+    public void outAPowerMultgroup(APowerMultgroup node)
     {
         defaultOut(node);
     }
 
     @Override
-    public void caseAPowerFactor(APowerFactor node)
+    public void caseAPowerMultgroup(APowerMultgroup node)
     {
-        inAPowerFactor(node);
-        if(node.getFactor() != null)
+        inAPowerMultgroup(node);
+        if(node.getAtom() != null)
         {
-            node.getFactor().apply(this);
+            node.getAtom().apply(this);
         }
         if(node.getPow() != null)
         {
             node.getPow().apply(this);
         }
-        if(node.getAtom() != null)
+        if(node.getMultgroup() != null)
         {
-            node.getAtom().apply(this);
+            node.getMultgroup().apply(this);
         }
-        outAPowerFactor(node);
+        outAPowerMultgroup(node);
     }
 
     public void inAVarAtom(AVarAtom node)

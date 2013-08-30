@@ -5,46 +5,46 @@ package org.bradders.casiocfx9800g.node;
 import org.bradders.casiocfx9800g.analysis.*;
 
 @SuppressWarnings("nls")
-public final class AAtomFactor extends PFactor
+public final class ASingleFactor extends PFactor
 {
-    private PAtom _atom_;
+    private PMultgroup _multgroup_;
 
-    public AAtomFactor()
+    public ASingleFactor()
     {
         // Constructor
     }
 
-    public AAtomFactor(
-        @SuppressWarnings("hiding") PAtom _atom_)
+    public ASingleFactor(
+        @SuppressWarnings("hiding") PMultgroup _multgroup_)
     {
         // Constructor
-        setAtom(_atom_);
+        setMultgroup(_multgroup_);
 
     }
 
     @Override
     public Object clone()
     {
-        return new AAtomFactor(
-            cloneNode(this._atom_));
+        return new ASingleFactor(
+            cloneNode(this._multgroup_));
     }
 
     @Override
     public void apply(Switch sw)
     {
-        ((Analysis) sw).caseAAtomFactor(this);
+        ((Analysis) sw).caseASingleFactor(this);
     }
 
-    public PAtom getAtom()
+    public PMultgroup getMultgroup()
     {
-        return this._atom_;
+        return this._multgroup_;
     }
 
-    public void setAtom(PAtom node)
+    public void setMultgroup(PMultgroup node)
     {
-        if(this._atom_ != null)
+        if(this._multgroup_ != null)
         {
-            this._atom_.parent(null);
+            this._multgroup_.parent(null);
         }
 
         if(node != null)
@@ -57,23 +57,23 @@ public final class AAtomFactor extends PFactor
             node.parent(this);
         }
 
-        this._atom_ = node;
+        this._multgroup_ = node;
     }
 
     @Override
     public String toString()
     {
         return ""
-            + toString(this._atom_);
+            + toString(this._multgroup_);
     }
 
     @Override
     void removeChild(@SuppressWarnings("unused") Node child)
     {
         // Remove child
-        if(this._atom_ == child)
+        if(this._multgroup_ == child)
         {
-            this._atom_ = null;
+            this._multgroup_ = null;
             return;
         }
 
@@ -84,9 +84,9 @@ public final class AAtomFactor extends PFactor
     void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild)
     {
         // Replace child
-        if(this._atom_ == oldChild)
+        if(this._multgroup_ == oldChild)
         {
-            setAtom((PAtom) newChild);
+            setMultgroup((PMultgroup) newChild);
             return;
         }
 

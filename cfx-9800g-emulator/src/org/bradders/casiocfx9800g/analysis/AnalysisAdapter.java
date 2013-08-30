@@ -159,19 +159,25 @@ public class AnalysisAdapter implements Analysis
     }
 
     @Override
-    public void caseAMultadjTerm(AMultadjTerm node)
+    public void caseASingleFactor(ASingleFactor node)
     {
         defaultCase(node);
     }
 
     @Override
-    public void caseAAtomFactor(AAtomFactor node)
+    public void caseAMultgroupFactor(AMultgroupFactor node)
     {
         defaultCase(node);
     }
 
     @Override
-    public void caseAPowerFactor(APowerFactor node)
+    public void caseAAtomMultgroup(AAtomMultgroup node)
+    {
+        defaultCase(node);
+    }
+
+    @Override
+    public void caseAPowerMultgroup(APowerMultgroup node)
     {
         defaultCase(node);
     }

@@ -5,39 +5,39 @@ package org.bradders.casiocfx9800g.node;
 import org.bradders.casiocfx9800g.analysis.*;
 
 @SuppressWarnings("nls")
-public final class AMultadjTerm extends PTerm
+public final class AMultgroupFactor extends PFactor
 {
     private PFactor _factor_;
-    private PTerm _term_;
+    private PMultgroup _multgroup_;
 
-    public AMultadjTerm()
+    public AMultgroupFactor()
     {
         // Constructor
     }
 
-    public AMultadjTerm(
+    public AMultgroupFactor(
         @SuppressWarnings("hiding") PFactor _factor_,
-        @SuppressWarnings("hiding") PTerm _term_)
+        @SuppressWarnings("hiding") PMultgroup _multgroup_)
     {
         // Constructor
         setFactor(_factor_);
 
-        setTerm(_term_);
+        setMultgroup(_multgroup_);
 
     }
 
     @Override
     public Object clone()
     {
-        return new AMultadjTerm(
+        return new AMultgroupFactor(
             cloneNode(this._factor_),
-            cloneNode(this._term_));
+            cloneNode(this._multgroup_));
     }
 
     @Override
     public void apply(Switch sw)
     {
-        ((Analysis) sw).caseAMultadjTerm(this);
+        ((Analysis) sw).caseAMultgroupFactor(this);
     }
 
     public PFactor getFactor()
@@ -65,16 +65,16 @@ public final class AMultadjTerm extends PTerm
         this._factor_ = node;
     }
 
-    public PTerm getTerm()
+    public PMultgroup getMultgroup()
     {
-        return this._term_;
+        return this._multgroup_;
     }
 
-    public void setTerm(PTerm node)
+    public void setMultgroup(PMultgroup node)
     {
-        if(this._term_ != null)
+        if(this._multgroup_ != null)
         {
-            this._term_.parent(null);
+            this._multgroup_.parent(null);
         }
 
         if(node != null)
@@ -87,7 +87,7 @@ public final class AMultadjTerm extends PTerm
             node.parent(this);
         }
 
-        this._term_ = node;
+        this._multgroup_ = node;
     }
 
     @Override
@@ -95,7 +95,7 @@ public final class AMultadjTerm extends PTerm
     {
         return ""
             + toString(this._factor_)
-            + toString(this._term_);
+            + toString(this._multgroup_);
     }
 
     @Override
@@ -108,9 +108,9 @@ public final class AMultadjTerm extends PTerm
             return;
         }
 
-        if(this._term_ == child)
+        if(this._multgroup_ == child)
         {
-            this._term_ = null;
+            this._multgroup_ = null;
             return;
         }
 
@@ -127,9 +127,9 @@ public final class AMultadjTerm extends PTerm
             return;
         }
 
-        if(this._term_ == oldChild)
+        if(this._multgroup_ == oldChild)
         {
-            setTerm((PTerm) newChild);
+            setMultgroup((PMultgroup) newChild);
             return;
         }
 

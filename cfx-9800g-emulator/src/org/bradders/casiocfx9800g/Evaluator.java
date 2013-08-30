@@ -1,6 +1,6 @@
 package org.bradders.casiocfx9800g;
 
-import org.bradders.casiocfx9800g.node.AAtomFactor;
+import org.bradders.casiocfx9800g.node.AAtomMultgroup;
 import org.bradders.casiocfx9800g.node.ADivTerm;
 import org.bradders.casiocfx9800g.node.AExpressionAtom;
 import org.bradders.casiocfx9800g.node.AFactorTerm;
@@ -9,22 +9,22 @@ import org.bradders.casiocfx9800g.node.AFuncAtom;
 import org.bradders.casiocfx9800g.node.AInputAtom;
 import org.bradders.casiocfx9800g.node.AMinusExpression;
 import org.bradders.casiocfx9800g.node.AMultTerm;
-import org.bradders.casiocfx9800g.node.AMultadjTerm;
+import org.bradders.casiocfx9800g.node.AMultgroupFactor;
 import org.bradders.casiocfx9800g.node.ANegateExpression;
 import org.bradders.casiocfx9800g.node.ANumberAtom;
 import org.bradders.casiocfx9800g.node.APlusExpression;
-import org.bradders.casiocfx9800g.node.APowerFactor;
+import org.bradders.casiocfx9800g.node.APowerMultgroup;
+import org.bradders.casiocfx9800g.node.ASingleFactor;
 import org.bradders.casiocfx9800g.node.ATermExpression;
 import org.bradders.casiocfx9800g.node.AVarAtom;
 import org.bradders.casiocfx9800g.node.Node;
 import org.bradders.casiocfx9800g.node.PAtom;
 import org.bradders.casiocfx9800g.node.PExpression;
 import org.bradders.casiocfx9800g.node.PFactor;
+import org.bradders.casiocfx9800g.node.PMultgroup;
 import org.bradders.casiocfx9800g.node.PTerm;
 import org.bradders.casiocfx9800g.node.TNumberLiteral;
 import org.bradders.casiocfx9800g.util.Printer;
-
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 /**
  * This class evaluates nodes in the AST.
@@ -102,9 +102,6 @@ public class Evaluator
       if (expression instanceof ADivTerm) {
          return evaluate((ADivTerm)expression);
       }
-      if (expression instanceof AMultadjTerm) {
-         return evaluate((AMultadjTerm)expression);
-      }
       throw new CompileException(String.format(
             "Unexpected type: %s at %s",
             expression.getClass(),
@@ -113,26 +110,40 @@ public class Evaluator
    
    public double evaluate(AMultTerm expression)
    {
-      return evaluate(expression.getFactor()) * evaluate(expression.getTerm());
+      return evaluate(expression.getTerm()) * evaluate(expression.getFactor());
    }
 
    public double evaluate(ADivTerm expression)
    {
-      return evaluate(expression.getFactor()) - evaluate(expression.getTerm());
-   }
-
-   public double evaluate(AMultadjTerm expression)
-   {
-      return evaluate(expression.getFactor()) * evaluate(expression.getTerm());
+      return evaluate(expression.getTerm()) / evaluate(expression.getFactor());
    }
    
    public double evaluate(PFactor expression)
    {
-      if (expression instanceof AAtomFactor) {
-         return evaluate(((AAtomFactor)expression).getAtom());
+      if (expression instanceof ASingleFactor) {
+         return evaluate(((ASingleFactor)expression).getMultgroup());
       }
-      if (expression instanceof APowerFactor) {
-         return evaluate((APowerFactor)expression);
+      if (expression instanceof AMultgroupFactor) {
+         return evaluate((AMultgroupFactor)expression);
+      }
+      throw new CompileException(String.format(
+            "Unexpected type: %s at %s",
+            expression.getClass(),
+            Printer.nodeToString(expression)));
+   }
+
+   public double evaluate(AMultgroupFactor expression)
+   {
+      return evaluate(expression.getFactor()) * evaluate(expression.getMultgroup());
+   }
+   
+   public double evaluate(PMultgroup expression)
+   {
+      if (expression instanceof AAtomMultgroup) {
+         return evaluate(((AAtomMultgroup)expression).getAtom());
+      }
+      if (expression instanceof APowerMultgroup) {
+         return evaluate((APowerMultgroup)expression);
       }
       throw new CompileException(String.format(
             "Unexpected type: %s at %s",
@@ -140,11 +151,11 @@ public class Evaluator
             Printer.nodeToString(expression)));
    }
    
-   public double evaluate(APowerFactor expression)
+   public double evaluate(APowerMultgroup expression)
    {
       return Math.pow(
-            evaluate(expression.getAtom()),
-            evaluate(expression.getFactor()));
+            evaluate(expression.getMultgroup()),
+            evaluate(expression.getAtom()));
    }
    
    public double evaluate(PAtom expression)

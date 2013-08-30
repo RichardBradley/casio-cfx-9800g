@@ -46,12 +46,14 @@ Productions
 		  {negate} minus expression;
 	term =
 		  {factor} factor |
-		  {mult} factor mult term |
-		  {div} factor div term |
-		  {multadj} factor term;
+		  {mult} term mult factor |
+		  {div} term div factor;
         factor =
+	          {single} multgroup |
+		  {multgroup} factor multgroup;
+        multgroup =
 		  {atom} atom |
-		  {power} atom pow factor;
+		  {power} multgroup pow atom;
  	atom =
 	          {var} variable_name |
 	       	  {number} number_literal |

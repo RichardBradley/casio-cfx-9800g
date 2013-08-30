@@ -26,9 +26,10 @@ public interface Analysis extends Switch
     void caseAFactorTerm(AFactorTerm node);
     void caseAMultTerm(AMultTerm node);
     void caseADivTerm(ADivTerm node);
-    void caseAMultadjTerm(AMultadjTerm node);
-    void caseAAtomFactor(AAtomFactor node);
-    void caseAPowerFactor(APowerFactor node);
+    void caseASingleFactor(ASingleFactor node);
+    void caseAMultgroupFactor(AMultgroupFactor node);
+    void caseAAtomMultgroup(AAtomMultgroup node);
+    void caseAPowerMultgroup(APowerMultgroup node);
     void caseAVarAtom(AVarAtom node);
     void caseANumberAtom(ANumberAtom node);
     void caseAInputAtom(AInputAtom node);
