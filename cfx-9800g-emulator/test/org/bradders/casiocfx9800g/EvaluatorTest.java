@@ -9,10 +9,7 @@ import org.bradders.casiocfx9800g.node.APrintvalStatement;
 import org.bradders.casiocfx9800g.node.ASingleProgram;
 import org.bradders.casiocfx9800g.node.PExpression;
 import org.bradders.casiocfx9800g.node.Start;
-import org.bradders.casiocfx9800g.util.ParseTreePrinterAdapter;
-import org.hamcrest.CoreMatchers;
 import org.junit.Test;
-import org.junit.matchers.JUnitMatchers;
 
 public class EvaluatorTest
 {
@@ -73,7 +70,7 @@ public class EvaluatorTest
       APrintvalStatement stm = (APrintvalStatement) prog.getStatement();
       PExpression expression = stm.getExpression();
       
-      Evaluator evaluator = new Evaluator(context);
+      Evaluator evaluator = new Evaluator(context, null);
       return evaluator.evaluate(expression);
    }
 }

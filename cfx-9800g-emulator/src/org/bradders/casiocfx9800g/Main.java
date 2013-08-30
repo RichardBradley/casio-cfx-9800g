@@ -8,7 +8,7 @@ import java.io.Reader;
 import org.bradders.casiocfx9800g.lexer.Lexer;
 import org.bradders.casiocfx9800g.node.Start;
 import org.bradders.casiocfx9800g.parser.Parser;
-import org.bradders.casiocfx9800g.util.ParseTreePrinterAdapter;
+import org.bradders.casiocfx9800g.ui.ConsoleUserInterface;
 
 /**
  * The entry class for the Casio CFX 9800G emulator
@@ -36,9 +36,10 @@ public class Main
       
       RuntimeContext context = new RuntimeContext();
 
-      Start ast = compile(context, file);
+      compile(context, file);
+      ConsoleUserInterface ui = new ConsoleUserInterface();
       
-      ast.apply(new ParseTreePrinterAdapter());
+      new StatementRunner(context, ui).run();
    }
 
    public static Start compile(RuntimeContext context, Reader programText)
