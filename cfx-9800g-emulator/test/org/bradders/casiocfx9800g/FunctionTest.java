@@ -16,10 +16,17 @@ public class FunctionTest
    private RuntimeContext context = new RuntimeContext();
 
    @Test
-   public void testSimpleAddition() throws Exception
+   public void testFrac() throws Exception
    {
       assertThat(evaluate("Frac 2.99"), closeTo(0.99, 1e-6));
       assertThat(evaluate("Frac (-2.99)"), closeTo(-0.99, 1e-6));
+   }
+
+   @Test
+   public void testInt() throws Exception
+   {
+      assertThat(evaluate("Int 9.9"), closeTo(9, 1e-6));
+      assertThat(evaluate("Int (-9.9)"), closeTo(-9, 1e-6));
    }
    
    private double evaluate(String expressionStr) throws Exception {

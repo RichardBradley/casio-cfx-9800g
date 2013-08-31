@@ -135,6 +135,12 @@ public class AnalysisAdapter implements Analysis
     }
 
     @Override
+    public void caseACountJumpStatement(ACountJumpStatement node)
+    {
+        defaultCase(node);
+    }
+
+    @Override
     public void caseATermExpression(ATermExpression node)
     {
         defaultCase(node);
@@ -418,6 +424,12 @@ public class AnalysisAdapter implements Analysis
 
     @Override
     public void caseTSpace(TSpace node)
+    {
+        defaultCase(node);
+    }
+
+    @Override
+    public void caseTCountJumpOp(TCountJumpOp node)
     {
         defaultCase(node);
     }

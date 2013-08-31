@@ -329,6 +329,14 @@ public class Evaluator
          }
          return arg - Math.floor(arg);
       }
+      if (funcName.equals("Int ")) {
+         assertArgumentCount(args, 1, location);
+         double arg = args.get(0);
+         if (arg < 0) {
+            return Math.ceil(arg);
+         }
+         return Math.floor(arg);
+      }
       if (funcName.equals("Abs ")) {
          assertArgumentCount(args, 1, location);
          return Math.abs(args.get(0));

@@ -7,6 +7,7 @@ import org.bradders.casiocfx9800g.analysis.*;
 @SuppressWarnings("nls")
 public final class AAssignStatement extends PStatement
 {
+    private TQuotedText _quotedText_;
     private PExpression _expression_;
     private TAssignArrow _assignArrow_;
     private TVariableName _variableName_;
@@ -18,12 +19,15 @@ public final class AAssignStatement extends PStatement
     }
 
     public AAssignStatement(
+        @SuppressWarnings("hiding") TQuotedText _quotedText_,
         @SuppressWarnings("hiding") PExpression _expression_,
         @SuppressWarnings("hiding") TAssignArrow _assignArrow_,
         @SuppressWarnings("hiding") TVariableName _variableName_,
         @SuppressWarnings("hiding") TPrintResult _printResult_)
     {
         // Constructor
+        setQuotedText(_quotedText_);
+
         setExpression(_expression_);
 
         setAssignArrow(_assignArrow_);
@@ -38,6 +42,7 @@ public final class AAssignStatement extends PStatement
     public Object clone()
     {
         return new AAssignStatement(
+            cloneNode(this._quotedText_),
             cloneNode(this._expression_),
             cloneNode(this._assignArrow_),
             cloneNode(this._variableName_),
@@ -48,6 +53,31 @@ public final class AAssignStatement extends PStatement
     public void apply(Switch sw)
     {
         ((Analysis) sw).caseAAssignStatement(this);
+    }
+
+    public TQuotedText getQuotedText()
+    {
+        return this._quotedText_;
+    }
+
+    public void setQuotedText(TQuotedText node)
+    {
+        if(this._quotedText_ != null)
+        {
+            this._quotedText_.parent(null);
+        }
+
+        if(node != null)
+        {
+            if(node.parent() != null)
+            {
+                node.parent().removeChild(node);
+            }
+
+            node.parent(this);
+        }
+
+        this._quotedText_ = node;
     }
 
     public PExpression getExpression()
@@ -154,6 +184,7 @@ public final class AAssignStatement extends PStatement
     public String toString()
     {
         return ""
+            + toString(this._quotedText_)
             + toString(this._expression_)
             + toString(this._assignArrow_)
             + toString(this._variableName_)
@@ -164,6 +195,12 @@ public final class AAssignStatement extends PStatement
     void removeChild(@SuppressWarnings("unused") Node child)
     {
         // Remove child
+        if(this._quotedText_ == child)
+        {
+            this._quotedText_ = null;
+            return;
+        }
+
         if(this._expression_ == child)
         {
             this._expression_ = null;
@@ -195,6 +232,12 @@ public final class AAssignStatement extends PStatement
     void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild)
     {
         // Replace child
+        if(this._quotedText_ == oldChild)
+        {
+            setQuotedText((TQuotedText) newChild);
+            return;
+        }
+
         if(this._expression_ == oldChild)
         {
             setExpression((PExpression) newChild);

@@ -1,10 +1,7 @@
 package org.bradders.casiocfx9800g.ui;
 
-import java.awt.BasicStroke;
 import java.awt.Dimension;
-import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.Image;
 import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
@@ -12,7 +9,6 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
-import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 
@@ -100,6 +96,8 @@ public class ConsoleUserInterface implements UserInterface
       frame.add(label);
       frame.pack();
       frame.setVisible(true);
+      
+      frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
    }
    
    @Override

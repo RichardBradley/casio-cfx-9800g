@@ -125,6 +125,10 @@ public class DepthFirstAdapter extends AnalysisAdapter
     public void caseAAssignStatement(AAssignStatement node)
     {
         inAAssignStatement(node);
+        if(node.getQuotedText() != null)
+        {
+            node.getQuotedText().apply(this);
+        }
         if(node.getExpression() != null)
         {
             node.getExpression().apply(this);
@@ -304,6 +308,43 @@ public class DepthFirstAdapter extends AnalysisAdapter
             node.getStatement().apply(this);
         }
         outAIfStatement(node);
+    }
+
+    public void inACountJumpStatement(ACountJumpStatement node)
+    {
+        defaultIn(node);
+    }
+
+    public void outACountJumpStatement(ACountJumpStatement node)
+    {
+        defaultOut(node);
+    }
+
+    @Override
+    public void caseACountJumpStatement(ACountJumpStatement node)
+    {
+        inACountJumpStatement(node);
+        if(node.getCountJumpOp() != null)
+        {
+            node.getCountJumpOp().apply(this);
+        }
+        if(node.getSpace() != null)
+        {
+            node.getSpace().apply(this);
+        }
+        if(node.getVariableName() != null)
+        {
+            node.getVariableName().apply(this);
+        }
+        if(node.getStatementSeparator() != null)
+        {
+            node.getStatementSeparator().apply(this);
+        }
+        if(node.getStatement() != null)
+        {
+            node.getStatement().apply(this);
+        }
+        outACountJumpStatement(node);
     }
 
     public void inATermExpression(ATermExpression node)

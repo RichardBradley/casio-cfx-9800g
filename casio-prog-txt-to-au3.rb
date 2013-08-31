@@ -101,20 +101,20 @@ class AutoItTranslator
   # Converts the given txt line into au3
   def translate_line line
     return if line =~ /^#/
-    line.scan /Lbl |Goto |=>|Isz|Dsz|e\^|Deg|Range |Int |Plot |->|./ do |token|
+    line.scan /Lbl |Goto |=>|Isz |Dsz |e\^|Deg|Range |Int |Plot |->|./ do |token|
       case token
       when '#'
         enter_menu 'PRGM'
         @text << "{F5}"
         flush_text 'print result'
-      when 'Lbl ', 'Goto ', '=>', 'Isz', 'Dsz'
+      when 'Lbl ', 'Goto ', '=>', 'Isz ', 'Dsz '
         enter_menu 'PRGM -> JUMP'
         key = case token
               when 'Lbl ' then 1
               when 'Goto ' then 2
               when '=>' then 3
-              when 'Isz' then 4
-              when 'Dsz' then 5
+              when 'Isz ' then 4
+              when 'Dsz ' then 5
               else raise "invalid token '#{token}'"
               end
         @text << "{F#{key}}"

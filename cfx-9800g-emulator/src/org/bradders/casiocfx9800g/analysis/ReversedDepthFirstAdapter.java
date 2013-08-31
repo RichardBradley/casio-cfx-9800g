@@ -141,6 +141,10 @@ public class ReversedDepthFirstAdapter extends AnalysisAdapter
         {
             node.getExpression().apply(this);
         }
+        if(node.getQuotedText() != null)
+        {
+            node.getQuotedText().apply(this);
+        }
         outAAssignStatement(node);
     }
 
@@ -304,6 +308,43 @@ public class ReversedDepthFirstAdapter extends AnalysisAdapter
             node.getLeft().apply(this);
         }
         outAIfStatement(node);
+    }
+
+    public void inACountJumpStatement(ACountJumpStatement node)
+    {
+        defaultIn(node);
+    }
+
+    public void outACountJumpStatement(ACountJumpStatement node)
+    {
+        defaultOut(node);
+    }
+
+    @Override
+    public void caseACountJumpStatement(ACountJumpStatement node)
+    {
+        inACountJumpStatement(node);
+        if(node.getStatement() != null)
+        {
+            node.getStatement().apply(this);
+        }
+        if(node.getStatementSeparator() != null)
+        {
+            node.getStatementSeparator().apply(this);
+        }
+        if(node.getVariableName() != null)
+        {
+            node.getVariableName().apply(this);
+        }
+        if(node.getSpace() != null)
+        {
+            node.getSpace().apply(this);
+        }
+        if(node.getCountJumpOp() != null)
+        {
+            node.getCountJumpOp().apply(this);
+        }
+        outACountJumpStatement(node);
     }
 
     public void inATermExpression(ATermExpression node)

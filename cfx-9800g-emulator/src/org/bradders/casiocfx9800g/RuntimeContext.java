@@ -5,7 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.bradders.casiocfx9800g.node.AVarAtom;
+import org.bradders.casiocfx9800g.node.Node;
 import org.bradders.casiocfx9800g.node.PStatement;
 import org.bradders.casiocfx9800g.util.Printer;
 
@@ -18,7 +18,7 @@ public class RuntimeContext
    public Map<Integer, Integer> statementIdxByLabelNumber = new HashMap<Integer, Integer>();
    public Map<String, Double> variableValues = new HashMap<String, Double>();
    
-   public double getVariableValue(String name, AVarAtom location)
+   public double getVariableValue(String name, Node location)
    {
       Double entry = variableValues.get(name);
       if (entry == null) {

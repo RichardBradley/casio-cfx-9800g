@@ -3,6 +3,7 @@ package org.bradders.casiocfx9800g;
 import java.util.List;
 
 import org.bradders.casiocfx9800g.node.AAssignStatement;
+import org.bradders.casiocfx9800g.node.ACountJumpStatement;
 import org.bradders.casiocfx9800g.node.AGotoStatement;
 import org.bradders.casiocfx9800g.node.AIfStatement;
 import org.bradders.casiocfx9800g.node.ALabelStatement;
@@ -75,7 +76,8 @@ public class StatementRunner
                   {goto} goto number_literal |
                   {sub_noargs} sub_noargs_name |
                   {sub_args} sub_args_name space atom_list |
-                  {if} [left]:expression comparison_op [right]:expression then_arrow statement;
+                  {if} [left]:expression comparison_op [right]:expression then_arrow statement |
+                  {count_jump} count_jump_op variable_name statement_separator statement;
       </code>
     * @param statement
     * @return the index of the next statement which should be executed, or null
@@ -99,6 +101,8 @@ public class StatementRunner
          run((ASubArgsStatement)statement);
       } else if (statement instanceof AIfStatement) {
          return run((AIfStatement)statement);
+      } else if (statement instanceof ACountJumpStatement) {
+         return run((ACountJumpStatement)statement);
       } else {
          throw new CompileException(String.format(
                "Unexpected type: %s at %s",
@@ -116,6 +120,11 @@ public class StatementRunner
 
    private void run(AAssignStatement statement)
    {
+      if (statement.getQuotedText() != null) {
+         String string = Evaluator.getString(statement.getQuotedText(), statement);
+         userInterface.printLine(string);
+      }
+
       double value = evaluator.evaluate(statement.getExpression());
       context.setVariableValue(statement.getVariableName().getText(), value);
       if (null != statement.getPrintResult()) {
@@ -208,6 +217,31 @@ public class StatementRunner
       }
 
       if (result) {
+         return run(statement.getStatement());
+      } else {
+         return null;
+      }
+   }
+
+   private Integer run(ACountJumpStatement statement)
+   {
+      String op = statement.getCountJumpOp().getText();
+      String varName = statement.getVariableName().getText();
+      double variableValue = context.getVariableValue(varName, statement.getVariableName());
+      
+      if (op.equals("Isz")) {
+         variableValue += 1;
+      } else if (op.equals("Dsz")) {
+         variableValue -= 1;
+      } else {
+         throw new CompileException(String.format(
+               "Unrecognised count jump operator: '%s' at %s",
+               op,
+               Printer.nodeToString(statement)));
+      }
+      
+      context.setVariableValue(varName, variableValue);
+      if (variableValue != 0.0) {
          return run(statement.getStatement());
       } else {
          return null;

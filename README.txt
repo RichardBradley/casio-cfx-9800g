@@ -66,6 +66,7 @@ The programming language used is fairly standard. A few things are worth noting 
 If / Then is implied by the "=>" operator, e.g.
   X > 1 => Goto 1 : Goto 2
 
-Isz / Dsz do "count jumps". See page 307 of CFX-9800G.pdf
+Isz / Dsz do "count jumps". See page 307 of CFX-9800G.pdf. They are basically ++ and --, except that if the new value is 0, then the next statement is skipped.
 
 Any text in double quotes is printed to the screen.
+
