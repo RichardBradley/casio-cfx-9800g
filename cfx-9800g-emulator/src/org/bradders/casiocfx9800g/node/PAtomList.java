@@ -2,7 +2,7 @@
 
 package org.bradders.casiocfx9800g.node;
 
-public abstract class PArgumentList extends Node
+public abstract class PAtomList extends Node
 {
     // Empty body
 }

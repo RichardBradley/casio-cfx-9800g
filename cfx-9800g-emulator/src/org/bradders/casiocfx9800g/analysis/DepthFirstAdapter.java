@@ -219,6 +219,93 @@ public class DepthFirstAdapter extends AnalysisAdapter
         outAGotoStatement(node);
     }
 
+    public void inASubNoargsStatement(ASubNoargsStatement node)
+    {
+        defaultIn(node);
+    }
+
+    public void outASubNoargsStatement(ASubNoargsStatement node)
+    {
+        defaultOut(node);
+    }
+
+    @Override
+    public void caseASubNoargsStatement(ASubNoargsStatement node)
+    {
+        inASubNoargsStatement(node);
+        if(node.getSubNoargsName() != null)
+        {
+            node.getSubNoargsName().apply(this);
+        }
+        outASubNoargsStatement(node);
+    }
+
+    public void inASubArgsStatement(ASubArgsStatement node)
+    {
+        defaultIn(node);
+    }
+
+    public void outASubArgsStatement(ASubArgsStatement node)
+    {
+        defaultOut(node);
+    }
+
+    @Override
+    public void caseASubArgsStatement(ASubArgsStatement node)
+    {
+        inASubArgsStatement(node);
+        if(node.getSubArgsName() != null)
+        {
+            node.getSubArgsName().apply(this);
+        }
+        if(node.getSpace() != null)
+        {
+            node.getSpace().apply(this);
+        }
+        if(node.getAtomList() != null)
+        {
+            node.getAtomList().apply(this);
+        }
+        outASubArgsStatement(node);
+    }
+
+    public void inAIfStatement(AIfStatement node)
+    {
+        defaultIn(node);
+    }
+
+    public void outAIfStatement(AIfStatement node)
+    {
+        defaultOut(node);
+    }
+
+    @Override
+    public void caseAIfStatement(AIfStatement node)
+    {
+        inAIfStatement(node);
+        if(node.getLeft() != null)
+        {
+            node.getLeft().apply(this);
+        }
+        if(node.getComparisonOp() != null)
+        {
+            node.getComparisonOp().apply(this);
+        }
+        if(node.getRight() != null)
+        {
+            node.getRight().apply(this);
+        }
+        if(node.getThenArrow() != null)
+        {
+            node.getThenArrow().apply(this);
+        }
+        if(node.getStatement() != null)
+        {
+            node.getStatement().apply(this);
+        }
+        outAIfStatement(node);
+    }
+
     public void inATermExpression(ATermExpression node)
     {
         defaultIn(node);
@@ -448,25 +535,25 @@ public class DepthFirstAdapter extends AnalysisAdapter
         outAMultgroupFactor(node);
     }
 
-    public void inAAtomMultgroup(AAtomMultgroup node)
+    public void inAPostfixopMultgroup(APostfixopMultgroup node)
     {
         defaultIn(node);
     }
 
-    public void outAAtomMultgroup(AAtomMultgroup node)
+    public void outAPostfixopMultgroup(APostfixopMultgroup node)
     {
         defaultOut(node);
     }
 
     @Override
-    public void caseAAtomMultgroup(AAtomMultgroup node)
+    public void caseAPostfixopMultgroup(APostfixopMultgroup node)
     {
-        inAAtomMultgroup(node);
-        if(node.getAtom() != null)
+        inAPostfixopMultgroup(node);
+        if(node.getPostfixop() != null)
         {
-            node.getAtom().apply(this);
+            node.getPostfixop().apply(this);
         }
-        outAAtomMultgroup(node);
+        outAPostfixopMultgroup(node);
     }
 
     public void inAPowerMultgroup(APowerMultgroup node)
@@ -491,11 +578,144 @@ public class DepthFirstAdapter extends AnalysisAdapter
         {
             node.getPow().apply(this);
         }
+        if(node.getPostfixop() != null)
+        {
+            node.getPostfixop().apply(this);
+        }
+        outAPowerMultgroup(node);
+    }
+
+    public void inAFuncPostfixop(AFuncPostfixop node)
+    {
+        defaultIn(node);
+    }
+
+    public void outAFuncPostfixop(AFuncPostfixop node)
+    {
+        defaultOut(node);
+    }
+
+    @Override
+    public void caseAFuncPostfixop(AFuncPostfixop node)
+    {
+        inAFuncPostfixop(node);
+        if(node.getFunc() != null)
+        {
+            node.getFunc().apply(this);
+        }
+        outAFuncPostfixop(node);
+    }
+
+    public void inAFactorialPostfixop(AFactorialPostfixop node)
+    {
+        defaultIn(node);
+    }
+
+    public void outAFactorialPostfixop(AFactorialPostfixop node)
+    {
+        defaultOut(node);
+    }
+
+    @Override
+    public void caseAFactorialPostfixop(AFactorialPostfixop node)
+    {
+        inAFactorialPostfixop(node);
         if(node.getAtom() != null)
         {
             node.getAtom().apply(this);
         }
-        outAPowerMultgroup(node);
+        if(node.getBang() != null)
+        {
+            node.getBang().apply(this);
+        }
+        outAFactorialPostfixop(node);
+    }
+
+    public void inAAtomFunc(AAtomFunc node)
+    {
+        defaultIn(node);
+    }
+
+    public void outAAtomFunc(AAtomFunc node)
+    {
+        defaultOut(node);
+    }
+
+    @Override
+    public void caseAAtomFunc(AAtomFunc node)
+    {
+        inAAtomFunc(node);
+        if(node.getAtom() != null)
+        {
+            node.getAtom().apply(this);
+        }
+        outAAtomFunc(node);
+    }
+
+    public void inAFunc1Func(AFunc1Func node)
+    {
+        defaultIn(node);
+    }
+
+    public void outAFunc1Func(AFunc1Func node)
+    {
+        defaultOut(node);
+    }
+
+    @Override
+    public void caseAFunc1Func(AFunc1Func node)
+    {
+        inAFunc1Func(node);
+        if(node.getFunctionName() != null)
+        {
+            node.getFunctionName().apply(this);
+        }
+        if(node.getAtom() != null)
+        {
+            node.getAtom().apply(this);
+        }
+        outAFunc1Func(node);
+    }
+
+    public void inAFunc2Func(AFunc2Func node)
+    {
+        defaultIn(node);
+    }
+
+    public void outAFunc2Func(AFunc2Func node)
+    {
+        defaultOut(node);
+    }
+
+    @Override
+    public void caseAFunc2Func(AFunc2Func node)
+    {
+        inAFunc2Func(node);
+        if(node.getFunctionName() != null)
+        {
+            node.getFunctionName().apply(this);
+        }
+        if(node.getLparen() != null)
+        {
+            node.getLparen().apply(this);
+        }
+        if(node.getExpression() != null)
+        {
+            node.getExpression().apply(this);
+        }
+        if(node.getComma() != null)
+        {
+            node.getComma().apply(this);
+        }
+        if(node.getExpressionList() != null)
+        {
+            node.getExpressionList().apply(this);
+        }
+        if(node.getRparen() != null)
+        {
+            node.getRparen().apply(this);
+        }
+        outAFunc2Func(node);
     }
 
     public void inAVarAtom(AVarAtom node)
@@ -590,99 +810,41 @@ public class DepthFirstAdapter extends AnalysisAdapter
         outAExpressionAtom(node);
     }
 
-    public void inAFuncAtom(AFuncAtom node)
+    public void inASingleExpressionList(ASingleExpressionList node)
     {
         defaultIn(node);
     }
 
-    public void outAFuncAtom(AFuncAtom node)
+    public void outASingleExpressionList(ASingleExpressionList node)
     {
         defaultOut(node);
     }
 
     @Override
-    public void caseAFuncAtom(AFuncAtom node)
+    public void caseASingleExpressionList(ASingleExpressionList node)
     {
-        inAFuncAtom(node);
-        if(node.getFunctionName() != null)
-        {
-            node.getFunctionName().apply(this);
-        }
-        if(node.getLparen() != null)
-        {
-            node.getLparen().apply(this);
-        }
-        if(node.getArgumentList() != null)
-        {
-            node.getArgumentList().apply(this);
-        }
-        if(node.getRparen() != null)
-        {
-            node.getRparen().apply(this);
-        }
-        outAFuncAtom(node);
-    }
-
-    public void inAFactorialAtom(AFactorialAtom node)
-    {
-        defaultIn(node);
-    }
-
-    public void outAFactorialAtom(AFactorialAtom node)
-    {
-        defaultOut(node);
-    }
-
-    @Override
-    public void caseAFactorialAtom(AFactorialAtom node)
-    {
-        inAFactorialAtom(node);
-        if(node.getAtom() != null)
-        {
-            node.getAtom().apply(this);
-        }
-        if(node.getBang() != null)
-        {
-            node.getBang().apply(this);
-        }
-        outAFactorialAtom(node);
-    }
-
-    public void inASingleArgumentList(ASingleArgumentList node)
-    {
-        defaultIn(node);
-    }
-
-    public void outASingleArgumentList(ASingleArgumentList node)
-    {
-        defaultOut(node);
-    }
-
-    @Override
-    public void caseASingleArgumentList(ASingleArgumentList node)
-    {
-        inASingleArgumentList(node);
+        inASingleExpressionList(node);
         if(node.getExpression() != null)
         {
             node.getExpression().apply(this);
         }
-        outASingleArgumentList(node);
+        outASingleExpressionList(node);
     }
 
-    public void inASequenceArgumentList(ASequenceArgumentList node)
+    public void inASequenceExpressionList(ASequenceExpressionList node)
     {
         defaultIn(node);
     }
 
-    public void outASequenceArgumentList(ASequenceArgumentList node)
+    public void outASequenceExpressionList(ASequenceExpressionList node)
     {
         defaultOut(node);
     }
 
     @Override
-    public void caseASequenceArgumentList(ASequenceArgumentList node)
+    public void caseASequenceExpressionList(ASequenceExpressionList node)
     {
-        inASequenceArgumentList(node);
+        inASequenceExpressionList(node);
         if(node.getExpression() != null)
         {
             node.getExpression().apply(this);
@@ -691,10 +853,60 @@ public class DepthFirstAdapter extends AnalysisAdapter
         {
             node.getComma().apply(this);
         }
-        if(node.getArgumentList() != null)
+        if(node.getExpressionList() != null)
         {
-            node.getArgumentList().apply(this);
+            node.getExpressionList().apply(this);
         }
-        outASequenceArgumentList(node);
+        outASequenceExpressionList(node);
+    }
+
+    public void inASingleAtomList(ASingleAtomList node)
+    {
+        defaultIn(node);
+    }
+
+    public void outASingleAtomList(ASingleAtomList node)
+    {
+        defaultOut(node);
+    }
+
+    @Override
+    public void caseASingleAtomList(ASingleAtomList node)
+    {
+        inASingleAtomList(node);
+        if(node.getAtom() != null)
+        {
+            node.getAtom().apply(this);
+        }
+        outASingleAtomList(node);
+    }
+
+    public void inASequenceAtomList(ASequenceAtomList node)
+    {
+        defaultIn(node);
+    }
+
+    public void outASequenceAtomList(ASequenceAtomList node)
+    {
+        defaultOut(node);
+    }
+
+    @Override
+    public void caseASequenceAtomList(ASequenceAtomList node)
+    {
+        inASequenceAtomList(node);
+        if(node.getAtom() != null)
+        {
+            node.getAtom().apply(this);
+        }
+        if(node.getComma() != null)
+        {
+            node.getComma().apply(this);
+        }
+        if(node.getAtomList() != null)
+        {
+            node.getAtomList().apply(this);
+        }
+        outASequenceAtomList(node);
     }
 }

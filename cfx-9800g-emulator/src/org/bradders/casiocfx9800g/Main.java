@@ -16,6 +16,11 @@ import org.bradders.casiocfx9800g.ui.ConsoleUserInterface;
 public class Main
 {
    /**
+    * Could become a command line arg
+    */
+   public static boolean TRACE_EXECUTION = true;
+
+   /**
     * The entry method.
     * @throws Exception 
     */
@@ -31,7 +36,7 @@ public class Main
          System.exit(1);
          return;
       }
-      
+
       BufferedReader file = new BufferedReader(new FileReader(args[0]));
       
       RuntimeContext context = new RuntimeContext();
@@ -39,7 +44,11 @@ public class Main
       compile(context, file);
       ConsoleUserInterface ui = new ConsoleUserInterface();
       
-      new StatementRunner(context, ui).run();
+      StatementRunner runner = new StatementRunner(context, ui);
+      if (TRACE_EXECUTION) {
+         runner.traceExecution = true;
+      }
+      runner.run();
    }
 
    public static Start compile(RuntimeContext context, Reader programText)

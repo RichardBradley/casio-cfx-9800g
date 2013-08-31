@@ -1,6 +1,7 @@
 package org.bradders.casiocfx9800g;
 
-import static org.hamcrest.CoreMatchers.equalTo;
+import static org.hamcrest.Matchers.closeTo;
+import static org.hamcrest.Matchers.equalTo;
 import static org.junit.Assert.assertThat;
 
 import java.io.StringReader;
@@ -29,8 +30,6 @@ public class EvaluatorTest
       context.setVariableValue("C", 3);
       context.setVariableValue("D", 4);
 
-      //qq
-      assertThat(evaluate("B^C^D"), equalTo(4096.0));
 
       assertThat(evaluate("AB^CD"), equalTo(32.0));
       assertThat(evaluate("A(B^C)D"), equalTo(32.0));
@@ -41,7 +40,7 @@ public class EvaluatorTest
 
       assertThat(evaluate("B^C^D"), equalTo(4096.0));
       assertThat(evaluate("(B^C)^D"), equalTo(4096.0));
-      assertThat(evaluate("B^(C^D)"), equalTo(2.4178516392292583e+24));
+      assertThat(evaluate("B^(C^D)"), closeTo(2.41785163e+24, 1e-6));
    }
    
    @Test

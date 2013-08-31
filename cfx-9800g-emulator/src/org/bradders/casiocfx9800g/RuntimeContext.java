@@ -16,7 +16,7 @@ public class RuntimeContext
 {
    public List<PStatement> statements = new ArrayList<PStatement>();
    public Map<Integer, Integer> statementIdxByLabelNumber = new HashMap<Integer, Integer>();
-   private Map<String, Double> variableValues = new HashMap<String, Double>();
+   public Map<String, Double> variableValues = new HashMap<String, Double>();
    
    public double getVariableValue(String name, AVarAtom location)
    {

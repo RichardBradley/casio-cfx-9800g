@@ -5,46 +5,46 @@ package org.bradders.casiocfx9800g.node;
 import org.bradders.casiocfx9800g.analysis.*;
 
 @SuppressWarnings("nls")
-public final class ASingleArgumentList extends PArgumentList
+public final class ASubNoargsStatement extends PStatement
 {
-    private PExpression _expression_;
+    private TSubNoargsName _subNoargsName_;
 
-    public ASingleArgumentList()
+    public ASubNoargsStatement()
     {
         // Constructor
     }
 
-    public ASingleArgumentList(
-        @SuppressWarnings("hiding") PExpression _expression_)
+    public ASubNoargsStatement(
+        @SuppressWarnings("hiding") TSubNoargsName _subNoargsName_)
     {
         // Constructor
-        setExpression(_expression_);
+        setSubNoargsName(_subNoargsName_);
 
     }
 
     @Override
     public Object clone()
     {
-        return new ASingleArgumentList(
-            cloneNode(this._expression_));
+        return new ASubNoargsStatement(
+            cloneNode(this._subNoargsName_));
     }
 
     @Override
     public void apply(Switch sw)
     {
-        ((Analysis) sw).caseASingleArgumentList(this);
+        ((Analysis) sw).caseASubNoargsStatement(this);
     }
 
-    public PExpression getExpression()
+    public TSubNoargsName getSubNoargsName()
     {
-        return this._expression_;
+        return this._subNoargsName_;
     }
 
-    public void setExpression(PExpression node)
+    public void setSubNoargsName(TSubNoargsName node)
     {
-        if(this._expression_ != null)
+        if(this._subNoargsName_ != null)
         {
-            this._expression_.parent(null);
+            this._subNoargsName_.parent(null);
         }
 
         if(node != null)
@@ -57,23 +57,23 @@ public final class ASingleArgumentList extends PArgumentList
             node.parent(this);
         }
 
-        this._expression_ = node;
+        this._subNoargsName_ = node;
     }
 
     @Override
     public String toString()
     {
         return ""
-            + toString(this._expression_);
+            + toString(this._subNoargsName_);
     }
 
     @Override
     void removeChild(@SuppressWarnings("unused") Node child)
     {
         // Remove child
-        if(this._expression_ == child)
+        if(this._subNoargsName_ == child)
         {
-            this._expression_ = null;
+            this._subNoargsName_ = null;
             return;
         }
 
@@ -84,9 +84,9 @@ public final class ASingleArgumentList extends PArgumentList
     void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild)
     {
         // Replace child
-        if(this._expression_ == oldChild)
+        if(this._subNoargsName_ == oldChild)
         {
-            setExpression((PExpression) newChild);
+            setSubNoargsName((TSubNoargsName) newChild);
             return;
         }
 

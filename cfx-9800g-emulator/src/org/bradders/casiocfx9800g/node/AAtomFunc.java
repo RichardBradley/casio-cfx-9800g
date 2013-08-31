@@ -5,39 +5,34 @@ package org.bradders.casiocfx9800g.node;
 import org.bradders.casiocfx9800g.analysis.*;
 
 @SuppressWarnings("nls")
-public final class AFactorialAtom extends PAtom
+public final class AAtomFunc extends PFunc
 {
     private PAtom _atom_;
-    private TBang _bang_;
 
-    public AFactorialAtom()
+    public AAtomFunc()
     {
         // Constructor
     }
 
-    public AFactorialAtom(
-        @SuppressWarnings("hiding") PAtom _atom_,
-        @SuppressWarnings("hiding") TBang _bang_)
+    public AAtomFunc(
+        @SuppressWarnings("hiding") PAtom _atom_)
     {
         // Constructor
         setAtom(_atom_);
-
-        setBang(_bang_);
 
     }
 
     @Override
     public Object clone()
     {
-        return new AFactorialAtom(
-            cloneNode(this._atom_),
-            cloneNode(this._bang_));
+        return new AAtomFunc(
+            cloneNode(this._atom_));
     }
 
     @Override
     public void apply(Switch sw)
     {
-        ((Analysis) sw).caseAFactorialAtom(this);
+        ((Analysis) sw).caseAAtomFunc(this);
     }
 
     public PAtom getAtom()
@@ -65,37 +60,11 @@ public final class AFactorialAtom extends PAtom
         this._atom_ = node;
     }
 
-    public TBang getBang()
-    {
-        return this._bang_;
-    }
-
-    public void setBang(TBang node)
-    {
-        if(this._bang_ != null)
-        {
-            this._bang_.parent(null);
-        }
-
-        if(node != null)
-        {
-            if(node.parent() != null)
-            {
-                node.parent().removeChild(node);
-            }
-
-            node.parent(this);
-        }
-
-        this._bang_ = node;
-    }
-
     @Override
     public String toString()
     {
         return ""
-            + toString(this._atom_)
-            + toString(this._bang_);
+            + toString(this._atom_);
     }
 
     @Override
@@ -105,12 +74,6 @@ public final class AFactorialAtom extends PAtom
         if(this._atom_ == child)
         {
             this._atom_ = null;
-            return;
-        }
-
-        if(this._bang_ == child)
-        {
-            this._bang_ = null;
             return;
         }
 
@@ -124,12 +87,6 @@ public final class AFactorialAtom extends PAtom
         if(this._atom_ == oldChild)
         {
             setAtom((PAtom) newChild);
-            return;
-        }
-
-        if(this._bang_ == oldChild)
-        {
-            setBang((TBang) newChild);
             return;
         }
 

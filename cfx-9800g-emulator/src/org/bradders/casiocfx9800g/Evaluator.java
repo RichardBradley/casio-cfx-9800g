@@ -3,13 +3,15 @@ package org.bradders.casiocfx9800g;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.commons.math3.util.CombinatoricsUtils;
-import org.bradders.casiocfx9800g.node.AAtomMultgroup;
+import org.apache.commons.math3.util.ArithmeticUtils;
+import org.bradders.casiocfx9800g.node.AAtomFunc;
 import org.bradders.casiocfx9800g.node.ADivTerm;
 import org.bradders.casiocfx9800g.node.AExpressionAtom;
 import org.bradders.casiocfx9800g.node.AFactorTerm;
-import org.bradders.casiocfx9800g.node.AFactorialAtom;
-import org.bradders.casiocfx9800g.node.AFuncAtom;
+import org.bradders.casiocfx9800g.node.AFactorialPostfixop;
+import org.bradders.casiocfx9800g.node.AFunc1Func;
+import org.bradders.casiocfx9800g.node.AFunc2Func;
+import org.bradders.casiocfx9800g.node.AFuncPostfixop;
 import org.bradders.casiocfx9800g.node.AInputAtom;
 import org.bradders.casiocfx9800g.node.AMinusExpression;
 import org.bradders.casiocfx9800g.node.AMultTerm;
@@ -17,18 +19,24 @@ import org.bradders.casiocfx9800g.node.AMultgroupFactor;
 import org.bradders.casiocfx9800g.node.ANegateExpression;
 import org.bradders.casiocfx9800g.node.ANumberAtom;
 import org.bradders.casiocfx9800g.node.APlusExpression;
+import org.bradders.casiocfx9800g.node.APostfixopMultgroup;
 import org.bradders.casiocfx9800g.node.APowerMultgroup;
-import org.bradders.casiocfx9800g.node.ASequenceArgumentList;
-import org.bradders.casiocfx9800g.node.ASingleArgumentList;
+import org.bradders.casiocfx9800g.node.ASequenceAtomList;
+import org.bradders.casiocfx9800g.node.ASequenceExpressionList;
+import org.bradders.casiocfx9800g.node.ASingleAtomList;
+import org.bradders.casiocfx9800g.node.ASingleExpressionList;
 import org.bradders.casiocfx9800g.node.ASingleFactor;
 import org.bradders.casiocfx9800g.node.ATermExpression;
 import org.bradders.casiocfx9800g.node.AVarAtom;
 import org.bradders.casiocfx9800g.node.Node;
-import org.bradders.casiocfx9800g.node.PArgumentList;
 import org.bradders.casiocfx9800g.node.PAtom;
+import org.bradders.casiocfx9800g.node.PAtomList;
 import org.bradders.casiocfx9800g.node.PExpression;
+import org.bradders.casiocfx9800g.node.PExpressionList;
 import org.bradders.casiocfx9800g.node.PFactor;
+import org.bradders.casiocfx9800g.node.PFunc;
 import org.bradders.casiocfx9800g.node.PMultgroup;
+import org.bradders.casiocfx9800g.node.PPostfixop;
 import org.bradders.casiocfx9800g.node.PTerm;
 import org.bradders.casiocfx9800g.node.TNumberLiteral;
 import org.bradders.casiocfx9800g.node.TQuotedText;
@@ -75,6 +83,16 @@ public class Evaluator
       return text.substring(1, text.length() - 1);
    }
 
+   /**
+    * Evaluates an expression:
+    * <code>
+        expression =
+                  {term} term |
+                  {plus} term plus expression |
+                  {minus} term minus expression |
+                  {negate} minus expression;
+      </code>
+    */
    public double evaluate(PExpression expression)
    {
       if (expression instanceof ATermExpression) {
@@ -112,6 +130,15 @@ public class Evaluator
       return -evaluate(expression.getExpression());
    }
 
+   /**
+    * Evaluates a term:
+    * <code>
+          term =
+                {factor} factor |
+                {mult} term mult factor |
+                {div} term div factor;
+      </code>
+    */
    public double evaluate(PTerm expression)
    {
       if (expression instanceof AFactorTerm) {
@@ -139,6 +166,14 @@ public class Evaluator
       return evaluate(expression.getTerm()) / evaluate(expression.getFactor());
    }
 
+   /**
+    * Evaluates a factor:
+    * <code>
+        factor =
+              {single} multgroup |
+              {multgroup} factor multgroup;
+      </code>
+    */
    public double evaluate(PFactor expression)
    {
       if (expression instanceof ASingleFactor) {
@@ -159,10 +194,18 @@ public class Evaluator
             * evaluate(expression.getMultgroup());
    }
 
+   /**
+    * Evaluates a multgroup:
+    * <code>
+        multgroup =
+          {postfixop} postfixop |
+          {power} multgroup pow postfixop;
+      </code>
+    */
    public double evaluate(PMultgroup expression)
    {
-      if (expression instanceof AAtomMultgroup) {
-         return evaluate(((AAtomMultgroup) expression).getAtom());
+      if (expression instanceof APostfixopMultgroup) {
+         return evaluate(((APostfixopMultgroup) expression).getPostfixop());
       }
       if (expression instanceof APowerMultgroup) {
          return evaluate((APowerMultgroup) expression);
@@ -177,9 +220,135 @@ public class Evaluator
    {
       return Math.pow(
             evaluate(expression.getMultgroup()),
-            evaluate(expression.getAtom()));
+            evaluate(expression.getPostfixop()));
    }
 
+   /**
+    * Evaluates a postfixop:
+    * <code>
+    postfixop =
+          {func} func |
+          {factorial} atom bang;
+      </code>
+    */
+   public double evaluate(PPostfixop expression)
+   {
+      if (expression instanceof AFuncPostfixop) {
+         return evaluate(((AFuncPostfixop) expression).getFunc());
+      }
+      if (expression instanceof AFactorialPostfixop) {
+         return evaluate((AFactorialPostfixop) expression);
+      }
+      throw new CompileException(String.format(
+            "Unexpected type: %s at %s",
+            expression.getClass(),
+            Printer.nodeToString(expression)));
+   }
+   
+   public double evaluate(AFactorialPostfixop expression)
+   {
+      double value = evaluate(expression.getAtom());
+      int valInt = (int)value;
+      if (valInt != value) {
+         throw new RuntimeException(String.format(
+               "Cannot compute factorial of non-integer value '%s' at %s",
+               value,
+               Printer.nodeToString(expression)));
+      }
+      return ArithmeticUtils.factorialDouble(valInt);
+   }
+
+   /**
+    * Evaluates a func:
+    * <code>
+    func =
+         {atom} atom |
+         {func1} function_name atom |
+         {func2} function_name lparen expression comma expression_list rparen;
+      </code>
+    */
+   public double evaluate(PFunc expression)
+   {
+      if (expression instanceof AAtomFunc) {
+         return evaluate(((AAtomFunc) expression).getAtom());
+      }
+      if (expression instanceof AFunc1Func) {
+         return evaluate((AFunc1Func) expression);
+      }
+      if (expression instanceof AFunc2Func) {
+         return evaluate((AFunc2Func) expression);
+      }
+      throw new CompileException(String.format(
+            "Unexpected type: %s at %s",
+            expression.getClass(),
+            Printer.nodeToString(expression)));
+   }
+   
+   public double evaluate(AFunc1Func expression)
+   {
+      List<Double> args = new ArrayList<Double>();
+      args.add(evaluate(expression.getAtom()));
+      
+      return evaluateFunc(
+            expression.getFunctionName().getText(),
+            args,
+            expression);
+   }
+   
+   public double evaluate(AFunc2Func expression)
+   {
+      double firstArg = evaluate(expression.getExpression());
+      List<Double> otherArgs = evaluate(expression.getExpressionList());
+      
+      otherArgs.add(0, firstArg);
+      
+      return evaluateFunc(
+            expression.getFunctionName().getText(),
+            otherArgs,
+            expression);
+   }
+
+   private double evaluateFunc(
+         String funcName,
+         List<Double> args,
+         Node location)
+   {
+      if (funcName.equals("e^")) {
+         assertArgumentCount(args, 1, location);
+         return Math.exp(args.get(0));
+      }
+      if (funcName.equals("sqrt")) {
+         assertArgumentCount(args, 1, location);
+         return Math.sqrt(args.get(0));
+      }
+      if (funcName.equals("Frac ")) {
+         assertArgumentCount(args, 1, location);
+         double arg = args.get(0);
+         if (arg < 0) {
+            return arg - Math.ceil(arg);
+         }
+         return arg - Math.floor(arg);
+      }
+      if (funcName.equals("Abs ")) {
+         assertArgumentCount(args, 1, location);
+         return Math.abs(args.get(0));
+      }
+      throw new CompileException(String.format(
+            "Unrecognised function: '%s' at %s",
+            funcName,
+            Printer.nodeToString(location)));
+   }
+
+   /**
+    * Evaluates an atom:
+    * <code>
+    atom =
+           {var} variable_name |
+           {number} number_literal |
+           {input} input_prompt |
+           {expression} lparen expression rparen;
+      </code>
+    */
    public double evaluate(PAtom expression)
    {
       if (expression instanceof AVarAtom) {
@@ -193,12 +362,6 @@ public class Evaluator
       }
       if (expression instanceof AExpressionAtom) {
          return evaluate(((AExpressionAtom) expression).getExpression());
-      }
-      if (expression instanceof AFuncAtom) {
-         return evaluate((AFuncAtom) expression);
-      }
-      if (expression instanceof AFactorialAtom) {
-         return evaluate((AFactorialAtom) expression);
       }
       throw new CompileException(String.format(
             "Unexpected type: %s at %s",
@@ -230,43 +393,51 @@ public class Evaluator
       return userInterface.readValue();
    }
 
-   public double evaluate(AFuncAtom expression)
-   {
-      List<Double> args = evaluate(expression.getArgumentList());
-      String funcName = expression.getFunctionName().getText();
-      if (funcName.equals("e^")) {
-         assertArgumentCount(args, 1, expression);
-         return Math.exp(args.get(0));
-      }
-      throw new CompileException(String.format(
-            "Unrecognised function: '%s' at %s",
-            funcName,
-            Printer.nodeToString(expression)));
-   }
-   
-   private List<Double> evaluate(PArgumentList argumentList)
+   private List<Double> evaluate(PExpressionList list)
    {
       List<Double> acc = new ArrayList<Double>();
       
       while (true) {
-         if (argumentList instanceof ASingleArgumentList) {
-            double value = evaluate(((ASingleArgumentList)argumentList).getExpression());
+         if (list instanceof ASingleExpressionList) {
+            double value = evaluate(((ASingleExpressionList)list).getExpression());
             acc.add(value);
             return acc;
-         } else if (argumentList instanceof ASequenceArgumentList) {
-            double value = evaluate(((ASingleArgumentList)argumentList).getExpression());
+         } else if (list instanceof ASequenceExpressionList) {
+            double value = evaluate(((ASequenceExpressionList)list).getExpression());
             acc.add(value);
-            argumentList = ((ASequenceArgumentList) argumentList).getArgumentList();
+            list = ((ASequenceExpressionList) list).getExpressionList();
          } else {
             throw new CompileException(String.format(
                   "Unexpected type: %s at %s",
-                  argumentList.getClass(),
-                  Printer.nodeToString(argumentList)));
+                  list.getClass(),
+                  Printer.nodeToString(list)));
+         }
+      }
+   }
+   
+   public List<Double> evaluate(PAtomList list)
+   {
+      List<Double> acc = new ArrayList<Double>();
+      
+      while (true) {
+         if (list instanceof ASingleAtomList) {
+            double value = evaluate(((ASingleAtomList)list).getAtom());
+            acc.add(value);
+            return acc;
+         } else if (list instanceof ASequenceAtomList) {
+            double value = evaluate(((ASequenceAtomList)list).getAtom());
+            acc.add(value);
+            list = ((ASequenceAtomList) list).getAtomList();
+         } else {
+            throw new CompileException(String.format(
+                  "Unexpected type: %s at %s",
+                  list.getClass(),
+                  Printer.nodeToString(list)));
          }
       }
    }
 
-   private void assertArgumentCount(List<Double> args, int expectedCount, Node location)
+   public void assertArgumentCount(List<Double> args, int expectedCount, Node location)
    {
       if (args.size() != expectedCount) {
          throw new CompileException(String.format(
@@ -275,18 +446,5 @@ public class Evaluator
                args.size(),
                Printer.nodeToString(location)));
       }
-   }
-
-   public double evaluate(AFactorialAtom expression)
-   {
-      double value = evaluate(expression.getAtom());
-      int valInt = (int)value;
-      if (valInt != value) {
-         throw new RuntimeException(String.format(
-               "Cannot compute factorial of non-integer value '%s' at %s",
-               value,
-               Printer.nodeToString(expression)));
-      }
-      return CombinatoricsUtils.factorialDouble(valInt);
    }
 }

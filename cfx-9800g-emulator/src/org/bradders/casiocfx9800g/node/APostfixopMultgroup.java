@@ -5,46 +5,46 @@ package org.bradders.casiocfx9800g.node;
 import org.bradders.casiocfx9800g.analysis.*;
 
 @SuppressWarnings("nls")
-public final class AAtomMultgroup extends PMultgroup
+public final class APostfixopMultgroup extends PMultgroup
 {
-    private PAtom _atom_;
+    private PPostfixop _postfixop_;
 
-    public AAtomMultgroup()
+    public APostfixopMultgroup()
     {
         // Constructor
     }
 
-    public AAtomMultgroup(
-        @SuppressWarnings("hiding") PAtom _atom_)
+    public APostfixopMultgroup(
+        @SuppressWarnings("hiding") PPostfixop _postfixop_)
     {
         // Constructor
-        setAtom(_atom_);
+        setPostfixop(_postfixop_);
 
     }
 
     @Override
     public Object clone()
     {
-        return new AAtomMultgroup(
-            cloneNode(this._atom_));
+        return new APostfixopMultgroup(
+            cloneNode(this._postfixop_));
     }
 
     @Override
     public void apply(Switch sw)
     {
-        ((Analysis) sw).caseAAtomMultgroup(this);
+        ((Analysis) sw).caseAPostfixopMultgroup(this);
     }
 
-    public PAtom getAtom()
+    public PPostfixop getPostfixop()
     {
-        return this._atom_;
+        return this._postfixop_;
     }
 
-    public void setAtom(PAtom node)
+    public void setPostfixop(PPostfixop node)
     {
-        if(this._atom_ != null)
+        if(this._postfixop_ != null)
         {
-            this._atom_.parent(null);
+            this._postfixop_.parent(null);
         }
 
         if(node != null)
@@ -57,23 +57,23 @@ public final class AAtomMultgroup extends PMultgroup
             node.parent(this);
         }
 
-        this._atom_ = node;
+        this._postfixop_ = node;
     }
 
     @Override
     public String toString()
     {
         return ""
-            + toString(this._atom_);
+            + toString(this._postfixop_);
     }
 
     @Override
     void removeChild(@SuppressWarnings("unused") Node child)
     {
         // Remove child
-        if(this._atom_ == child)
+        if(this._postfixop_ == child)
         {
-            this._atom_ = null;
+            this._postfixop_ = null;
             return;
         }
 
@@ -84,9 +84,9 @@ public final class AAtomMultgroup extends PMultgroup
     void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild)
     {
         // Replace child
-        if(this._atom_ == oldChild)
+        if(this._postfixop_ == oldChild)
         {
-            setAtom((PAtom) newChild);
+            setPostfixop((PPostfixop) newChild);
             return;
         }
 

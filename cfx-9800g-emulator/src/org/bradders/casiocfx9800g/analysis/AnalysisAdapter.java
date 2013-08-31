@@ -117,6 +117,24 @@ public class AnalysisAdapter implements Analysis
     }
 
     @Override
+    public void caseASubNoargsStatement(ASubNoargsStatement node)
+    {
+        defaultCase(node);
+    }
+
+    @Override
+    public void caseASubArgsStatement(ASubArgsStatement node)
+    {
+        defaultCase(node);
+    }
+
+    @Override
+    public void caseAIfStatement(AIfStatement node)
+    {
+        defaultCase(node);
+    }
+
+    @Override
     public void caseATermExpression(ATermExpression node)
     {
         defaultCase(node);
@@ -171,13 +189,43 @@ public class AnalysisAdapter implements Analysis
     }
 
     @Override
-    public void caseAAtomMultgroup(AAtomMultgroup node)
+    public void caseAPostfixopMultgroup(APostfixopMultgroup node)
     {
         defaultCase(node);
     }
 
     @Override
     public void caseAPowerMultgroup(APowerMultgroup node)
+    {
+        defaultCase(node);
+    }
+
+    @Override
+    public void caseAFuncPostfixop(AFuncPostfixop node)
+    {
+        defaultCase(node);
+    }
+
+    @Override
+    public void caseAFactorialPostfixop(AFactorialPostfixop node)
+    {
+        defaultCase(node);
+    }
+
+    @Override
+    public void caseAAtomFunc(AAtomFunc node)
+    {
+        defaultCase(node);
+    }
+
+    @Override
+    public void caseAFunc1Func(AFunc1Func node)
+    {
+        defaultCase(node);
+    }
+
+    @Override
+    public void caseAFunc2Func(AFunc2Func node)
     {
         defaultCase(node);
     }
@@ -207,25 +255,25 @@ public class AnalysisAdapter implements Analysis
     }
 
     @Override
-    public void caseAFuncAtom(AFuncAtom node)
+    public void caseASingleExpressionList(ASingleExpressionList node)
     {
         defaultCase(node);
     }
 
     @Override
-    public void caseAFactorialAtom(AFactorialAtom node)
+    public void caseASequenceExpressionList(ASequenceExpressionList node)
     {
         defaultCase(node);
     }
 
     @Override
-    public void caseASingleArgumentList(ASingleArgumentList node)
+    public void caseASingleAtomList(ASingleAtomList node)
     {
         defaultCase(node);
     }
 
     @Override
-    public void caseASequenceArgumentList(ASequenceArgumentList node)
+    public void caseASequenceAtomList(ASequenceAtomList node)
     {
         defaultCase(node);
     }
@@ -309,7 +357,31 @@ public class AnalysisAdapter implements Analysis
     }
 
     @Override
+    public void caseTThenArrow(TThenArrow node)
+    {
+        defaultCase(node);
+    }
+
+    @Override
     public void caseTFunctionName(TFunctionName node)
+    {
+        defaultCase(node);
+    }
+
+    @Override
+    public void caseTSubNoargsName(TSubNoargsName node)
+    {
+        defaultCase(node);
+    }
+
+    @Override
+    public void caseTSubArgsName(TSubArgsName node)
+    {
+        defaultCase(node);
+    }
+
+    @Override
+    public void caseTComparisonOp(TComparisonOp node)
     {
         defaultCase(node);
     }
@@ -340,6 +412,12 @@ public class AnalysisAdapter implements Analysis
 
     @Override
     public void caseTBang(TBang node)
+    {
+        defaultCase(node);
+    }
+
+    @Override
+    public void caseTSpace(TSpace node)
     {
         defaultCase(node);
     }

@@ -5,22 +5,26 @@ package org.bradders.casiocfx9800g.node;
 import org.bradders.casiocfx9800g.analysis.*;
 
 @SuppressWarnings("nls")
-public final class AFuncAtom extends PAtom
+public final class AFunc2Func extends PFunc
 {
     private TFunctionName _functionName_;
     private TLparen _lparen_;
-    private PArgumentList _argumentList_;
+    private PExpression _expression_;
+    private TComma _comma_;
+    private PExpressionList _expressionList_;
     private TRparen _rparen_;
 
-    public AFuncAtom()
+    public AFunc2Func()
     {
         // Constructor
     }
 
-    public AFuncAtom(
+    public AFunc2Func(
         @SuppressWarnings("hiding") TFunctionName _functionName_,
         @SuppressWarnings("hiding") TLparen _lparen_,
-        @SuppressWarnings("hiding") PArgumentList _argumentList_,
+        @SuppressWarnings("hiding") PExpression _expression_,
+        @SuppressWarnings("hiding") TComma _comma_,
+        @SuppressWarnings("hiding") PExpressionList _expressionList_,
         @SuppressWarnings("hiding") TRparen _rparen_)
     {
         // Constructor
@@ -28,7 +32,11 @@ public final class AFuncAtom extends PAtom
 
         setLparen(_lparen_);
 
-        setArgumentList(_argumentList_);
+        setExpression(_expression_);
+
+        setComma(_comma_);
+
+        setExpressionList(_expressionList_);
 
         setRparen(_rparen_);
 
@@ -37,17 +45,19 @@ public final class AFuncAtom extends PAtom
     @Override
     public Object clone()
     {
-        return new AFuncAtom(
+        return new AFunc2Func(
             cloneNode(this._functionName_),
             cloneNode(this._lparen_),
-            cloneNode(this._argumentList_),
+            cloneNode(this._expression_),
+            cloneNode(this._comma_),
+            cloneNode(this._expressionList_),
             cloneNode(this._rparen_));
     }
 
     @Override
     public void apply(Switch sw)
     {
-        ((Analysis) sw).caseAFuncAtom(this);
+        ((Analysis) sw).caseAFunc2Func(this);
     }
 
     public TFunctionName getFunctionName()
@@ -100,16 +110,16 @@ public final class AFuncAtom extends PAtom
         this._lparen_ = node;
     }
 
-    public PArgumentList getArgumentList()
+    public PExpression getExpression()
     {
-        return this._argumentList_;
+        return this._expression_;
     }
 
-    public void setArgumentList(PArgumentList node)
+    public void setExpression(PExpression node)
     {
-        if(this._argumentList_ != null)
+        if(this._expression_ != null)
         {
-            this._argumentList_.parent(null);
+            this._expression_.parent(null);
         }
 
         if(node != null)
@@ -122,7 +132,57 @@ public final class AFuncAtom extends PAtom
             node.parent(this);
         }
 
-        this._argumentList_ = node;
+        this._expression_ = node;
+    }
+
+    public TComma getComma()
+    {
+        return this._comma_;
+    }
+
+    public void setComma(TComma node)
+    {
+        if(this._comma_ != null)
+        {
+            this._comma_.parent(null);
+        }
+
+        if(node != null)
+        {
+            if(node.parent() != null)
+            {
+                node.parent().removeChild(node);
+            }
+
+            node.parent(this);
+        }
+
+        this._comma_ = node;
+    }
+
+    public PExpressionList getExpressionList()
+    {
+        return this._expressionList_;
+    }
+
+    public void setExpressionList(PExpressionList node)
+    {
+        if(this._expressionList_ != null)
+        {
+            this._expressionList_.parent(null);
+        }
+
+        if(node != null)
+        {
+            if(node.parent() != null)
+            {
+                node.parent().removeChild(node);
+            }
+
+            node.parent(this);
+        }
+
+        this._expressionList_ = node;
     }
 
     public TRparen getRparen()
@@ -156,7 +216,9 @@ public final class AFuncAtom extends PAtom
         return ""
             + toString(this._functionName_)
             + toString(this._lparen_)
-            + toString(this._argumentList_)
+            + toString(this._expression_)
+            + toString(this._comma_)
+            + toString(this._expressionList_)
             + toString(this._rparen_);
     }
 
@@ -176,9 +238,21 @@ public final class AFuncAtom extends PAtom
             return;
         }
 
-        if(this._argumentList_ == child)
+        if(this._expression_ == child)
         {
-            this._argumentList_ = null;
+            this._expression_ = null;
+            return;
+        }
+
+        if(this._comma_ == child)
+        {
+            this._comma_ = null;
+            return;
+        }
+
+        if(this._expressionList_ == child)
+        {
+            this._expressionList_ = null;
             return;
         }
 
@@ -207,9 +281,21 @@ public final class AFuncAtom extends PAtom
             return;
         }
 
-        if(this._argumentList_ == oldChild)
+        if(this._expression_ == oldChild)
         {
-            setArgumentList((PArgumentList) newChild);
+            setExpression((PExpression) newChild);
+            return;
+        }
+
+        if(this._comma_ == oldChild)
+        {
+            setComma((TComma) newChild);
+            return;
+        }
+
+        if(this._expressionList_ == oldChild)
+        {
+            setExpressionList((PExpressionList) newChild);
             return;
         }
 

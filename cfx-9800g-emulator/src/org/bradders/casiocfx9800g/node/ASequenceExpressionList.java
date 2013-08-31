@@ -5,44 +5,44 @@ package org.bradders.casiocfx9800g.node;
 import org.bradders.casiocfx9800g.analysis.*;
 
 @SuppressWarnings("nls")
-public final class ASequenceArgumentList extends PArgumentList
+public final class ASequenceExpressionList extends PExpressionList
 {
     private PExpression _expression_;
     private TComma _comma_;
-    private PArgumentList _argumentList_;
+    private PExpressionList _expressionList_;
 
-    public ASequenceArgumentList()
+    public ASequenceExpressionList()
     {
         // Constructor
     }
 
-    public ASequenceArgumentList(
+    public ASequenceExpressionList(
         @SuppressWarnings("hiding") PExpression _expression_,
         @SuppressWarnings("hiding") TComma _comma_,
-        @SuppressWarnings("hiding") PArgumentList _argumentList_)
+        @SuppressWarnings("hiding") PExpressionList _expressionList_)
     {
         // Constructor
         setExpression(_expression_);
 
         setComma(_comma_);
 
-        setArgumentList(_argumentList_);
+        setExpressionList(_expressionList_);
 
     }
 
     @Override
     public Object clone()
     {
-        return new ASequenceArgumentList(
+        return new ASequenceExpressionList(
             cloneNode(this._expression_),
             cloneNode(this._comma_),
-            cloneNode(this._argumentList_));
+            cloneNode(this._expressionList_));
     }
 
     @Override
     public void apply(Switch sw)
     {
-        ((Analysis) sw).caseASequenceArgumentList(this);
+        ((Analysis) sw).caseASequenceExpressionList(this);
     }
 
     public PExpression getExpression()
@@ -95,16 +95,16 @@ public final class ASequenceArgumentList extends PArgumentList
         this._comma_ = node;
     }
 
-    public PArgumentList getArgumentList()
+    public PExpressionList getExpressionList()
     {
-        return this._argumentList_;
+        return this._expressionList_;
     }
 
-    public void setArgumentList(PArgumentList node)
+    public void setExpressionList(PExpressionList node)
     {
-        if(this._argumentList_ != null)
+        if(this._expressionList_ != null)
         {
-            this._argumentList_.parent(null);
+            this._expressionList_.parent(null);
         }
 
         if(node != null)
@@ -117,7 +117,7 @@ public final class ASequenceArgumentList extends PArgumentList
             node.parent(this);
         }
 
-        this._argumentList_ = node;
+        this._expressionList_ = node;
     }
 
     @Override
@@ -126,7 +126,7 @@ public final class ASequenceArgumentList extends PArgumentList
         return ""
             + toString(this._expression_)
             + toString(this._comma_)
-            + toString(this._argumentList_);
+            + toString(this._expressionList_);
     }
 
     @Override
@@ -145,9 +145,9 @@ public final class ASequenceArgumentList extends PArgumentList
             return;
         }
 
-        if(this._argumentList_ == child)
+        if(this._expressionList_ == child)
         {
-            this._argumentList_ = null;
+            this._expressionList_ = null;
             return;
         }
 
@@ -170,9 +170,9 @@ public final class ASequenceArgumentList extends PArgumentList
             return;
         }
 
-        if(this._argumentList_ == oldChild)
+        if(this._expressionList_ == oldChild)
         {
-            setArgumentList((PArgumentList) newChild);
+            setExpressionList((PExpressionList) newChild);
             return;
         }
 

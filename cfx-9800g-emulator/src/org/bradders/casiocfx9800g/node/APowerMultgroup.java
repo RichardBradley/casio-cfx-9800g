@@ -9,7 +9,7 @@ public final class APowerMultgroup extends PMultgroup
 {
     private PMultgroup _multgroup_;
     private TPow _pow_;
-    private PAtom _atom_;
+    private PPostfixop _postfixop_;
 
     public APowerMultgroup()
     {
@@ -19,14 +19,14 @@ public final class APowerMultgroup extends PMultgroup
     public APowerMultgroup(
         @SuppressWarnings("hiding") PMultgroup _multgroup_,
         @SuppressWarnings("hiding") TPow _pow_,
-        @SuppressWarnings("hiding") PAtom _atom_)
+        @SuppressWarnings("hiding") PPostfixop _postfixop_)
     {
         // Constructor
         setMultgroup(_multgroup_);
 
         setPow(_pow_);
 
-        setAtom(_atom_);
+        setPostfixop(_postfixop_);
 
     }
 
@@ -36,7 +36,7 @@ public final class APowerMultgroup extends PMultgroup
         return new APowerMultgroup(
             cloneNode(this._multgroup_),
             cloneNode(this._pow_),
-            cloneNode(this._atom_));
+            cloneNode(this._postfixop_));
     }
 
     @Override
@@ -95,16 +95,16 @@ public final class APowerMultgroup extends PMultgroup
         this._pow_ = node;
     }
 
-    public PAtom getAtom()
+    public PPostfixop getPostfixop()
     {
-        return this._atom_;
+        return this._postfixop_;
     }
 
-    public void setAtom(PAtom node)
+    public void setPostfixop(PPostfixop node)
     {
-        if(this._atom_ != null)
+        if(this._postfixop_ != null)
         {
-            this._atom_.parent(null);
+            this._postfixop_.parent(null);
         }
 
         if(node != null)
@@ -117,7 +117,7 @@ public final class APowerMultgroup extends PMultgroup
             node.parent(this);
         }
 
-        this._atom_ = node;
+        this._postfixop_ = node;
     }
 
     @Override
@@ -126,7 +126,7 @@ public final class APowerMultgroup extends PMultgroup
         return ""
             + toString(this._multgroup_)
             + toString(this._pow_)
-            + toString(this._atom_);
+            + toString(this._postfixop_);
     }
 
     @Override
@@ -145,9 +145,9 @@ public final class APowerMultgroup extends PMultgroup
             return;
         }
 
-        if(this._atom_ == child)
+        if(this._postfixop_ == child)
         {
-            this._atom_ = null;
+            this._postfixop_ = null;
             return;
         }
 
@@ -170,9 +170,9 @@ public final class APowerMultgroup extends PMultgroup
             return;
         }
 
-        if(this._atom_ == oldChild)
+        if(this._postfixop_ == oldChild)
         {
-            setAtom((PAtom) newChild);
+            setPostfixop((PPostfixop) newChild);
             return;
         }
 
