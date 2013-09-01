@@ -1,0 +1,35 @@
+"MANDL 2"
+Range 2.8,6.1,10,3.6,6.4,10
+1.1->Q
+100->R
+-Q->I
+Lbl 1
+-1.1+I->A
+0->J
+Lbl 2
+1.4*J/R->B
+4(A^2+B^2)->U
+U-2*A+0.25->V
+(U+8*A+15/4)<0=>1->K
+(U+8*A+15/4)<0=>Goto 4
+A->E
+B->F
+1->K
+Lbl 3
+E^2->U
+F^2->V
+2*E*F->W
+U-V+A->E
+W+B->F
+U+V>16=>Goto 4
+Isz K
+K<=20=>Goto 3
+Lbl 4
+Int (K/2)=(K/2)=>Plot (A+5),(B+5)
+Int (K/2)=(K/2)=>Plot (A+5),(-B+5)
+Int (K/2)!=(K/2)=>Orange Plot (A+5),(B+5)
+Int (K/2)!=(K/2)=>Orange Plot (A+5),(-B+5)
+J+3.18->J
+B<=1.4=>Goto 2
+I+0.035->I
+A<=1.1=>Goto 1
