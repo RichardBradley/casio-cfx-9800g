@@ -32,6 +32,9 @@ MouseClick('left', $x + 73, $y + 487) ; fraction
 Send('2')
 MouseClick('left', $x + 290, $y + 487) ; ->
 Send('G{ENTER}')
+Send('0')
+MouseClick('left', $x + 290, $y + 487) ; ->
+Send('K{ENTER}')
 MouseClick('left', $x + 73, $y + 376) ; SHIFT (state is PRGM)
 MouseClick('left', $x + 159, $y + 376) ; PRGM (state is PRGM)
 Send('{F3}') ; JUMP (state is ["PRGM", "JUMP"])
