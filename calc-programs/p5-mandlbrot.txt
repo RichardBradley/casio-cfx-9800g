@@ -1,12 +1,3 @@
-# rtb 2013-08-31 This doesn't work!
-#
-# I think I gave up on this version. It runs very slowly on the calculator,
-# so perhaps I wasn't patient enough to debug it.
-#
-# I can't see how it's meant to work. The test for the colour is 
-#   Int (K/2)=(K/2)
-# which seems strange...
-#
 "MANDLBROT"
 "RES=1 IN "?->r
 "X MIN"?->G
