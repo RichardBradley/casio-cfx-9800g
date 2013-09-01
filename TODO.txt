@@ -1,0 +1,11 @@
+* Finish transcribing programs
+** Test and fix them:
+*** p6-mandl2: fix misalignment on image
+* Publish to bradders.org
+** Make the emulator run as an applet
+** Write up development
+** Write up notes on sablecc
+*** Comparison with handwritten parser (miffs): adding logic to Node classes for OO encapsulation
+* Enhance emulator:
+** Use the casio fonts?
+

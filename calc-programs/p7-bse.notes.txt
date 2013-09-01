@@ -1,0 +1,24 @@
+This is a (somewhat dark) simulator where you play a cow culling business during the BSE cull days.
+Each game turn is one week (or one year, depending on which prompt you read!).
+The vars are:
+    S = money
+    C = live cows
+    F = income per week
+    G = government happyness as a range from 0 - 1
+    K = abatoir spaces (how many cows you may kill per week)
+    B = barn spaces
+
+Each live cow costs £5 per week to feed (qq barn space?)
+It costs £5 to kill a cow, and you must have an abatoir space to do so.
+It costs £5 to buy an abatoir space.
+It costs £1 to buy a barn space.
+
+You start each turn by receiving 25-100 new cows.
+
+At the end of each turn, if you have more cows than barn spaces, the government becomes unhappy by 0.5% per unhoused cow (and becomes happy if you have empty barn space, although that probably wasn't deliberate).
+
+After each turn, your income increases or decreases by £1 for each % the government is more or less than 50% happy.
+
+You lose if you end up with < £-100
+
+You win if you mange to kill at least 1000 cows and can end a turn with zero live cows.

@@ -1,0 +1,68 @@
+"BSE"
+0->T
+600->S
+100->B
+0->C
+500->F
+1|2->G
+Lbl 1
+C+((Int (Ran#*100))+25)->C
+T+C->T
+"YOU HAVE:"
+"COWS=":C#
+"FUNDS PER WEEK=":F#
+"GOVT HAPPYNESS=":G#
+"KILLIN CAPACITY":"PER WEEK=":K#
+"BARN SPACES=":B#
+"MONEY=":S#
+Lbl 2:"YOU CAN KILL="
+S/5<=C=>S|5->D
+C<S/5=>C->D
+K<D=>K->D
+D#
+"HOW MANY DO YOU"
+"WANT TO KILL"?->L
+L>D=>Goto 2
+S-(L*5)->S
+C-L->C
+"HOW MANY MORE":"ABATOIRE SPACES":"DO YOU WANT TO":"BUY?"
+Lbl 3:"YOU CAN BUY"
+S|5#
+?->L
+L>(S/5)=>Goto 3
+K+L->K:S-(L*5)->S
+"HOW MANY BARN"
+"SPACES DO YOU"
+"WANT TO BUY?"
+Lbl 4:"YOU CAN BUY":S#
+?->L:L>S=>Goto 4
+S-L->S:B+L->B
+S-(C*5)->S
+G+((B-C)/200)->G
+G<0=>0->G:G>1=>1->G
+((G-1|2)*100)+F->F
+S+F->S
+"==NEXT YEAR=="
+T>=1000=>Goto 8
+Lbl 6
+S>=-100=>Goto 1
+"YOU ARE IN DEBT"
+"BY"
+S*-1#
+"YOURE"
+"FF I RR  EE DD "
+"F  I R R E  D D"
+"F  I R R E  D D"
+"FF I RR  EE D D"
+"F  I R R E  D D"
+"F  I R R E  D D"
+"F  I R R EE DD"
+Goto 9
+Lbl 8
+C>0=>Goto 6
+"YOU HAVE"
+"W   W  OO  N  N"
+"W   W O  O NN N"
+"W W W O  O N NN"
+" W W   OO  N  N"
+Lbl 9

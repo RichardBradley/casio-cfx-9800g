@@ -50,6 +50,7 @@ class AutoItTranslator
           when 'EXIT' then [202,413]
           when 'ln' then [159,451]
           when '->' then [290,487]
+          when 'fraction' then [73,487]
           else raise "Bad button_name '#{button_name}'"
           end
     @out << "MouseClick('left', $x + #{x}, $y + #{y}) ; #{comment}"
@@ -58,19 +59,17 @@ class AutoItTranslator
   end
 
   def enter_menu menu_spec
-    curr_spec = @menu.dup
     menu_spec = menu_spec.split(/ -> /)
-    # remove any common ancestors
-    while !curr_spec.empty? && !menu_spec.empty? && curr_spec.first == menu_spec.first
-      curr_spec.shift
-      menu_spec.shift
-    end
-    # move up the hierarchy to the common ancestor
-    curr_spec.each do |menu|
-      @menu.pop
-      click 'EXIT' unless menu == 'more'
-    end
-    # move down the hierarchy to the new menu
+    # It is unreliable to short-cut menu navigation 
+    # (i.e. to get from A -> B to A -> C by pressing EXIT then C, rather than starting again
+    # at A), but we can at least skip navigation if we're already in place
+    return if menu_spec == @menu
+
+    # move down the hierarchy to the new menu.
+    # we assume that the inital menu is always reachable and that it discards the current
+    # menu state (e.g. pressing "PRGM" will get you into the PRGM menu even if you're currently
+    # inside the OPTN menu)
+    @menu.clear
     menu_spec.each do |menu|
       @menu.push menu
       # Each case statement in this switch describes the last action in the chain
@@ -81,6 +80,12 @@ class AutoItTranslator
       when 'PRGM -> JUMP'
         @text << '{F3}'
         flush_text 'JUMP'
+      when 'PRGM -> more'
+        @text << '{F6}'
+        flush_text 'more'
+      when 'PRGM -> more -> REL'
+        @text << '{F3}'
+        flush_text 'REL'
       when 'OPTN'
         click 'OPTN'
       when 'OPTN -> more'
@@ -101,7 +106,7 @@ class AutoItTranslator
   # Converts the given txt line into au3
   def translate_line line
     return if line =~ /^#/
-    line.scan /Lbl |Goto |=>|Isz |Dsz |e\^|Deg|Range |Int |Plot |->|./ do |token|
+    line.scan /Lbl |Goto |=\>|Isz |Dsz |e\^|Deg|Range |Int |Plot |Ran#|-\>|\<=|\>=|!=|./ do |token|
       case token
       when '#'
         enter_menu 'PRGM'
@@ -141,6 +146,16 @@ class AutoItTranslator
         click 'SHIFT'
         @text << '{F4}{F6}{F1}{F1}'
         flush_text 'Plot'
+      when '!=', '<=', '>='
+        enter_menu 'PRGM -> more -> REL'
+        key = case token
+              when '!=' then 2
+              when '>=' then 5
+              when '<=' then 6
+              else raise "invalid token '#{token}'"
+              end
+        @text << "{F#{key}}"
+        flush_text token
       when 'r'
         click 'ALPHA'
         click 'x^2', 'rho'
@@ -151,6 +166,12 @@ class AutoItTranslator
         enter_menu 'OPTN -> more -> PROB'
         @text << '{F1}'
         flush_text 'x!'
+      when 'Ran#'
+        enter_menu 'OPTN -> more -> PROB'
+        @text << '{F4}'
+        flush_text 'Ran#'
+      when '|'
+        click 'fraction'
       when '->'
         click '->'
       when /^[+^]$/
@@ -192,28 +213,29 @@ END
   end
 
   def add_postamble
-    enter_menu ''
+    flush_text
     @out << <<END
 
 ; end program text
 
-MouseClick('left', $x + 202, $y + 413) ; EXIT
-Send('{F1}') ; EXE
 END
+    click 'SHIFT'
+    click 'EXIT', 'QUIT'
+    @text << '{F1}'
+    flush_text 'EXE'
   end
 
   # returns the au3 text as a string
-  def translate_file filename
-    unless filename =~ /\.txt$/
-      raise "Expecting a filename ending in '.txt', got '#{filename}'"
+  def translate_file infilename, outfilename
+    unless infilename =~ /\.txt$/
+      raise "Expecting an input filename ending in '.txt', got '#{filename}'"
     end 
      
-    prog_name = filename.sub(/^(p.-)?(.*)\.txt$/, '\\2').upcase
-    out_filename = filename.sub(/\.txt$/, '.au3')
+    prog_name = infilename.sub(/.*?(p.-)?([^\/]*)\.txt$/, '\\2').upcase
 
     add_preamble prog_name
 
-    File.open(filename, 'r') do |f|
+    File.open(infilename, 'r') do |f|
       f.each do |line|
         translate_line line
       end
@@ -221,7 +243,7 @@ END
 
     add_postamble
 
-    File.open(out_filename, 'w') do |f|
+    File.open(outfilename, 'w') do |f|
       f << @out
     end
   end
@@ -229,8 +251,8 @@ end
 
 # Entry point:
 
-raise "Expecting one argument 'prog.txt'" \
-  unless ARGV.length == 1
+raise "Expecting two arguments: #{$0} <input-prog.txt> <output-script.au3>" \
+  unless ARGV.length == 2
 
 tr = AutoItTranslator.new
-tr.translate_file ARGV.first
+tr.translate_file ARGV[0], ARGV[1]

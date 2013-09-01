@@ -42,8 +42,8 @@ Casio's emulator
 To run the programs using Casio's emulator, you will need to be using Windows. Then:
 
 * Install [AutoIt](http://www.autoitscript.com/site/autoit/downloads/) and Ruby
-* Convert the program from ".txt" to ".au3":  `ruby casio-prog-txt-to-au3.rb p1-powerseqs.txt`
-* Launch the generated ".au3" script:     `start p1-powerseqs.au3`
+* Convert the program from ".txt" to ".au3":  `ruby casio-prog-txt-to-au3.rb calc-programs/p1-powerseqs.txt emulator-autoit-scripts/p1-powerseqs.au3`
+* Launch the generated ".au3" script: `start emulator-autoit-scripts/p1-powerseqs.au3`
 * The script will launch a new emulator, type in the program and execute it
 
 My emulator
