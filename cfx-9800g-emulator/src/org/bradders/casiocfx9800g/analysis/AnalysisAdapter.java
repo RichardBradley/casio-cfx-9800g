@@ -159,12 +159,6 @@ public class AnalysisAdapter implements Analysis
     }
 
     @Override
-    public void caseANegateExpression(ANegateExpression node)
-    {
-        defaultCase(node);
-    }
-
-    @Override
     public void caseAFactorTerm(AFactorTerm node)
     {
         defaultCase(node);
@@ -190,6 +184,12 @@ public class AnalysisAdapter implements Analysis
 
     @Override
     public void caseAMultgroupFactor(AMultgroupFactor node)
+    {
+        defaultCase(node);
+    }
+
+    @Override
+    public void caseANegateFactor(ANegateFactor node)
     {
         defaultCase(node);
     }
@@ -249,6 +249,12 @@ public class AnalysisAdapter implements Analysis
     }
 
     @Override
+    public void caseAFractionAtom(AFractionAtom node)
+    {
+        defaultCase(node);
+    }
+
+    @Override
     public void caseAInputAtom(AInputAtom node)
     {
         defaultCase(node);
@@ -256,6 +262,18 @@ public class AnalysisAdapter implements Analysis
 
     @Override
     public void caseAExpressionAtom(AExpressionAtom node)
+    {
+        defaultCase(node);
+    }
+
+    @Override
+    public void caseAPairFractionLiteral(APairFractionLiteral node)
+    {
+        defaultCase(node);
+    }
+
+    @Override
+    public void caseATripleFractionLiteral(ATripleFractionLiteral node)
     {
         defaultCase(node);
     }
@@ -304,6 +322,12 @@ public class AnalysisAdapter implements Analysis
 
     @Override
     public void caseTNumberLiteral(TNumberLiteral node)
+    {
+        defaultCase(node);
+    }
+
+    @Override
+    public void caseTFractionSep(TFractionSep node)
     {
         defaultCase(node);
     }

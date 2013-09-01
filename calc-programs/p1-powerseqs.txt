@@ -1,0 +1,65 @@
+"POWER SEQS"
+Lbl 1
+Mcl
+"POWER? (2-3)"
+?->A
+A=2=>Goto 2
+A=3=>Goto 3
+Goto 1
+Lbl 2
+"QUADRATIC:"
+"ENTER THE FIRST"
+"THREE NUMBERS"
+"N=1"
+?->U
+"N=2"
+?->V
+"N=3"
+?->W
+W-V->Q
+V-U->P
+Q-P->G
+G*0.5->A
+P-3A->B
+U-A-B->C
+"F(N)=AN^2+BN+C"
+"A="
+A#
+"B="
+B#
+"C="
+C#
+Goto 9
+Lbl 3
+"CUBIC:"
+"ENTER THE FIRST FOUR NUMBERS"
+"N=1"
+?->U
+"N=2"
+?->V
+"N=3"
+?->W
+"N=4"
+?->X
+(X-W)->R
+(W-V)->Q
+(V-U)->P
+(R-Q)->N
+(Q-P)->M
+(N-M)->J
+(M-(2J))->I
+(U-P+M-J)->G
+G->A
+(I*1|2)->C
+(J*1|6)->D
+(U-A-C-D)->B
+"AN^3+BN^2+CN+D:"
+"A="
+D#
+"B="
+C#
+"C="
+B#
+"D="
+A#
+Lbl 9

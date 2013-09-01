@@ -7,9 +7,9 @@ import org.bradders.casiocfx9800g.analysis.*;
 @SuppressWarnings("nls")
 public final class AMinusExpression extends PExpression
 {
-    private PTerm _term_;
-    private TMinus _minus_;
     private PExpression _expression_;
+    private TMinus _minus_;
+    private PTerm _term_;
 
     public AMinusExpression()
     {
@@ -17,16 +17,16 @@ public final class AMinusExpression extends PExpression
     }
 
     public AMinusExpression(
-        @SuppressWarnings("hiding") PTerm _term_,
+        @SuppressWarnings("hiding") PExpression _expression_,
         @SuppressWarnings("hiding") TMinus _minus_,
-        @SuppressWarnings("hiding") PExpression _expression_)
+        @SuppressWarnings("hiding") PTerm _term_)
     {
         // Constructor
-        setTerm(_term_);
+        setExpression(_expression_);
 
         setMinus(_minus_);
 
-        setExpression(_expression_);
+        setTerm(_term_);
 
     }
 
@@ -34,65 +34,15 @@ public final class AMinusExpression extends PExpression
     public Object clone()
     {
         return new AMinusExpression(
-            cloneNode(this._term_),
+            cloneNode(this._expression_),
             cloneNode(this._minus_),
-            cloneNode(this._expression_));
+            cloneNode(this._term_));
     }
 
     @Override
     public void apply(Switch sw)
     {
         ((Analysis) sw).caseAMinusExpression(this);
-    }
-
-    public PTerm getTerm()
-    {
-        return this._term_;
-    }
-
-    public void setTerm(PTerm node)
-    {
-        if(this._term_ != null)
-        {
-            this._term_.parent(null);
-        }
-
-        if(node != null)
-        {
-            if(node.parent() != null)
-            {
-                node.parent().removeChild(node);
-            }
-
-            node.parent(this);
-        }
-
-        this._term_ = node;
-    }
-
-    public TMinus getMinus()
-    {
-        return this._minus_;
-    }
-
-    public void setMinus(TMinus node)
-    {
-        if(this._minus_ != null)
-        {
-            this._minus_.parent(null);
-        }
-
-        if(node != null)
-        {
-            if(node.parent() != null)
-            {
-                node.parent().removeChild(node);
-            }
-
-            node.parent(this);
-        }
-
-        this._minus_ = node;
     }
 
     public PExpression getExpression()
@@ -120,22 +70,72 @@ public final class AMinusExpression extends PExpression
         this._expression_ = node;
     }
 
+    public TMinus getMinus()
+    {
+        return this._minus_;
+    }
+
+    public void setMinus(TMinus node)
+    {
+        if(this._minus_ != null)
+        {
+            this._minus_.parent(null);
+        }
+
+        if(node != null)
+        {
+            if(node.parent() != null)
+            {
+                node.parent().removeChild(node);
+            }
+
+            node.parent(this);
+        }
+
+        this._minus_ = node;
+    }
+
+    public PTerm getTerm()
+    {
+        return this._term_;
+    }
+
+    public void setTerm(PTerm node)
+    {
+        if(this._term_ != null)
+        {
+            this._term_.parent(null);
+        }
+
+        if(node != null)
+        {
+            if(node.parent() != null)
+            {
+                node.parent().removeChild(node);
+            }
+
+            node.parent(this);
+        }
+
+        this._term_ = node;
+    }
+
     @Override
     public String toString()
     {
         return ""
-            + toString(this._term_)
+            + toString(this._expression_)
             + toString(this._minus_)
-            + toString(this._expression_);
+            + toString(this._term_);
     }
 
     @Override
     void removeChild(@SuppressWarnings("unused") Node child)
     {
         // Remove child
-        if(this._term_ == child)
+        if(this._expression_ == child)
         {
-            this._term_ = null;
+            this._expression_ = null;
             return;
         }
 
@@ -145,9 +145,9 @@ public final class AMinusExpression extends PExpression
             return;
         }
 
-        if(this._expression_ == child)
+        if(this._term_ == child)
         {
-            this._expression_ = null;
+            this._term_ = null;
             return;
         }
 
@@ -158,9 +158,9 @@ public final class AMinusExpression extends PExpression
     void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild)
     {
         // Replace child
-        if(this._term_ == oldChild)
+        if(this._expression_ == oldChild)
         {
-            setTerm((PTerm) newChild);
+            setExpression((PExpression) newChild);
             return;
         }
 
@@ -170,9 +170,9 @@ public final class AMinusExpression extends PExpression
             return;
         }
 
-        if(this._expression_ == oldChild)
+        if(this._term_ == oldChild)
         {
-            setExpression((PExpression) newChild);
+            setTerm((PTerm) newChild);
             return;
         }
 

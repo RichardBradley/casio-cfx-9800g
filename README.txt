@@ -46,9 +46,12 @@ In program mode, the CFX-9800G has several symbols which are difficult to reprod
   "r"  My casio had no lowercase letters, but had an easily accessible rho and
        theta letters. These text files use 'r' for rho.
 
-  [dt] qq
+  ^2   The calculator has a "squared" char which appears as superscript "2". In these
+       files we just use "^2".
 
-  ^2   qq
+  |    The calculator has a "fraction" symbol which appears like a small backwards "L".
+       These files use "|" for this symbol.
+       In this notation, 1|1|3 is "one and one-third", and 77|24 is 77/24 as a fraction.
 
   #    Comments in the text files are allowed with "#"
 

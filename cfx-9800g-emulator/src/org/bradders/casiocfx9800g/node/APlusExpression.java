@@ -7,9 +7,9 @@ import org.bradders.casiocfx9800g.analysis.*;
 @SuppressWarnings("nls")
 public final class APlusExpression extends PExpression
 {
-    private PTerm _term_;
-    private TPlus _plus_;
     private PExpression _expression_;
+    private TPlus _plus_;
+    private PTerm _term_;
 
     public APlusExpression()
     {
@@ -17,16 +17,16 @@ public final class APlusExpression extends PExpression
     }
 
     public APlusExpression(
-        @SuppressWarnings("hiding") PTerm _term_,
+        @SuppressWarnings("hiding") PExpression _expression_,
         @SuppressWarnings("hiding") TPlus _plus_,
-        @SuppressWarnings("hiding") PExpression _expression_)
+        @SuppressWarnings("hiding") PTerm _term_)
     {
         // Constructor
-        setTerm(_term_);
+        setExpression(_expression_);
 
         setPlus(_plus_);
 
-        setExpression(_expression_);
+        setTerm(_term_);
 
     }
 
@@ -34,65 +34,15 @@ public final class APlusExpression extends PExpression
     public Object clone()
     {
         return new APlusExpression(
-            cloneNode(this._term_),
+            cloneNode(this._expression_),
             cloneNode(this._plus_),
-            cloneNode(this._expression_));
+            cloneNode(this._term_));
     }
 
     @Override
     public void apply(Switch sw)
     {
         ((Analysis) sw).caseAPlusExpression(this);
-    }
-
-    public PTerm getTerm()
-    {
-        return this._term_;
-    }
-
-    public void setTerm(PTerm node)
-    {
-        if(this._term_ != null)
-        {
-            this._term_.parent(null);
-        }
-
-        if(node != null)
-        {
-            if(node.parent() != null)
-            {
-                node.parent().removeChild(node);
-            }
-
-            node.parent(this);
-        }
-
-        this._term_ = node;
-    }
-
-    public TPlus getPlus()
-    {
-        return this._plus_;
-    }
-
-    public void setPlus(TPlus node)
-    {
-        if(this._plus_ != null)
-        {
-            this._plus_.parent(null);
-        }
-
-        if(node != null)
-        {
-            if(node.parent() != null)
-            {
-                node.parent().removeChild(node);
-            }
-
-            node.parent(this);
-        }
-
-        this._plus_ = node;
     }
 
     public PExpression getExpression()
@@ -120,22 +70,72 @@ public final class APlusExpression extends PExpression
         this._expression_ = node;
     }
 
+    public TPlus getPlus()
+    {
+        return this._plus_;
+    }
+
+    public void setPlus(TPlus node)
+    {
+        if(this._plus_ != null)
+        {
+            this._plus_.parent(null);
+        }
+
+        if(node != null)
+        {
+            if(node.parent() != null)
+            {
+                node.parent().removeChild(node);
+            }
+
+            node.parent(this);
+        }
+
+        this._plus_ = node;
+    }
+
+    public PTerm getTerm()
+    {
+        return this._term_;
+    }
+
+    public void setTerm(PTerm node)
+    {
+        if(this._term_ != null)
+        {
+            this._term_.parent(null);
+        }
+
+        if(node != null)
+        {
+            if(node.parent() != null)
+            {
+                node.parent().removeChild(node);
+            }
+
+            node.parent(this);
+        }
+
+        this._term_ = node;
+    }
+
     @Override
     public String toString()
     {
         return ""
-            + toString(this._term_)
+            + toString(this._expression_)
             + toString(this._plus_)
-            + toString(this._expression_);
+            + toString(this._term_);
     }
 
     @Override
     void removeChild(@SuppressWarnings("unused") Node child)
     {
         // Remove child
-        if(this._term_ == child)
+        if(this._expression_ == child)
         {
-            this._term_ = null;
+            this._expression_ = null;
             return;
         }
 
@@ -145,9 +145,9 @@ public final class APlusExpression extends PExpression
             return;
         }
 
-        if(this._expression_ == child)
+        if(this._term_ == child)
         {
-            this._expression_ = null;
+            this._term_ = null;
             return;
         }
 
@@ -158,9 +158,9 @@ public final class APlusExpression extends PExpression
     void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild)
     {
         // Replace child
-        if(this._term_ == oldChild)
+        if(this._expression_ == oldChild)
         {
-            setTerm((PTerm) newChild);
+            setExpression((PExpression) newChild);
             return;
         }
 
@@ -170,9 +170,9 @@ public final class APlusExpression extends PExpression
             return;
         }
 
-        if(this._expression_ == oldChild)
+        if(this._term_ == oldChild)
         {
-            setExpression((PExpression) newChild);
+            setTerm((PTerm) newChild);
             return;
         }
 

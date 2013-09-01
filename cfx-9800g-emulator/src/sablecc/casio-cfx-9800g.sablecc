@@ -11,6 +11,7 @@ Tokens
         quoted_text = '"' any_non_quote_char* '"';
         variable_name = ['A' .. 'Z'] | 'r' | 't';
         number_literal = digit+ | digit* '.' digit+;
+	fraction_sep = '|';
 	comma = ',';
         print_result = '#';
         plus = '+';
@@ -28,6 +29,7 @@ Tokens
 		  'Int ' |
 		  'Abs ';
         sub_noargs_name =
+	          'Mcl' |
 		  'Line' |
 		  'Orange Line' |
 		  'Green Line';
@@ -48,7 +50,7 @@ Tokens
 
 Productions
         program = 
-		  {single} statement statement_separator |
+		  {single} statement statement_separator? |
 		  {sequence} statement statement_separator program;
         statement =
                   {printtext} quoted_text |
@@ -62,16 +64,16 @@ Productions
 		  {count_jump} count_jump_op space variable_name statement_separator statement;
         expression =
                   {term} term |
-                  {plus} term plus expression |
-		  {minus} term minus expression |
-		  {negate} minus expression;
+                  {plus} expression plus term |
+		  {minus} expression minus term;
 	term =
 		  {factor} factor |
 		  {mult} term mult factor |
 		  {div} term div factor;
         factor =
 	          {single} multgroup |
-		  {multgroup} factor multgroup;
+		  {multgroup} factor multgroup |
+		  {negate} minus multgroup;
         multgroup =
 		  {postfixop} postfixop |
 		  {power} multgroup pow postfixop;
@@ -85,8 +87,12 @@ Productions
  	atom =
 	          {var} variable_name |
 	       	  {number} number_literal |
+		  {fraction} fraction_literal |
 		  {input} input_prompt |
   	       	  {expression} lparen expression rparen;
+        fraction_literal =
+	          {pair} [numerator]:number_literal fraction_sep [denominator]:number_literal |
+	          {triple} [units]:number_literal [first_sep]:fraction_sep [numerator]:number_literal [second_sep]:fraction_sep [denominator]:number_literal;
 	expression_list =
 		  {single} expression |
 		  {sequence} expression comma expression_list;

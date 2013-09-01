@@ -158,6 +158,8 @@ public class StatementRunner
          userInterface.line(CalcColour.ORANGE);
       } else if (subName.equals("Green Line")) {
          userInterface.line(CalcColour.GREEN);
+      } else if (subName.equals("Mcl")) {
+         context.memoryClear();
       } else {
          throw new CompileException(String.format(
                "Unrecognised sub: '%s' at %s",

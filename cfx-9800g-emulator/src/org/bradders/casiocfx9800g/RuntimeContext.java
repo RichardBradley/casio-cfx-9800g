@@ -32,4 +32,9 @@ public class RuntimeContext
    {
       variableValues.put(name, value);
    }
+
+   public void memoryClear()
+   {
+      variableValues.clear();
+   }
 }

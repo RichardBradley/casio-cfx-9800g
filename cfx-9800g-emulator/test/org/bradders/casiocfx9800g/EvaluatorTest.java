@@ -40,7 +40,7 @@ public class EvaluatorTest
 
       assertThat(evaluate("B^C^D"), equalTo(4096.0));
       assertThat(evaluate("(B^C)^D"), equalTo(4096.0));
-      assertThat(evaluate("B^(C^D)"), closeTo(2.41785163e+24, 1e-6));
+      assertThat(evaluate("B^(C^D)"), equalTo(2.4178516392292583e+24));
    }
    
    @Test
@@ -59,6 +59,12 @@ public class EvaluatorTest
       assertThat(evaluate("BC/D"), equalTo(1.5));
       assertThat(evaluate("B/C*D"), equalTo(2.66666666666666666));
       assertThat(evaluate("B/CD"), equalTo(0.16666666666666666));
+   }
+   
+   @Test
+   public void testSubPrecedence() throws Exception
+   {
+      assertThat(evaluate("5-2-3"), equalTo(0.0));
    }
 
    private double evaluate(String expressionStr) throws Exception {

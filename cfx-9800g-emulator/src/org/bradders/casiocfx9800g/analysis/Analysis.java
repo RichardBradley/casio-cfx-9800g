@@ -26,12 +26,12 @@ public interface Analysis extends Switch
     void caseATermExpression(ATermExpression node);
     void caseAPlusExpression(APlusExpression node);
     void caseAMinusExpression(AMinusExpression node);
-    void caseANegateExpression(ANegateExpression node);
     void caseAFactorTerm(AFactorTerm node);
     void caseAMultTerm(AMultTerm node);
     void caseADivTerm(ADivTerm node);
     void caseASingleFactor(ASingleFactor node);
     void caseAMultgroupFactor(AMultgroupFactor node);
+    void caseANegateFactor(ANegateFactor node);
     void caseAPostfixopMultgroup(APostfixopMultgroup node);
     void caseAPowerMultgroup(APowerMultgroup node);
     void caseAFuncPostfixop(AFuncPostfixop node);
@@ -41,8 +41,11 @@ public interface Analysis extends Switch
     void caseAFunc2Func(AFunc2Func node);
     void caseAVarAtom(AVarAtom node);
     void caseANumberAtom(ANumberAtom node);
+    void caseAFractionAtom(AFractionAtom node);
     void caseAInputAtom(AInputAtom node);
     void caseAExpressionAtom(AExpressionAtom node);
+    void caseAPairFractionLiteral(APairFractionLiteral node);
+    void caseATripleFractionLiteral(ATripleFractionLiteral node);
     void caseASingleExpressionList(ASingleExpressionList node);
     void caseASequenceExpressionList(ASequenceExpressionList node);
     void caseASingleAtomList(ASingleAtomList node);
@@ -52,6 +55,7 @@ public interface Analysis extends Switch
     void caseTQuotedText(TQuotedText node);
     void caseTVariableName(TVariableName node);
     void caseTNumberLiteral(TNumberLiteral node);
+    void caseTFractionSep(TFractionSep node);
     void caseTComma(TComma node);
     void caseTPrintResult(TPrintResult node);
     void caseTPlus(TPlus node);

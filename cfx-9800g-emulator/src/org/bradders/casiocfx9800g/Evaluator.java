@@ -9,6 +9,7 @@ import org.bradders.casiocfx9800g.node.ADivTerm;
 import org.bradders.casiocfx9800g.node.AExpressionAtom;
 import org.bradders.casiocfx9800g.node.AFactorTerm;
 import org.bradders.casiocfx9800g.node.AFactorialPostfixop;
+import org.bradders.casiocfx9800g.node.AFractionAtom;
 import org.bradders.casiocfx9800g.node.AFunc1Func;
 import org.bradders.casiocfx9800g.node.AFunc2Func;
 import org.bradders.casiocfx9800g.node.AFuncPostfixop;
@@ -16,8 +17,9 @@ import org.bradders.casiocfx9800g.node.AInputAtom;
 import org.bradders.casiocfx9800g.node.AMinusExpression;
 import org.bradders.casiocfx9800g.node.AMultTerm;
 import org.bradders.casiocfx9800g.node.AMultgroupFactor;
-import org.bradders.casiocfx9800g.node.ANegateExpression;
+import org.bradders.casiocfx9800g.node.ANegateFactor;
 import org.bradders.casiocfx9800g.node.ANumberAtom;
+import org.bradders.casiocfx9800g.node.APairFractionLiteral;
 import org.bradders.casiocfx9800g.node.APlusExpression;
 import org.bradders.casiocfx9800g.node.APostfixopMultgroup;
 import org.bradders.casiocfx9800g.node.APowerMultgroup;
@@ -27,6 +29,7 @@ import org.bradders.casiocfx9800g.node.ASingleAtomList;
 import org.bradders.casiocfx9800g.node.ASingleExpressionList;
 import org.bradders.casiocfx9800g.node.ASingleFactor;
 import org.bradders.casiocfx9800g.node.ATermExpression;
+import org.bradders.casiocfx9800g.node.ATripleFractionLiteral;
 import org.bradders.casiocfx9800g.node.AVarAtom;
 import org.bradders.casiocfx9800g.node.Node;
 import org.bradders.casiocfx9800g.node.PAtom;
@@ -34,6 +37,7 @@ import org.bradders.casiocfx9800g.node.PAtomList;
 import org.bradders.casiocfx9800g.node.PExpression;
 import org.bradders.casiocfx9800g.node.PExpressionList;
 import org.bradders.casiocfx9800g.node.PFactor;
+import org.bradders.casiocfx9800g.node.PFractionLiteral;
 import org.bradders.casiocfx9800g.node.PFunc;
 import org.bradders.casiocfx9800g.node.PMultgroup;
 import org.bradders.casiocfx9800g.node.PPostfixop;
@@ -88,9 +92,8 @@ public class Evaluator
     * <code>
         expression =
                   {term} term |
-                  {plus} term plus expression |
-                  {minus} term minus expression |
-                  {negate} minus expression;
+                  {plus} expression plus term |
+                  {minus} expression minus term;
       </code>
     */
    public double evaluate(PExpression expression)
@@ -104,9 +107,6 @@ public class Evaluator
       if (expression instanceof AMinusExpression) {
          return evaluate((AMinusExpression) expression);
       }
-      if (expression instanceof ANegateExpression) {
-         return evaluate((ANegateExpression) expression);
-      }
       throw new CompileException(String.format(
             "Unexpected type: %s at %s",
             expression.getClass(),
@@ -115,19 +115,14 @@ public class Evaluator
 
    public double evaluate(APlusExpression expression)
    {
-      return evaluate(expression.getTerm())
-            + evaluate(expression.getExpression());
+      return evaluate(expression.getExpression())
+            + evaluate(expression.getTerm());
    }
 
    public double evaluate(AMinusExpression expression)
    {
-      return evaluate(expression.getTerm())
-            - evaluate(expression.getExpression());
-   }
-
-   public double evaluate(ANegateExpression expression)
-   {
-      return -evaluate(expression.getExpression());
+      return evaluate(expression.getExpression())
+            - evaluate(expression.getTerm());
    }
 
    /**
@@ -171,7 +166,8 @@ public class Evaluator
     * <code>
         factor =
               {single} multgroup |
-              {multgroup} factor multgroup;
+              {multgroup} factor multgroup |
+              {negate} minus multgroup;
       </code>
     */
    public double evaluate(PFactor expression)
@@ -181,6 +177,9 @@ public class Evaluator
       }
       if (expression instanceof AMultgroupFactor) {
          return evaluate((AMultgroupFactor) expression);
+      }
+      if (expression instanceof ANegateFactor) {
+         return evaluate((ANegateFactor) expression);
       }
       throw new CompileException(String.format(
             "Unexpected type: %s at %s",
@@ -192,6 +191,11 @@ public class Evaluator
    {
       return evaluate(expression.getFactor())
             * evaluate(expression.getMultgroup());
+   }
+   
+   public double evaluate(ANegateFactor expression)
+   {
+      return -evaluate(expression.getMultgroup());
    }
 
    /**
@@ -353,6 +357,7 @@ public class Evaluator
     atom =
            {var} variable_name |
            {number} number_literal |
+           {fraction} fraction_literal |
            {input} input_prompt |
            {expression} lparen expression rparen;
       </code>
@@ -364,6 +369,9 @@ public class Evaluator
       }
       if (expression instanceof ANumberAtom) {
          return evaluate((ANumberAtom) expression);
+      }
+      if (expression instanceof AFractionAtom) {
+         return evaluate(((AFractionAtom) expression).getFractionLiteral());
       }
       if (expression instanceof AInputAtom) {
          return evaluate((AInputAtom) expression);
@@ -386,19 +394,66 @@ public class Evaluator
 
    public double evaluate(ANumberAtom expression)
    {
+      return evaluate(expression.getNumberLiteral());
+   }
+   
+   public double evaluate(TNumberLiteral number)
+   {
       try {
-         return Double.parseDouble(expression.getNumberLiteral().getText());
+         return Double.parseDouble(number.getText());
       } catch (Exception e) {
          throw new CompileException(
                e.getMessage() +
                " at " +
-               Printer.nodeToString(expression));
+               Printer.nodeToString(number));
       }
    }
-
+   
    public double evaluate(AInputAtom expression)
    {
       return userInterface.readValue();
+   }
+   
+   /**
+    * Evaluates a fraction literal:
+    * <code>
+        fraction_literal =
+              {pair} [numerator]:number_literal fraction_sep [denominator]:number_literal |
+              {triple} [units]:number_literal [first_sep]:fraction_sep [numerator]:number_literal [second_sep]:fraction_sep [denominator]:number_literal;
+      </code>
+    *
+    * TODO: we could extend the notion of value to include exact fractions
+    * which are auto-promoted to doubles, just as the Casio does.
+    * (In fact, does the Casio also have exact ints which are promoted to 
+    * doubles?)
+    * ... but for the programs which we are trying to emulate for now we can
+    * make do with doubles everywhere (which simplifies the emulator).
+    */
+   public double evaluate(PFractionLiteral expression)
+   {
+      if (expression instanceof APairFractionLiteral) {
+         return evaluate((APairFractionLiteral) expression);
+      }
+      if (expression instanceof ATripleFractionLiteral) {
+         return evaluate((ATripleFractionLiteral) expression);
+      }
+      throw new CompileException(String.format(
+            "Unexpected type: %s at %s",
+            expression.getClass(),
+            Printer.nodeToString(expression)));
+   }
+   
+   public double evaluate(APairFractionLiteral expression)
+   {
+      return evaluate(expression.getNumerator())
+         / evaluate(expression.getDenominator());
+   }
+   
+   public double evaluate(ATripleFractionLiteral expression)
+   {
+      return evaluate(expression.getUnits())
+         + (evaluate(expression.getNumerator())
+            / evaluate(expression.getDenominator()));
    }
 
    private List<Double> evaluate(PExpressionList list)

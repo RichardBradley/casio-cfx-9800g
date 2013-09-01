@@ -5,39 +5,39 @@ package org.bradders.casiocfx9800g.node;
 import org.bradders.casiocfx9800g.analysis.*;
 
 @SuppressWarnings("nls")
-public final class ANegateExpression extends PExpression
+public final class ANegateFactor extends PFactor
 {
     private TMinus _minus_;
-    private PExpression _expression_;
+    private PMultgroup _multgroup_;
 
-    public ANegateExpression()
+    public ANegateFactor()
     {
         // Constructor
     }
 
-    public ANegateExpression(
+    public ANegateFactor(
         @SuppressWarnings("hiding") TMinus _minus_,
-        @SuppressWarnings("hiding") PExpression _expression_)
+        @SuppressWarnings("hiding") PMultgroup _multgroup_)
     {
         // Constructor
         setMinus(_minus_);
 
-        setExpression(_expression_);
+        setMultgroup(_multgroup_);
 
     }
 
     @Override
     public Object clone()
     {
-        return new ANegateExpression(
+        return new ANegateFactor(
             cloneNode(this._minus_),
-            cloneNode(this._expression_));
+            cloneNode(this._multgroup_));
     }
 
     @Override
     public void apply(Switch sw)
     {
-        ((Analysis) sw).caseANegateExpression(this);
+        ((Analysis) sw).caseANegateFactor(this);
     }
 
     public TMinus getMinus()
@@ -65,16 +65,16 @@ public final class ANegateExpression extends PExpression
         this._minus_ = node;
     }
 
-    public PExpression getExpression()
+    public PMultgroup getMultgroup()
     {
-        return this._expression_;
+        return this._multgroup_;
     }
 
-    public void setExpression(PExpression node)
+    public void setMultgroup(PMultgroup node)
     {
-        if(this._expression_ != null)
+        if(this._multgroup_ != null)
         {
-            this._expression_.parent(null);
+            this._multgroup_.parent(null);
         }
 
         if(node != null)
@@ -87,7 +87,7 @@ public final class ANegateExpression extends PExpression
             node.parent(this);
         }
 
-        this._expression_ = node;
+        this._multgroup_ = node;
     }
 
     @Override
@@ -95,7 +95,7 @@ public final class ANegateExpression extends PExpression
     {
         return ""
             + toString(this._minus_)
-            + toString(this._expression_);
+            + toString(this._multgroup_);
     }
 
     @Override
@@ -108,9 +108,9 @@ public final class ANegateExpression extends PExpression
             return;
         }
 
-        if(this._expression_ == child)
+        if(this._multgroup_ == child)
         {
-            this._expression_ = null;
+            this._multgroup_ = null;
             return;
         }
 
@@ -127,9 +127,9 @@ public final class ANegateExpression extends PExpression
             return;
         }
 
-        if(this._expression_ == oldChild)
+        if(this._multgroup_ == oldChild)
         {
-            setExpression((PExpression) newChild);
+            setMultgroup((PMultgroup) newChild);
             return;
         }
 

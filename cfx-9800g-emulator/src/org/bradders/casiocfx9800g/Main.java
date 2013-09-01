@@ -18,7 +18,7 @@ public class Main
    /**
     * Could become a command line arg
     */
-   public static boolean TRACE_EXECUTION = true;
+   public static boolean TRACE_EXECUTION = false;
 
    /**
     * The entry method.

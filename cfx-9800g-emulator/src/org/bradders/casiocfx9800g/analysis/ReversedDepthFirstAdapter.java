@@ -382,17 +382,17 @@ public class ReversedDepthFirstAdapter extends AnalysisAdapter
     public void caseAPlusExpression(APlusExpression node)
     {
         inAPlusExpression(node);
-        if(node.getExpression() != null)
+        if(node.getTerm() != null)
         {
-            node.getExpression().apply(this);
+            node.getTerm().apply(this);
         }
         if(node.getPlus() != null)
         {
             node.getPlus().apply(this);
         }
-        if(node.getTerm() != null)
+        if(node.getExpression() != null)
         {
-            node.getTerm().apply(this);
+            node.getExpression().apply(this);
         }
         outAPlusExpression(node);
     }
@@ -411,44 +411,19 @@ public class ReversedDepthFirstAdapter extends AnalysisAdapter
     public void caseAMinusExpression(AMinusExpression node)
     {
         inAMinusExpression(node);
-        if(node.getExpression() != null)
-        {
-            node.getExpression().apply(this);
-        }
-        if(node.getMinus() != null)
-        {
-            node.getMinus().apply(this);
-        }
         if(node.getTerm() != null)
         {
             node.getTerm().apply(this);
         }
-        outAMinusExpression(node);
-    }
-
-    public void inANegateExpression(ANegateExpression node)
-    {
-        defaultIn(node);
-    }
-
-    public void outANegateExpression(ANegateExpression node)
-    {
-        defaultOut(node);
-    }
-
-    @Override
-    public void caseANegateExpression(ANegateExpression node)
-    {
-        inANegateExpression(node);
-        if(node.getExpression() != null)
-        {
-            node.getExpression().apply(this);
-        }
         if(node.getMinus() != null)
         {
             node.getMinus().apply(this);
         }
-        outANegateExpression(node);
+        if(node.getExpression() != null)
+        {
+            node.getExpression().apply(this);
+        }
+        outAMinusExpression(node);
     }
 
     public void inAFactorTerm(AFactorTerm node)
@@ -574,6 +549,31 @@ public class ReversedDepthFirstAdapter extends AnalysisAdapter
             node.getFactor().apply(this);
         }
         outAMultgroupFactor(node);
+    }
+
+    public void inANegateFactor(ANegateFactor node)
+    {
+        defaultIn(node);
+    }
+
+    public void outANegateFactor(ANegateFactor node)
+    {
+        defaultOut(node);
+    }
+
+    @Override
+    public void caseANegateFactor(ANegateFactor node)
+    {
+        inANegateFactor(node);
+        if(node.getMultgroup() != null)
+        {
+            node.getMultgroup().apply(this);
+        }
+        if(node.getMinus() != null)
+        {
+            node.getMinus().apply(this);
+        }
+        outANegateFactor(node);
     }
 
     public void inAPostfixopMultgroup(APostfixopMultgroup node)
@@ -801,6 +801,27 @@ public class ReversedDepthFirstAdapter extends AnalysisAdapter
         outANumberAtom(node);
     }
 
+    public void inAFractionAtom(AFractionAtom node)
+    {
+        defaultIn(node);
+    }
+
+    public void outAFractionAtom(AFractionAtom node)
+    {
+        defaultOut(node);
+    }
+
+    @Override
+    public void caseAFractionAtom(AFractionAtom node)
+    {
+        inAFractionAtom(node);
+        if(node.getFractionLiteral() != null)
+        {
+            node.getFractionLiteral().apply(this);
+        }
+        outAFractionAtom(node);
+    }
+
     public void inAInputAtom(AInputAtom node)
     {
         defaultIn(node);
@@ -849,6 +870,72 @@ public class ReversedDepthFirstAdapter extends AnalysisAdapter
             node.getLparen().apply(this);
         }
         outAExpressionAtom(node);
+    }
+
+    public void inAPairFractionLiteral(APairFractionLiteral node)
+    {
+        defaultIn(node);
+    }
+
+    public void outAPairFractionLiteral(APairFractionLiteral node)
+    {
+        defaultOut(node);
+    }
+
+    @Override
+    public void caseAPairFractionLiteral(APairFractionLiteral node)
+    {
+        inAPairFractionLiteral(node);
+        if(node.getDenominator() != null)
+        {
+            node.getDenominator().apply(this);
+        }
+        if(node.getFractionSep() != null)
+        {
+            node.getFractionSep().apply(this);
+        }
+        if(node.getNumerator() != null)
+        {
+            node.getNumerator().apply(this);
+        }
+        outAPairFractionLiteral(node);
+    }
+
+    public void inATripleFractionLiteral(ATripleFractionLiteral node)
+    {
+        defaultIn(node);
+    }
+
+    public void outATripleFractionLiteral(ATripleFractionLiteral node)
+    {
+        defaultOut(node);
+    }
+
+    @Override
+    public void caseATripleFractionLiteral(ATripleFractionLiteral node)
+    {
+        inATripleFractionLiteral(node);
+        if(node.getDenominator() != null)
+        {
+            node.getDenominator().apply(this);
+        }
+        if(node.getSecondSep() != null)
+        {
+            node.getSecondSep().apply(this);
+        }
+        if(node.getNumerator() != null)
+        {
+            node.getNumerator().apply(this);
+        }
+        if(node.getFirstSep() != null)
+        {
+            node.getFirstSep().apply(this);
+        }
+        if(node.getUnits() != null)
+        {
+            node.getUnits().apply(this);
+        }
+        outATripleFractionLiteral(node);
     }
 
     public void inASingleExpressionList(ASingleExpressionList node)
