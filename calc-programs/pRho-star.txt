@@ -1,0 +1,29 @@
+"STAR"
+Range 1,1.62,10,1,1.62,10
+0->N:0.62->H
+0.2048H+1->A:1->B:0.5H+1->C:H+1->D
+Lbl 9
+Isz N
+N=3=>Goto 8
+((D-B)/(C-A))->M
+B-AM->K
+Frac (0.5N)!=0=>Goto 7
+N<3=>Graph Y>MX+K
+N>=3=>Graph Y<MX+K
+Goto 8
+Lbl 7
+N<3=>Graph Y<MX+K
+N>=3=>Graph Y>MX+K
+Lbl 8
+N=2=>Goto 2
+N=3=>Goto 3
+N=4=>Goto 4
+N=5=>Goto 5
+N=6=>Goto 6
+Lbl 2
+H+1->C:0.6529H+1->D:Goto 9
+Lbl 4
+0.7952H+1->C:1->D:Goto 9
+Lbl 5
+0.5H+1->A:H+1->B:Goto 9
+Lbl 6

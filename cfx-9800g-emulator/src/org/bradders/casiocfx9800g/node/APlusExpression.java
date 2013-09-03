@@ -7,9 +7,9 @@ import org.bradders.casiocfx9800g.analysis.*;
 @SuppressWarnings("nls")
 public final class APlusExpression extends PExpression
 {
-    private PExpression _expression_;
+    private PExpression _left_;
     private TPlus _plus_;
-    private PTerm _term_;
+    private PMultdiv _right_;
 
     public APlusExpression()
     {
@@ -17,16 +17,16 @@ public final class APlusExpression extends PExpression
     }
 
     public APlusExpression(
-        @SuppressWarnings("hiding") PExpression _expression_,
+        @SuppressWarnings("hiding") PExpression _left_,
         @SuppressWarnings("hiding") TPlus _plus_,
-        @SuppressWarnings("hiding") PTerm _term_)
+        @SuppressWarnings("hiding") PMultdiv _right_)
     {
         // Constructor
-        setExpression(_expression_);
+        setLeft(_left_);
 
         setPlus(_plus_);
 
-        setTerm(_term_);
+        setRight(_right_);
 
     }
 
@@ -34,9 +34,9 @@ public final class APlusExpression extends PExpression
     public Object clone()
     {
         return new APlusExpression(
-            cloneNode(this._expression_),
+            cloneNode(this._left_),
             cloneNode(this._plus_),
-            cloneNode(this._term_));
+            cloneNode(this._right_));
     }
 
     @Override
@@ -45,16 +45,16 @@ public final class APlusExpression extends PExpression
         ((Analysis) sw).caseAPlusExpression(this);
     }
 
-    public PExpression getExpression()
+    public PExpression getLeft()
     {
-        return this._expression_;
+        return this._left_;
     }
 
-    public void setExpression(PExpression node)
+    public void setLeft(PExpression node)
     {
-        if(this._expression_ != null)
+        if(this._left_ != null)
         {
-            this._expression_.parent(null);
+            this._left_.parent(null);
         }
 
         if(node != null)
@@ -67,7 +67,7 @@ public final class APlusExpression extends PExpression
             node.parent(this);
         }
 
-        this._expression_ = node;
+        this._left_ = node;
     }
 
     public TPlus getPlus()
@@ -95,16 +95,16 @@ public final class APlusExpression extends PExpression
         this._plus_ = node;
     }
 
-    public PTerm getTerm()
+    public PMultdiv getRight()
     {
-        return this._term_;
+        return this._right_;
     }
 
-    public void setTerm(PTerm node)
+    public void setRight(PMultdiv node)
     {
-        if(this._term_ != null)
+        if(this._right_ != null)
         {
-            this._term_.parent(null);
+            this._right_.parent(null);
         }
 
         if(node != null)
@@ -117,25 +117,25 @@ public final class APlusExpression extends PExpression
             node.parent(this);
         }
 
-        this._term_ = node;
+        this._right_ = node;
     }
 
     @Override
     public String toString()
     {
         return ""
-            + toString(this._expression_)
+            + toString(this._left_)
             + toString(this._plus_)
-            + toString(this._term_);
+            + toString(this._right_);
     }
 
     @Override
     void removeChild(@SuppressWarnings("unused") Node child)
     {
         // Remove child
-        if(this._expression_ == child)
+        if(this._left_ == child)
         {
-            this._expression_ = null;
+            this._left_ = null;
             return;
         }
 
@@ -145,9 +145,9 @@ public final class APlusExpression extends PExpression
             return;
         }
 
-        if(this._term_ == child)
+        if(this._right_ == child)
         {
-            this._term_ = null;
+            this._right_ = null;
             return;
         }
 
@@ -158,9 +158,9 @@ public final class APlusExpression extends PExpression
     void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild)
     {
         // Replace child
-        if(this._expression_ == oldChild)
+        if(this._left_ == oldChild)
         {
-            setExpression((PExpression) newChild);
+            setLeft((PExpression) newChild);
             return;
         }
 
@@ -170,9 +170,9 @@ public final class APlusExpression extends PExpression
             return;
         }
 
-        if(this._term_ == oldChild)
+        if(this._right_ == oldChild)
         {
-            setTerm((PTerm) newChild);
+            setRight((PMultdiv) newChild);
             return;
         }
 

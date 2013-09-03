@@ -5,46 +5,46 @@ package org.bradders.casiocfx9800g.node;
 import org.bradders.casiocfx9800g.analysis.*;
 
 @SuppressWarnings("nls")
-public final class ATermExpression extends PExpression
+public final class ASinglePostfixop extends PPostfixop
 {
-    private PTerm _term_;
+    private PAtom _single_;
 
-    public ATermExpression()
+    public ASinglePostfixop()
     {
         // Constructor
     }
 
-    public ATermExpression(
-        @SuppressWarnings("hiding") PTerm _term_)
+    public ASinglePostfixop(
+        @SuppressWarnings("hiding") PAtom _single_)
     {
         // Constructor
-        setTerm(_term_);
+        setSingle(_single_);
 
     }
 
     @Override
     public Object clone()
     {
-        return new ATermExpression(
-            cloneNode(this._term_));
+        return new ASinglePostfixop(
+            cloneNode(this._single_));
     }
 
     @Override
     public void apply(Switch sw)
     {
-        ((Analysis) sw).caseATermExpression(this);
+        ((Analysis) sw).caseASinglePostfixop(this);
     }
 
-    public PTerm getTerm()
+    public PAtom getSingle()
     {
-        return this._term_;
+        return this._single_;
     }
 
-    public void setTerm(PTerm node)
+    public void setSingle(PAtom node)
     {
-        if(this._term_ != null)
+        if(this._single_ != null)
         {
-            this._term_.parent(null);
+            this._single_.parent(null);
         }
 
         if(node != null)
@@ -57,23 +57,23 @@ public final class ATermExpression extends PExpression
             node.parent(this);
         }
 
-        this._term_ = node;
+        this._single_ = node;
     }
 
     @Override
     public String toString()
     {
         return ""
-            + toString(this._term_);
+            + toString(this._single_);
     }
 
     @Override
     void removeChild(@SuppressWarnings("unused") Node child)
     {
         // Remove child
-        if(this._term_ == child)
+        if(this._single_ == child)
         {
-            this._term_ = null;
+            this._single_ = null;
             return;
         }
 
@@ -84,9 +84,9 @@ public final class ATermExpression extends PExpression
     void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild)
     {
         // Replace child
-        if(this._term_ == oldChild)
+        if(this._single_ == oldChild)
         {
-            setTerm((PTerm) newChild);
+            setSingle((PAtom) newChild);
             return;
         }
 

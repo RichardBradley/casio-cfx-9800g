@@ -5,51 +5,51 @@ package org.bradders.casiocfx9800g.node;
 import org.bradders.casiocfx9800g.analysis.*;
 
 @SuppressWarnings("nls")
-public final class AMultgroupFactor extends PFactor
+public final class AMultMultgroup extends PMultgroup
 {
-    private PFactor _factor_;
-    private PMultgroup _multgroup_;
+    private PMultgroup _left_;
+    private PFrac _right_;
 
-    public AMultgroupFactor()
+    public AMultMultgroup()
     {
         // Constructor
     }
 
-    public AMultgroupFactor(
-        @SuppressWarnings("hiding") PFactor _factor_,
-        @SuppressWarnings("hiding") PMultgroup _multgroup_)
+    public AMultMultgroup(
+        @SuppressWarnings("hiding") PMultgroup _left_,
+        @SuppressWarnings("hiding") PFrac _right_)
     {
         // Constructor
-        setFactor(_factor_);
+        setLeft(_left_);
 
-        setMultgroup(_multgroup_);
+        setRight(_right_);
 
     }
 
     @Override
     public Object clone()
     {
-        return new AMultgroupFactor(
-            cloneNode(this._factor_),
-            cloneNode(this._multgroup_));
+        return new AMultMultgroup(
+            cloneNode(this._left_),
+            cloneNode(this._right_));
     }
 
     @Override
     public void apply(Switch sw)
     {
-        ((Analysis) sw).caseAMultgroupFactor(this);
+        ((Analysis) sw).caseAMultMultgroup(this);
     }
 
-    public PFactor getFactor()
+    public PMultgroup getLeft()
     {
-        return this._factor_;
+        return this._left_;
     }
 
-    public void setFactor(PFactor node)
+    public void setLeft(PMultgroup node)
     {
-        if(this._factor_ != null)
+        if(this._left_ != null)
         {
-            this._factor_.parent(null);
+            this._left_.parent(null);
         }
 
         if(node != null)
@@ -62,19 +62,19 @@ public final class AMultgroupFactor extends PFactor
             node.parent(this);
         }
 
-        this._factor_ = node;
+        this._left_ = node;
     }
 
-    public PMultgroup getMultgroup()
+    public PFrac getRight()
     {
-        return this._multgroup_;
+        return this._right_;
     }
 
-    public void setMultgroup(PMultgroup node)
+    public void setRight(PFrac node)
     {
-        if(this._multgroup_ != null)
+        if(this._right_ != null)
         {
-            this._multgroup_.parent(null);
+            this._right_.parent(null);
         }
 
         if(node != null)
@@ -87,30 +87,30 @@ public final class AMultgroupFactor extends PFactor
             node.parent(this);
         }
 
-        this._multgroup_ = node;
+        this._right_ = node;
     }
 
     @Override
     public String toString()
     {
         return ""
-            + toString(this._factor_)
-            + toString(this._multgroup_);
+            + toString(this._left_)
+            + toString(this._right_);
     }
 
     @Override
     void removeChild(@SuppressWarnings("unused") Node child)
     {
         // Remove child
-        if(this._factor_ == child)
+        if(this._left_ == child)
         {
-            this._factor_ = null;
+            this._left_ = null;
             return;
         }
 
-        if(this._multgroup_ == child)
+        if(this._right_ == child)
         {
-            this._multgroup_ = null;
+            this._right_ = null;
             return;
         }
 
@@ -121,15 +121,15 @@ public final class AMultgroupFactor extends PFactor
     void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild)
     {
         // Replace child
-        if(this._factor_ == oldChild)
+        if(this._left_ == oldChild)
         {
-            setFactor((PFactor) newChild);
+            setLeft((PMultgroup) newChild);
             return;
         }
 
-        if(this._multgroup_ == oldChild)
+        if(this._right_ == oldChild)
         {
-            setMultgroup((PMultgroup) newChild);
+            setRight((PFrac) newChild);
             return;
         }
 

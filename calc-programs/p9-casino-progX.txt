@@ -1,0 +1,23 @@
+X=12=>Goto 8
+X>40=>Goto 1
+1->D
+"ARMADILLO"
+Goto 9
+Lbl 1
+X>60=>Goto 2
+2->D
+"BABOON"
+Goto 9
+Lbl 2
+X>80=>Goto 3
+3->D
+"CATTERPILLAR"
+Goto 9
+Lbl 3
+4->D
+"ZULU WARRIOR"
+Goto 9
+Lbl 8
+"WOMBAT"
+5->D
+Lbl 9

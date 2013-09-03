@@ -5,46 +5,46 @@ package org.bradders.casiocfx9800g.node;
 import org.bradders.casiocfx9800g.analysis.*;
 
 @SuppressWarnings("nls")
-public final class AAtomFunc extends PFunc
+public final class ASingleFunc extends PFunc
 {
-    private PAtom _atom_;
+    private PMultgroup _single_;
 
-    public AAtomFunc()
+    public ASingleFunc()
     {
         // Constructor
     }
 
-    public AAtomFunc(
-        @SuppressWarnings("hiding") PAtom _atom_)
+    public ASingleFunc(
+        @SuppressWarnings("hiding") PMultgroup _single_)
     {
         // Constructor
-        setAtom(_atom_);
+        setSingle(_single_);
 
     }
 
     @Override
     public Object clone()
     {
-        return new AAtomFunc(
-            cloneNode(this._atom_));
+        return new ASingleFunc(
+            cloneNode(this._single_));
     }
 
     @Override
     public void apply(Switch sw)
     {
-        ((Analysis) sw).caseAAtomFunc(this);
+        ((Analysis) sw).caseASingleFunc(this);
     }
 
-    public PAtom getAtom()
+    public PMultgroup getSingle()
     {
-        return this._atom_;
+        return this._single_;
     }
 
-    public void setAtom(PAtom node)
+    public void setSingle(PMultgroup node)
     {
-        if(this._atom_ != null)
+        if(this._single_ != null)
         {
-            this._atom_.parent(null);
+            this._single_.parent(null);
         }
 
         if(node != null)
@@ -57,23 +57,23 @@ public final class AAtomFunc extends PFunc
             node.parent(this);
         }
 
-        this._atom_ = node;
+        this._single_ = node;
     }
 
     @Override
     public String toString()
     {
         return ""
-            + toString(this._atom_);
+            + toString(this._single_);
     }
 
     @Override
     void removeChild(@SuppressWarnings("unused") Node child)
     {
         // Remove child
-        if(this._atom_ == child)
+        if(this._single_ == child)
         {
-            this._atom_ = null;
+            this._single_ = null;
             return;
         }
 
@@ -84,9 +84,9 @@ public final class AAtomFunc extends PFunc
     void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild)
     {
         // Replace child
-        if(this._atom_ == oldChild)
+        if(this._single_ == oldChild)
         {
-            setAtom((PAtom) newChild);
+            setSingle((PMultgroup) newChild);
             return;
         }
 

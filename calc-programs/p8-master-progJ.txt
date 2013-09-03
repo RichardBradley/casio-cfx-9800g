@@ -1,0 +1,34 @@
+(Int (A*((Ran#*4)+0.5)))->J
+0#
+"--NEXT YEAR--"
+"YOU HARVESTED"
+J#
+"KGS OF RICE"
+R+J->R
+((Ran#*0.5)+0.5)->C
+"RATS ATE"
+R-(Int (C*R))->O#
+R-O->R
+P*2->J
+R>=J=>Goto 1
+J-R->A
+A/2->A
+(Int (A))->A
+P-A->P
+(Int (P))->P
+A#
+"PEOPLE STARVED"
+J-(A*2)->J
+Lbl 1
+R-J->R
+(Int (((Ran#*1)+1)*P))->N#
+"PEOPLE WERE"
+"BORN"
+N+P->P
+(Int (Ran#*20))->A
+A!=15=>Goto 2
+"PLAGUE KILLED"
+"HALF YOUR"
+"PEOPLE"
+(Int (P*0.5))->P
+Lbl 2

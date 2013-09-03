@@ -40,9 +40,10 @@ public class CountJumpTest
          allowing(userInterface).printLine(with(any(String.class)));
       }});
       
-      Main.compile(context , new StringReader(prog));
-      StatementRunner runner = new StatementRunner(context, userInterface);
-      runner.run();
+      Compiler compiler = new Compiler();
+      CompiledFile file = compiler.compile(new StringReader(prog));
+      StatementRunner runner = new StatementRunner(context, compiler, userInterface);
+      runner.run(file);
       
       mockery.assertIsSatisfied();
    }

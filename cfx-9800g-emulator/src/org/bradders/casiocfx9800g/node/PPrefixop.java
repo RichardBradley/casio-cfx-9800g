@@ -2,7 +2,7 @@
 
 package org.bradders.casiocfx9800g.node;
 
-public abstract class PFactor extends Node
+public abstract class PPrefixop extends Node
 {
     // Empty body
 }

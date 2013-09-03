@@ -1,13 +1,7 @@
 package org.bradders.casiocfx9800g;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.PushbackReader;
-import java.io.Reader;
+import java.io.File;
 
-import org.bradders.casiocfx9800g.lexer.Lexer;
-import org.bradders.casiocfx9800g.node.Start;
-import org.bradders.casiocfx9800g.parser.Parser;
 import org.bradders.casiocfx9800g.ui.ConsoleUserInterface;
 
 /**
@@ -36,30 +30,18 @@ public class Main
          System.exit(1);
          return;
       }
-
-      BufferedReader file = new BufferedReader(new FileReader(args[0]));
       
+      File fileLocation = new File(args[0]); 
+      Compiler compiler = new Compiler();
+      compiler.setBaseDir(fileLocation.getAbsoluteFile().getParentFile());
+      CompiledFile file = compiler.loadFile(fileLocation.getAbsolutePath());
       RuntimeContext context = new RuntimeContext();
-
-      compile(context, file);
-      ConsoleUserInterface ui = new ConsoleUserInterface();
-      
-      StatementRunner runner = new StatementRunner(context, ui);
+      ConsoleUserInterface ui = new ConsoleUserInterface();      
+      StatementRunner runner = new StatementRunner(context, compiler, ui);
       if (TRACE_EXECUTION) {
          runner.traceExecution = true;
       }
-      runner.run();
-   }
-
-   public static Start compile(RuntimeContext context, Reader programText)
-      throws Exception
-   {
-      Lexer lexer = new Lexer(new PushbackReader(programText, 1024));
-      Parser parser = new Parser(lexer);
-      Start ast = parser.parse();
-
-      // apply compile-time checks
-      ast.apply(new CompileTimeAnalyser(context));
-      return ast;
+      runner.run(file);
+      ui.printLine("(terminated)");
    }
 }

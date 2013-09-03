@@ -5,26 +5,26 @@ package org.bradders.casiocfx9800g.node;
 import org.bradders.casiocfx9800g.analysis.*;
 
 @SuppressWarnings("nls")
-public final class AMinusExpression extends PExpression
+public final class APowerPow extends PPow
 {
-    private PExpression _left_;
-    private TMinus _minus_;
-    private PMultdiv _right_;
+    private PPow _left_;
+    private TPow _op_;
+    private PPostfixop _right_;
 
-    public AMinusExpression()
+    public APowerPow()
     {
         // Constructor
     }
 
-    public AMinusExpression(
-        @SuppressWarnings("hiding") PExpression _left_,
-        @SuppressWarnings("hiding") TMinus _minus_,
-        @SuppressWarnings("hiding") PMultdiv _right_)
+    public APowerPow(
+        @SuppressWarnings("hiding") PPow _left_,
+        @SuppressWarnings("hiding") TPow _op_,
+        @SuppressWarnings("hiding") PPostfixop _right_)
     {
         // Constructor
         setLeft(_left_);
 
-        setMinus(_minus_);
+        setOp(_op_);
 
         setRight(_right_);
 
@@ -33,24 +33,24 @@ public final class AMinusExpression extends PExpression
     @Override
     public Object clone()
     {
-        return new AMinusExpression(
+        return new APowerPow(
             cloneNode(this._left_),
-            cloneNode(this._minus_),
+            cloneNode(this._op_),
             cloneNode(this._right_));
     }
 
     @Override
     public void apply(Switch sw)
     {
-        ((Analysis) sw).caseAMinusExpression(this);
+        ((Analysis) sw).caseAPowerPow(this);
     }
 
-    public PExpression getLeft()
+    public PPow getLeft()
     {
         return this._left_;
     }
 
-    public void setLeft(PExpression node)
+    public void setLeft(PPow node)
     {
         if(this._left_ != null)
         {
@@ -70,16 +70,16 @@ public final class AMinusExpression extends PExpression
         this._left_ = node;
     }
 
-    public TMinus getMinus()
+    public TPow getOp()
     {
-        return this._minus_;
+        return this._op_;
     }
 
-    public void setMinus(TMinus node)
+    public void setOp(TPow node)
     {
-        if(this._minus_ != null)
+        if(this._op_ != null)
         {
-            this._minus_.parent(null);
+            this._op_.parent(null);
         }
 
         if(node != null)
@@ -92,15 +92,15 @@ public final class AMinusExpression extends PExpression
             node.parent(this);
         }
 
-        this._minus_ = node;
+        this._op_ = node;
     }
 
-    public PMultdiv getRight()
+    public PPostfixop getRight()
     {
         return this._right_;
     }
 
-    public void setRight(PMultdiv node)
+    public void setRight(PPostfixop node)
     {
         if(this._right_ != null)
         {
@@ -125,7 +125,7 @@ public final class AMinusExpression extends PExpression
     {
         return ""
             + toString(this._left_)
-            + toString(this._minus_)
+            + toString(this._op_)
             + toString(this._right_);
     }
 
@@ -139,9 +139,9 @@ public final class AMinusExpression extends PExpression
             return;
         }
 
-        if(this._minus_ == child)
+        if(this._op_ == child)
         {
-            this._minus_ = null;
+            this._op_ = null;
             return;
         }
 
@@ -160,19 +160,19 @@ public final class AMinusExpression extends PExpression
         // Replace child
         if(this._left_ == oldChild)
         {
-            setLeft((PExpression) newChild);
+            setLeft((PPow) newChild);
             return;
         }
 
-        if(this._minus_ == oldChild)
+        if(this._op_ == oldChild)
         {
-            setMinus((TMinus) newChild);
+            setOp((TPow) newChild);
             return;
         }
 
         if(this._right_ == oldChild)
         {
-            setRight((PMultdiv) newChild);
+            setRight((PPostfixop) newChild);
             return;
         }
 

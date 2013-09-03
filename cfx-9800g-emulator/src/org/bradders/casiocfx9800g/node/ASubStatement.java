@@ -5,56 +5,56 @@ package org.bradders.casiocfx9800g.node;
 import org.bradders.casiocfx9800g.analysis.*;
 
 @SuppressWarnings("nls")
-public final class AMinusExpression extends PExpression
+public final class ASubStatement extends PStatement
 {
-    private PExpression _left_;
-    private TMinus _minus_;
-    private PMultdiv _right_;
+    private TProg _prog_;
+    private TSpace _space_;
+    private TQuotedText _quotedText_;
 
-    public AMinusExpression()
+    public ASubStatement()
     {
         // Constructor
     }
 
-    public AMinusExpression(
-        @SuppressWarnings("hiding") PExpression _left_,
-        @SuppressWarnings("hiding") TMinus _minus_,
-        @SuppressWarnings("hiding") PMultdiv _right_)
+    public ASubStatement(
+        @SuppressWarnings("hiding") TProg _prog_,
+        @SuppressWarnings("hiding") TSpace _space_,
+        @SuppressWarnings("hiding") TQuotedText _quotedText_)
     {
         // Constructor
-        setLeft(_left_);
+        setProg(_prog_);
 
-        setMinus(_minus_);
+        setSpace(_space_);
 
-        setRight(_right_);
+        setQuotedText(_quotedText_);
 
     }
 
     @Override
     public Object clone()
     {
-        return new AMinusExpression(
-            cloneNode(this._left_),
-            cloneNode(this._minus_),
-            cloneNode(this._right_));
+        return new ASubStatement(
+            cloneNode(this._prog_),
+            cloneNode(this._space_),
+            cloneNode(this._quotedText_));
     }
 
     @Override
     public void apply(Switch sw)
     {
-        ((Analysis) sw).caseAMinusExpression(this);
+        ((Analysis) sw).caseASubStatement(this);
     }
 
-    public PExpression getLeft()
+    public TProg getProg()
     {
-        return this._left_;
+        return this._prog_;
     }
 
-    public void setLeft(PExpression node)
+    public void setProg(TProg node)
     {
-        if(this._left_ != null)
+        if(this._prog_ != null)
         {
-            this._left_.parent(null);
+            this._prog_.parent(null);
         }
 
         if(node != null)
@@ -67,19 +67,19 @@ public final class AMinusExpression extends PExpression
             node.parent(this);
         }
 
-        this._left_ = node;
+        this._prog_ = node;
     }
 
-    public TMinus getMinus()
+    public TSpace getSpace()
     {
-        return this._minus_;
+        return this._space_;
     }
 
-    public void setMinus(TMinus node)
+    public void setSpace(TSpace node)
     {
-        if(this._minus_ != null)
+        if(this._space_ != null)
         {
-            this._minus_.parent(null);
+            this._space_.parent(null);
         }
 
         if(node != null)
@@ -92,19 +92,19 @@ public final class AMinusExpression extends PExpression
             node.parent(this);
         }
 
-        this._minus_ = node;
+        this._space_ = node;
     }
 
-    public PMultdiv getRight()
+    public TQuotedText getQuotedText()
     {
-        return this._right_;
+        return this._quotedText_;
     }
 
-    public void setRight(PMultdiv node)
+    public void setQuotedText(TQuotedText node)
     {
-        if(this._right_ != null)
+        if(this._quotedText_ != null)
         {
-            this._right_.parent(null);
+            this._quotedText_.parent(null);
         }
 
         if(node != null)
@@ -117,37 +117,37 @@ public final class AMinusExpression extends PExpression
             node.parent(this);
         }
 
-        this._right_ = node;
+        this._quotedText_ = node;
     }
 
     @Override
     public String toString()
     {
         return ""
-            + toString(this._left_)
-            + toString(this._minus_)
-            + toString(this._right_);
+            + toString(this._prog_)
+            + toString(this._space_)
+            + toString(this._quotedText_);
     }
 
     @Override
     void removeChild(@SuppressWarnings("unused") Node child)
     {
         // Remove child
-        if(this._left_ == child)
+        if(this._prog_ == child)
         {
-            this._left_ = null;
+            this._prog_ = null;
             return;
         }
 
-        if(this._minus_ == child)
+        if(this._space_ == child)
         {
-            this._minus_ = null;
+            this._space_ = null;
             return;
         }
 
-        if(this._right_ == child)
+        if(this._quotedText_ == child)
         {
-            this._right_ = null;
+            this._quotedText_ = null;
             return;
         }
 
@@ -158,21 +158,21 @@ public final class AMinusExpression extends PExpression
     void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild)
     {
         // Replace child
-        if(this._left_ == oldChild)
+        if(this._prog_ == oldChild)
         {
-            setLeft((PExpression) newChild);
+            setProg((TProg) newChild);
             return;
         }
 
-        if(this._minus_ == oldChild)
+        if(this._space_ == oldChild)
         {
-            setMinus((TMinus) newChild);
+            setSpace((TSpace) newChild);
             return;
         }
 
-        if(this._right_ == oldChild)
+        if(this._quotedText_ == oldChild)
         {
-            setRight((PMultdiv) newChild);
+            setQuotedText((TQuotedText) newChild);
             return;
         }
 

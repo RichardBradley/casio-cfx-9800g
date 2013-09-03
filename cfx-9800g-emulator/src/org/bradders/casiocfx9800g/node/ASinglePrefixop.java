@@ -5,46 +5,46 @@ package org.bradders.casiocfx9800g.node;
 import org.bradders.casiocfx9800g.analysis.*;
 
 @SuppressWarnings("nls")
-public final class AFractionAtom extends PAtom
+public final class ASinglePrefixop extends PPrefixop
 {
-    private PFractionLiteral _fractionLiteral_;
+    private PFunc _single_;
 
-    public AFractionAtom()
+    public ASinglePrefixop()
     {
         // Constructor
     }
 
-    public AFractionAtom(
-        @SuppressWarnings("hiding") PFractionLiteral _fractionLiteral_)
+    public ASinglePrefixop(
+        @SuppressWarnings("hiding") PFunc _single_)
     {
         // Constructor
-        setFractionLiteral(_fractionLiteral_);
+        setSingle(_single_);
 
     }
 
     @Override
     public Object clone()
     {
-        return new AFractionAtom(
-            cloneNode(this._fractionLiteral_));
+        return new ASinglePrefixop(
+            cloneNode(this._single_));
     }
 
     @Override
     public void apply(Switch sw)
     {
-        ((Analysis) sw).caseAFractionAtom(this);
+        ((Analysis) sw).caseASinglePrefixop(this);
     }
 
-    public PFractionLiteral getFractionLiteral()
+    public PFunc getSingle()
     {
-        return this._fractionLiteral_;
+        return this._single_;
     }
 
-    public void setFractionLiteral(PFractionLiteral node)
+    public void setSingle(PFunc node)
     {
-        if(this._fractionLiteral_ != null)
+        if(this._single_ != null)
         {
-            this._fractionLiteral_.parent(null);
+            this._single_.parent(null);
         }
 
         if(node != null)
@@ -57,23 +57,23 @@ public final class AFractionAtom extends PAtom
             node.parent(this);
         }
 
-        this._fractionLiteral_ = node;
+        this._single_ = node;
     }
 
     @Override
     public String toString()
     {
         return ""
-            + toString(this._fractionLiteral_);
+            + toString(this._single_);
     }
 
     @Override
     void removeChild(@SuppressWarnings("unused") Node child)
     {
         // Remove child
-        if(this._fractionLiteral_ == child)
+        if(this._single_ == child)
         {
-            this._fractionLiteral_ = null;
+            this._single_ = null;
             return;
         }
 
@@ -84,9 +84,9 @@ public final class AFractionAtom extends PAtom
     void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild)
     {
         // Replace child
-        if(this._fractionLiteral_ == oldChild)
+        if(this._single_ == oldChild)
         {
-            setFractionLiteral((PFractionLiteral) newChild);
+            setSingle((PFunc) newChild);
             return;
         }
 

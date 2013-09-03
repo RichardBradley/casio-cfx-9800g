@@ -2,7 +2,7 @@
 
 package org.bradders.casiocfx9800g.node;
 
-public abstract class PFractionLiteral extends Node
+public abstract class PMultdiv extends Node
 {
     // Empty body
 }

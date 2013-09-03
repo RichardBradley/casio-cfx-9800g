@@ -8,4 +8,4 @@
 *** Comparison with handwritten parser (miffs): adding logic to Node classes for OO encapsulation
 * Enhance emulator:
 ** Use the casio fonts?
-
+* Write a transpiler which converts the progs to Java source instead of emulating them?

@@ -5,46 +5,46 @@ package org.bradders.casiocfx9800g.node;
 import org.bradders.casiocfx9800g.analysis.*;
 
 @SuppressWarnings("nls")
-public final class APostfixopMultgroup extends PMultgroup
+public final class ASingleExpression extends PExpression
 {
-    private PPostfixop _postfixop_;
+    private PMultdiv _single_;
 
-    public APostfixopMultgroup()
+    public ASingleExpression()
     {
         // Constructor
     }
 
-    public APostfixopMultgroup(
-        @SuppressWarnings("hiding") PPostfixop _postfixop_)
+    public ASingleExpression(
+        @SuppressWarnings("hiding") PMultdiv _single_)
     {
         // Constructor
-        setPostfixop(_postfixop_);
+        setSingle(_single_);
 
     }
 
     @Override
     public Object clone()
     {
-        return new APostfixopMultgroup(
-            cloneNode(this._postfixop_));
+        return new ASingleExpression(
+            cloneNode(this._single_));
     }
 
     @Override
     public void apply(Switch sw)
     {
-        ((Analysis) sw).caseAPostfixopMultgroup(this);
+        ((Analysis) sw).caseASingleExpression(this);
     }
 
-    public PPostfixop getPostfixop()
+    public PMultdiv getSingle()
     {
-        return this._postfixop_;
+        return this._single_;
     }
 
-    public void setPostfixop(PPostfixop node)
+    public void setSingle(PMultdiv node)
     {
-        if(this._postfixop_ != null)
+        if(this._single_ != null)
         {
-            this._postfixop_.parent(null);
+            this._single_.parent(null);
         }
 
         if(node != null)
@@ -57,23 +57,23 @@ public final class APostfixopMultgroup extends PMultgroup
             node.parent(this);
         }
 
-        this._postfixop_ = node;
+        this._single_ = node;
     }
 
     @Override
     public String toString()
     {
         return ""
-            + toString(this._postfixop_);
+            + toString(this._single_);
     }
 
     @Override
     void removeChild(@SuppressWarnings("unused") Node child)
     {
         // Remove child
-        if(this._postfixop_ == child)
+        if(this._single_ == child)
         {
-            this._postfixop_ = null;
+            this._single_ = null;
             return;
         }
 
@@ -84,9 +84,9 @@ public final class APostfixopMultgroup extends PMultgroup
     void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild)
     {
         // Replace child
-        if(this._postfixop_ == oldChild)
+        if(this._single_ == oldChild)
         {
-            setPostfixop((PPostfixop) newChild);
+            setSingle((PMultdiv) newChild);
             return;
         }
 

@@ -5,39 +5,39 @@ package org.bradders.casiocfx9800g.node;
 import org.bradders.casiocfx9800g.analysis.*;
 
 @SuppressWarnings("nls")
-public final class ANegateFactor extends PFactor
+public final class ANegatePrefixop extends PPrefixop
 {
     private TMinus _minus_;
-    private PMultgroup _multgroup_;
+    private PFunc _func_;
 
-    public ANegateFactor()
+    public ANegatePrefixop()
     {
         // Constructor
     }
 
-    public ANegateFactor(
+    public ANegatePrefixop(
         @SuppressWarnings("hiding") TMinus _minus_,
-        @SuppressWarnings("hiding") PMultgroup _multgroup_)
+        @SuppressWarnings("hiding") PFunc _func_)
     {
         // Constructor
         setMinus(_minus_);
 
-        setMultgroup(_multgroup_);
+        setFunc(_func_);
 
     }
 
     @Override
     public Object clone()
     {
-        return new ANegateFactor(
+        return new ANegatePrefixop(
             cloneNode(this._minus_),
-            cloneNode(this._multgroup_));
+            cloneNode(this._func_));
     }
 
     @Override
     public void apply(Switch sw)
     {
-        ((Analysis) sw).caseANegateFactor(this);
+        ((Analysis) sw).caseANegatePrefixop(this);
     }
 
     public TMinus getMinus()
@@ -65,16 +65,16 @@ public final class ANegateFactor extends PFactor
         this._minus_ = node;
     }
 
-    public PMultgroup getMultgroup()
+    public PFunc getFunc()
     {
-        return this._multgroup_;
+        return this._func_;
     }
 
-    public void setMultgroup(PMultgroup node)
+    public void setFunc(PFunc node)
     {
-        if(this._multgroup_ != null)
+        if(this._func_ != null)
         {
-            this._multgroup_.parent(null);
+            this._func_.parent(null);
         }
 
         if(node != null)
@@ -87,7 +87,7 @@ public final class ANegateFactor extends PFactor
             node.parent(this);
         }
 
-        this._multgroup_ = node;
+        this._func_ = node;
     }
 
     @Override
@@ -95,7 +95,7 @@ public final class ANegateFactor extends PFactor
     {
         return ""
             + toString(this._minus_)
-            + toString(this._multgroup_);
+            + toString(this._func_);
     }
 
     @Override
@@ -108,9 +108,9 @@ public final class ANegateFactor extends PFactor
             return;
         }
 
-        if(this._multgroup_ == child)
+        if(this._func_ == child)
         {
-            this._multgroup_ = null;
+            this._func_ = null;
             return;
         }
 
@@ -127,9 +127,9 @@ public final class ANegateFactor extends PFactor
             return;
         }
 
-        if(this._multgroup_ == oldChild)
+        if(this._func_ == oldChild)
         {
-            setMultgroup((PMultgroup) newChild);
+            setFunc((PFunc) newChild);
             return;
         }
 

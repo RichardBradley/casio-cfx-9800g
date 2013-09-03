@@ -1,0 +1,49 @@
+"MASTER"
+5000->R
+5000->T
+2->P
+Lbl 1
+Int ((Ran#*10)+10)->L
+"YOU HAVE..."
+"POPULATION="
+P#
+"RICE="
+R#
+"ACRES="
+T#
+"LAND"
+"COSTS"
+L#
+Lbl 2
+"HOW MANY ACRES"
+"DO YOU WANT TO"
+"BUY":?->A
+(A*L)>R=>"ALL YOU CAN"
+(A*L)>R=>"AFFORD IS"
+(A*L)>R=>R/L#
+(A*L)>R=>Goto 2
+R-(A*L)->R
+T+A->T
+Lbl 3
+"HOW MANY ACRES"
+"DO YOU WANT TO"
+"SELL":?->A
+A>T=>"YOU ONLY HAVE"
+A>T=>T#
+A>T=>"ACRES"
+A>T=>Goto 3
+T-A->T
+(A*L)+R->R
+"HOW MANY KGS"
+"OF RICE DO YOU"
+"WANT TO PLANT":Lbl 4
+"(YOU CAN PLANT)"
+Prog "p8-master-prog2.txt"
+G#
+?->A
+A>G=>Goto 4
+R-A->R
+Prog "p8-master-progJ.txt"
+P>0=>Goto 1
+"YOU HAVE NO"
+"PEOPLE LEFT"

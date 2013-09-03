@@ -1,0 +1,70 @@
+"CASINO"
+100->S
+0->H
+"IF YOU BET 0"
+"AT ANY TIME"
+"YOU CAN SEE THE"
+"PRIZES + SCORE"
+Lbl 1
+(S/1e99)>=1=>Goto 5
+S>H=>S->H
+"YOU HAVE"
+S#
+"PLACE YOUR BET"
+?->B:B=0=>Goto 2
+B=0.5=>S+999->S
+B=0.1=>2S->S
+B>S=>Goto 1
+S-B->S
+Int (Ran#*100)->X
+Int (Ran#*100)->Y
+Int (Ran#*100)->Z
+Frac B=0.75=>12->X
+Frac B=0.75=>12->Y
+Frac B=0.75=>12->Z
+Prog "p9-casino-progX.txt"
+Prog "p9-casino-progY.txt"
+Prog "p9-casino-progZ.txt"
+Prog "p9-casino-progA.txt"
+S=0=>Goto 3
+Goto 1
+Lbl 2
+"ABC - 50"
+"AAA - 5"
+"BBB - 100"
+"CCC - 125"
+0#
+"Z   - 5"
+"ZZ  - 50"
+"ZZZ - 500"
+"WOMBAT - ?"
+"HISCORE =":H#
+Goto 1
+Lbl 3
+"YOU RAN OUT OF"
+"MONEY"
+0->Y
+Lbl 4
+"H   H   AA  :"
+"H   H  A  A :"
+"HHHHH  AAAA :"
+"H   H  A  A"
+"H   H  A  A ."
+""
+Isz Y
+Y<=2=>Goto 4
+Goto 6
+Lbl 5
+0->Y
+Lbl 7
+" "
+"Y Y EEEE  SS"
+"Y Y E    S  S"
+" Y  EEE   S"
+" Y  E      S"
+" Y  E    S  S"
+" Y  EEEE  SS"
+Isz Y
+Y<=2=>Goto 7
+"YOU WIN"
+Lbl 6

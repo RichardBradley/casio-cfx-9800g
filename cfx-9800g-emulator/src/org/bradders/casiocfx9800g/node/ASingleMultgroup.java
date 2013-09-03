@@ -5,46 +5,46 @@ package org.bradders.casiocfx9800g.node;
 import org.bradders.casiocfx9800g.analysis.*;
 
 @SuppressWarnings("nls")
-public final class AFuncPostfixop extends PPostfixop
+public final class ASingleMultgroup extends PMultgroup
 {
-    private PFunc _func_;
+    private PFrac _single_;
 
-    public AFuncPostfixop()
+    public ASingleMultgroup()
     {
         // Constructor
     }
 
-    public AFuncPostfixop(
-        @SuppressWarnings("hiding") PFunc _func_)
+    public ASingleMultgroup(
+        @SuppressWarnings("hiding") PFrac _single_)
     {
         // Constructor
-        setFunc(_func_);
+        setSingle(_single_);
 
     }
 
     @Override
     public Object clone()
     {
-        return new AFuncPostfixop(
-            cloneNode(this._func_));
+        return new ASingleMultgroup(
+            cloneNode(this._single_));
     }
 
     @Override
     public void apply(Switch sw)
     {
-        ((Analysis) sw).caseAFuncPostfixop(this);
+        ((Analysis) sw).caseASingleMultgroup(this);
     }
 
-    public PFunc getFunc()
+    public PFrac getSingle()
     {
-        return this._func_;
+        return this._single_;
     }
 
-    public void setFunc(PFunc node)
+    public void setSingle(PFrac node)
     {
-        if(this._func_ != null)
+        if(this._single_ != null)
         {
-            this._func_.parent(null);
+            this._single_.parent(null);
         }
 
         if(node != null)
@@ -57,23 +57,23 @@ public final class AFuncPostfixop extends PPostfixop
             node.parent(this);
         }
 
-        this._func_ = node;
+        this._single_ = node;
     }
 
     @Override
     public String toString()
     {
         return ""
-            + toString(this._func_);
+            + toString(this._single_);
     }
 
     @Override
     void removeChild(@SuppressWarnings("unused") Node child)
     {
         // Remove child
-        if(this._func_ == child)
+        if(this._single_ == child)
         {
-            this._func_ = null;
+            this._single_ = null;
             return;
         }
 
@@ -84,9 +84,9 @@ public final class AFuncPostfixop extends PPostfixop
     void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild)
     {
         // Replace child
-        if(this._func_ == oldChild)
+        if(this._single_ == oldChild)
         {
-            setFunc((PFunc) newChild);
+            setSingle((PFrac) newChild);
             return;
         }
 

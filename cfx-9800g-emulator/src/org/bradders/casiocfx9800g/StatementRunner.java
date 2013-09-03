@@ -11,6 +11,7 @@ import org.bradders.casiocfx9800g.node.APrinttextStatement;
 import org.bradders.casiocfx9800g.node.APrintvalStatement;
 import org.bradders.casiocfx9800g.node.ASubArgsStatement;
 import org.bradders.casiocfx9800g.node.ASubNoargsStatement;
+import org.bradders.casiocfx9800g.node.ASubStatement;
 import org.bradders.casiocfx9800g.node.PStatement;
 import org.bradders.casiocfx9800g.node.TNumberLiteral;
 import org.bradders.casiocfx9800g.ui.CalcColour;
@@ -20,13 +21,15 @@ import org.bradders.casiocfx9800g.util.Printer;
 public class StatementRunner
 {
    private final RuntimeContext context;
+   private final Compiler compiler;
    private final UserInterface userInterface;
    private final Evaluator evaluator;
    public boolean traceExecution = false;
 
-   public StatementRunner(RuntimeContext context, UserInterface userInterface)
+   public StatementRunner(RuntimeContext context, Compiler compiler, UserInterface userInterface)
    {
       this.context = context;
+      this.compiler = compiler;
       this.userInterface = userInterface;
       evaluator = new Evaluator(context, userInterface);
    }
@@ -34,14 +37,14 @@ public class StatementRunner
    /**
     * Runs the whole program
     */
-   public void run()
+   public void run(CompiledFile file)
    {
       int statementPtr = 0;
       while (true)
       {
-         PStatement statement = context.statements.get(statementPtr);
+         PStatement statement = file.statements.get(statementPtr);
          
-         Integer nextStatement = run(statement);
+         Integer nextStatementLabel = run(statement);
 
          if (traceExecution) {
             System.out.print(statementPtr);
@@ -52,16 +55,19 @@ public class StatementRunner
             System.out.println();
          }
 
-         if (null == nextStatement) {
+         if (null == nextStatementLabel) {
             statementPtr++;
-            if (statementPtr >= context.statements.size()) {
+            if (statementPtr >= file.statements.size()) {
                break;
             }
          } else {
-            statementPtr = nextStatement;
+            Integer statementIdx = file.statementIdxByLabelNumber.get(nextStatementLabel);
+            if (statementIdx == null) {
+               throw new RuntimeException("Bad goto label: " + Printer.nodeToString(statement));
+            }
+            statementPtr = statementIdx;
          }
       }
-      userInterface.printLine("(terminated)");
    }
 
    /**
@@ -77,10 +83,11 @@ public class StatementRunner
                   {sub_noargs} sub_noargs_name |
                   {sub_args} sub_args_name space atom_list |
                   {if} [left]:expression comparison_op [right]:expression then_arrow statement |
-                  {count_jump} count_jump_op variable_name statement_separator statement;
+                  {count_jump} count_jump_op variable_name statement_separator statement |
+                  {sub} prog space quoted_text;
       </code>
     * @param statement
-    * @return the index of the next statement which should be executed, or null
+    * @return the label of the next statement which should be executed, or null
     *         to proceed at the next in sequence  
     */
    private Integer run(PStatement statement)
@@ -103,6 +110,8 @@ public class StatementRunner
          return run((AIfStatement)statement);
       } else if (statement instanceof ACountJumpStatement) {
          return run((ACountJumpStatement)statement);
+      } else if (statement instanceof ASubStatement) {
+         run((ASubStatement)statement);
       } else {
          throw new CompileException(String.format(
                "Unexpected type: %s at %s",
@@ -142,11 +151,7 @@ public class StatementRunner
    {
       TNumberLiteral label = ((AGotoStatement)statement).getNumberLiteral();
       int labelNumber = Evaluator.getInt(label, statement);
-      Integer statementIdx = context.statementIdxByLabelNumber.get(labelNumber);
-      if (statementIdx == null) {
-         throw new RuntimeException("Bad goto label: " + Printer.nodeToString(statement));
-      }
-      return statementIdx;
+      return labelNumber;
    }
 
    private void run(ASubNoargsStatement statement)
@@ -247,6 +252,25 @@ public class StatementRunner
          return run(statement.getStatement());
       } else {
          return null;
+      }
+   }
+   
+   private void run(ASubStatement statement)
+   {
+      String filename = Evaluator.getString(statement.getQuotedText(), statement);
+      
+      try
+      {
+         CompiledFile file = compiler.loadFile(filename);
+         run(file);
+      }
+      catch (Exception e)
+      {
+         throw new RuntimeException(String.format(
+               "Error from subroutine included at %s: %s",
+               Printer.nodeToString(statement),
+               e.getMessage()),
+               e);
       }
    }
 }

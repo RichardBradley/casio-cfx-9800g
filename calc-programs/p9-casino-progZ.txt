@@ -1,0 +1,22 @@
+Z=12=>Goto 8
+Z>40=>Goto 1
+1->F
+"ARMADILLO"
+Goto 9
+Lbl 1
+Z>60=>Goto 2
+2->F
+"BABOON"
+Goto 9
+Z>80=>Goto 3
+3->F
+"CATTERPILLAR"
+Goto 9
+Lbl 3
+4->F
+"ZULU WARRIOR"
+Goto 9
+Lbl 8
+"WOMBAT"
+5->F
+Lbl 9

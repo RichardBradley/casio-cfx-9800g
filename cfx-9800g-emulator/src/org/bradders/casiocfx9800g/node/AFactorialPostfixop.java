@@ -7,7 +7,7 @@ import org.bradders.casiocfx9800g.analysis.*;
 @SuppressWarnings("nls")
 public final class AFactorialPostfixop extends PPostfixop
 {
-    private PAtom _atom_;
+    private PPostfixop _postfixop_;
     private TBang _bang_;
 
     public AFactorialPostfixop()
@@ -16,11 +16,11 @@ public final class AFactorialPostfixop extends PPostfixop
     }
 
     public AFactorialPostfixop(
-        @SuppressWarnings("hiding") PAtom _atom_,
+        @SuppressWarnings("hiding") PPostfixop _postfixop_,
         @SuppressWarnings("hiding") TBang _bang_)
     {
         // Constructor
-        setAtom(_atom_);
+        setPostfixop(_postfixop_);
 
         setBang(_bang_);
 
@@ -30,7 +30,7 @@ public final class AFactorialPostfixop extends PPostfixop
     public Object clone()
     {
         return new AFactorialPostfixop(
-            cloneNode(this._atom_),
+            cloneNode(this._postfixop_),
             cloneNode(this._bang_));
     }
 
@@ -40,16 +40,16 @@ public final class AFactorialPostfixop extends PPostfixop
         ((Analysis) sw).caseAFactorialPostfixop(this);
     }
 
-    public PAtom getAtom()
+    public PPostfixop getPostfixop()
     {
-        return this._atom_;
+        return this._postfixop_;
     }
 
-    public void setAtom(PAtom node)
+    public void setPostfixop(PPostfixop node)
     {
-        if(this._atom_ != null)
+        if(this._postfixop_ != null)
         {
-            this._atom_.parent(null);
+            this._postfixop_.parent(null);
         }
 
         if(node != null)
@@ -62,7 +62,7 @@ public final class AFactorialPostfixop extends PPostfixop
             node.parent(this);
         }
 
-        this._atom_ = node;
+        this._postfixop_ = node;
     }
 
     public TBang getBang()
@@ -94,7 +94,7 @@ public final class AFactorialPostfixop extends PPostfixop
     public String toString()
     {
         return ""
-            + toString(this._atom_)
+            + toString(this._postfixop_)
             + toString(this._bang_);
     }
 
@@ -102,9 +102,9 @@ public final class AFactorialPostfixop extends PPostfixop
     void removeChild(@SuppressWarnings("unused") Node child)
     {
         // Remove child
-        if(this._atom_ == child)
+        if(this._postfixop_ == child)
         {
-            this._atom_ = null;
+            this._postfixop_ = null;
             return;
         }
 
@@ -121,9 +121,9 @@ public final class AFactorialPostfixop extends PPostfixop
     void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild)
     {
         // Replace child
-        if(this._atom_ == oldChild)
+        if(this._postfixop_ == oldChild)
         {
-            setAtom((PAtom) newChild);
+            setPostfixop((PPostfixop) newChild);
             return;
         }
 

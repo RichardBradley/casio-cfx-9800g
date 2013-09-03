@@ -1,21 +1,12 @@
 package org.bradders.casiocfx9800g;
 
-import static org.hamcrest.Matchers.closeTo;
-import static org.hamcrest.Matchers.equalTo;
-import static org.junit.Assert.assertThat;
+import static org.hamcrest.Matchers.*;
+import static org.junit.Assert.*;
 
-import java.io.StringReader;
-
-import org.bradders.casiocfx9800g.node.APrintvalStatement;
-import org.bradders.casiocfx9800g.node.ASingleProgram;
-import org.bradders.casiocfx9800g.node.PExpression;
-import org.bradders.casiocfx9800g.node.Start;
 import org.junit.Test;
 
-public class EvaluatorTest
+public class EvaluatorTest extends EvaluationTestBase
 {
-   private RuntimeContext context = new RuntimeContext();
-   
    @Test
    public void testSimpleAddition() throws Exception
    {
@@ -66,16 +57,46 @@ public class EvaluatorTest
    {
       assertThat(evaluate("5-2-3"), equalTo(0.0));
    }
-
-   private double evaluate(String expressionStr) throws Exception {
-      expressionStr = expressionStr + "#\n";
-      
-      Start ast = Main.compile(context , new StringReader(expressionStr));
-      ASingleProgram prog = (ASingleProgram)ast.getPProgram();
-      APrintvalStatement stm = (APrintvalStatement) prog.getStatement();
-      PExpression expression = stm.getExpression();
-      
-      Evaluator evaluator = new Evaluator(context, null);
-      return evaluator.evaluate(expression);
+   
+   @Test
+   public void testBangFuncPrecedence() throws Exception
+   {
+      assertThat(evaluate("sin 2!"), equalTo(evaluate("sin (2!)")));
+      try {
+         evaluate("(sin 2)!");
+         fail("expected exception");
+      } catch (Exception e) {
+         assertThat(e.getMessage(), containsString("factorial of non-integer"));
+      }
+   }
+   
+   @Test
+   public void testBangBang() throws Exception
+   {
+      assertThat(evaluate("3!!"), equalTo(720.0));
+   }
+   
+   @Test
+   public void testPowerFuncPrecedence() throws Exception
+   {
+      assertThat(evaluate("sin 2^2"), equalTo(evaluate("sin (2^2)")));
+      assertThat(evaluate("sin 2^2"), not(equalTo(evaluate("(sin 2)^2"))));
+   }
+   
+   @Test
+   public void testNumberLiterals() throws Exception
+   {
+      assertThat(evaluate("1"), equalTo(1.0));
+      assertThat(evaluate("1.0"), equalTo(1.0));
+      assertThat(evaluate("-1"), equalTo(-1.0));
+      assertThat(evaluate("-1.0"), equalTo(-1.0));
+      assertThat(evaluate("1e1"), equalTo(1e1));
+      assertThat(evaluate("1e100"), equalTo(1e100));
+      assertThat(evaluate("1e-1"), equalTo(1e-1));
+      assertThat(evaluate("1e-100"), equalTo(1e-100));
+      assertThat(evaluate("1.2e1"), equalTo(1.2e1));
+      assertThat(evaluate("1.2e100"), equalTo(1.2e100));
+      assertThat(evaluate("1.2e-1"), equalTo(1.2e-1));
+      assertThat(evaluate("1.2e-100"), equalTo(1.2e-100));
    }
 }

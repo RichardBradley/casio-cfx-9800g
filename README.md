@@ -92,6 +92,12 @@ In program mode, the CFX-9800G has several symbols which are difficult to reprod
        These files use "`|`" for this symbol.
        In this notation, `1|1|3` is "one and one-third", and `77|24` is 77/24 as a fraction.
 
+`Prog` The Casio lets you call other programs from within a program (see "Using Subroutines", p308 of CFX-9800G.pdf).
+       Since programs on the CFX-9800G don't have names, only a number or letter index, the `Prog` command takes
+       a single letter or number as an argument.
+       To aid readability, in these files `Prog` takes a string argument, which is the filename of the programe to jump to.
+       (The function stack is only 10 deep on the Casio.)
+
 (Range from my old casio is referred to as 'View Window' in the new casio)
        from the emulator
 

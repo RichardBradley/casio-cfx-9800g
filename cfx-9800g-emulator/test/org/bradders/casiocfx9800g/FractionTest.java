@@ -1,17 +1,14 @@
 package org.bradders.casiocfx9800g;
 
-import java.io.StringReader;
+import static org.hamcrest.Matchers.containsString;
+import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.not;
+import static org.junit.Assert.assertThat;
+import static org.junit.Assert.fail;
 
-import org.bradders.casiocfx9800g.node.Start;
-import org.bradders.casiocfx9800g.ui.UserInterface;
-import org.bradders.casiocfx9800g.util.ParseTreePrinterAdapter;
-import org.jmock.Expectations;
-import org.jmock.Mockery;
-import org.junit.Ignore;
 import org.junit.Test;
-import static org.hamcrest.Matchers.*;
 
-public class FractionTest
+public class FractionTest extends EvaluationTestBase
 {
    @Test
    public void testFractions() throws Exception
@@ -34,21 +31,36 @@ public class FractionTest
    }
     */
    
-   private void assertProgramPrints(String program, final double value) throws Exception
+   @Test
+   public void testFracPrecendence() throws Exception
    {
-      Mockery mockery = new Mockery();
-      RuntimeContext context = new RuntimeContext();
-      final UserInterface userInterface = mockery.mock(UserInterface.class);
+      assertThat(evaluate("1|3!"), equalTo(1.0/6.0));
+      assertThat(evaluate("1|3!"), equalTo(evaluate("1|(3!)")));
+      try {
+         evaluate("(1|3)!");
+         fail("expected exception");
+      } catch (Exception e) {
+         assertThat(e.getMessage(), containsString("factorial of non-integer"));
+      }
       
-      mockery.checking(new Expectations() {{
-         oneOf(userInterface).printResult(with(closeTo(value, 1e-6)));
-         allowing(userInterface).printLine(with(any(String.class)));
-      }});
+      assertThat(evaluate("3|2^2"), equalTo(3.0/4.0));
+      assertThat(evaluate("(3|2)^2"), equalTo(9.0/4.0));
       
-      Main.compile(context , new StringReader(program));
-      StatementRunner runner = new StatementRunner(context, userInterface);
-      runner.run();
-      
-      mockery.assertIsSatisfied();
+      // Frac is higher precedence than func
+      assertThat(evaluate("sin 1|2"), equalTo(evaluate("sin (1|2)")));
+      assertThat(evaluate("sin 1|2"), not(equalTo(evaluate("(sin 1)|2"))));
+   }
+   
+   @Test
+   public void testFracVariables() throws Exception
+   {
+      context.setVariableValue("A", 2.0);
+      context.setVariableValue("B", 3.0);
+      context.setVariableValue("C", 4.0);
+
+      assertThat(evaluate("A|B|C"), equalTo(11.0/4.0));
+      assertThat(evaluate("A|2B"), equalTo(3.0));
+      assertThat(evaluate("A|(2B)"), equalTo(1.0/3.0));
+      assertThat(evaluate("(A+1)|(B+1)|(C+1)"), equalTo(19.0/5.0));
    }
 }

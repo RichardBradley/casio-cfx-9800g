@@ -1,0 +1,23 @@
+Y=12=>Goto 8
+Y>40=>Goto 1
+1->E
+"ARMADILLO"
+Goto 9
+Lbl 1
+Y>60=>Goto 2
+2->E
+"BABOON"
+Goto 9
+Lbl 2
+Y>80=>Goto 3
+3->E
+"CATTERPILLAR"
+Goto 9
+Lbl 3
+4->E
+"ZULU WARRIOR"
+Goto 9
+Lbl 8
+"WOMBAT"
+5->E
+Lbl 9

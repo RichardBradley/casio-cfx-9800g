@@ -141,7 +141,13 @@ public class AnalysisAdapter implements Analysis
     }
 
     @Override
-    public void caseATermExpression(ATermExpression node)
+    public void caseASubStatement(ASubStatement node)
+    {
+        defaultCase(node);
+    }
+
+    @Override
+    public void caseASingleExpression(ASingleExpression node)
     {
         defaultCase(node);
     }
@@ -159,67 +165,37 @@ public class AnalysisAdapter implements Analysis
     }
 
     @Override
-    public void caseAFactorTerm(AFactorTerm node)
+    public void caseASingleMultdiv(ASingleMultdiv node)
     {
         defaultCase(node);
     }
 
     @Override
-    public void caseAMultTerm(AMultTerm node)
+    public void caseAMultMultdiv(AMultMultdiv node)
     {
         defaultCase(node);
     }
 
     @Override
-    public void caseADivTerm(ADivTerm node)
+    public void caseADivMultdiv(ADivMultdiv node)
     {
         defaultCase(node);
     }
 
     @Override
-    public void caseASingleFactor(ASingleFactor node)
+    public void caseASinglePrefixop(ASinglePrefixop node)
     {
         defaultCase(node);
     }
 
     @Override
-    public void caseAMultgroupFactor(AMultgroupFactor node)
+    public void caseANegatePrefixop(ANegatePrefixop node)
     {
         defaultCase(node);
     }
 
     @Override
-    public void caseANegateFactor(ANegateFactor node)
-    {
-        defaultCase(node);
-    }
-
-    @Override
-    public void caseAPostfixopMultgroup(APostfixopMultgroup node)
-    {
-        defaultCase(node);
-    }
-
-    @Override
-    public void caseAPowerMultgroup(APowerMultgroup node)
-    {
-        defaultCase(node);
-    }
-
-    @Override
-    public void caseAFuncPostfixop(AFuncPostfixop node)
-    {
-        defaultCase(node);
-    }
-
-    @Override
-    public void caseAFactorialPostfixop(AFactorialPostfixop node)
-    {
-        defaultCase(node);
-    }
-
-    @Override
-    public void caseAAtomFunc(AAtomFunc node)
+    public void caseASingleFunc(ASingleFunc node)
     {
         defaultCase(node);
     }
@@ -237,6 +213,66 @@ public class AnalysisAdapter implements Analysis
     }
 
     @Override
+    public void caseAFuncNoArgsFunc(AFuncNoArgsFunc node)
+    {
+        defaultCase(node);
+    }
+
+    @Override
+    public void caseASingleMultgroup(ASingleMultgroup node)
+    {
+        defaultCase(node);
+    }
+
+    @Override
+    public void caseAMultMultgroup(AMultMultgroup node)
+    {
+        defaultCase(node);
+    }
+
+    @Override
+    public void caseASingleFrac(ASingleFrac node)
+    {
+        defaultCase(node);
+    }
+
+    @Override
+    public void caseAPairFrac(APairFrac node)
+    {
+        defaultCase(node);
+    }
+
+    @Override
+    public void caseATripleFrac(ATripleFrac node)
+    {
+        defaultCase(node);
+    }
+
+    @Override
+    public void caseASinglePow(ASinglePow node)
+    {
+        defaultCase(node);
+    }
+
+    @Override
+    public void caseAPowerPow(APowerPow node)
+    {
+        defaultCase(node);
+    }
+
+    @Override
+    public void caseASinglePostfixop(ASinglePostfixop node)
+    {
+        defaultCase(node);
+    }
+
+    @Override
+    public void caseAFactorialPostfixop(AFactorialPostfixop node)
+    {
+        defaultCase(node);
+    }
+
+    @Override
     public void caseAVarAtom(AVarAtom node)
     {
         defaultCase(node);
@@ -249,12 +285,6 @@ public class AnalysisAdapter implements Analysis
     }
 
     @Override
-    public void caseAFractionAtom(AFractionAtom node)
-    {
-        defaultCase(node);
-    }
-
-    @Override
     public void caseAInputAtom(AInputAtom node)
     {
         defaultCase(node);
@@ -262,18 +292,6 @@ public class AnalysisAdapter implements Analysis
 
     @Override
     public void caseAExpressionAtom(AExpressionAtom node)
-    {
-        defaultCase(node);
-    }
-
-    @Override
-    public void caseAPairFractionLiteral(APairFractionLiteral node)
-    {
-        defaultCase(node);
-    }
-
-    @Override
-    public void caseATripleFractionLiteral(ATripleFractionLiteral node)
     {
         defaultCase(node);
     }
@@ -399,6 +417,12 @@ public class AnalysisAdapter implements Analysis
     }
 
     @Override
+    public void caseTFunctionNoargsName(TFunctionNoargsName node)
+    {
+        defaultCase(node);
+    }
+
+    @Override
     public void caseTSubNoargsName(TSubNoargsName node)
     {
         defaultCase(node);
@@ -454,6 +478,12 @@ public class AnalysisAdapter implements Analysis
 
     @Override
     public void caseTCountJumpOp(TCountJumpOp node)
+    {
+        defaultCase(node);
+    }
+
+    @Override
+    public void caseTProg(TProg node)
     {
         defaultCase(node);
     }

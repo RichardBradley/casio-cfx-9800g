@@ -347,25 +347,54 @@ public class ReversedDepthFirstAdapter extends AnalysisAdapter
         outACountJumpStatement(node);
     }
 
-    public void inATermExpression(ATermExpression node)
+    public void inASubStatement(ASubStatement node)
     {
         defaultIn(node);
     }
 
-    public void outATermExpression(ATermExpression node)
+    public void outASubStatement(ASubStatement node)
     {
         defaultOut(node);
     }
 
     @Override
-    public void caseATermExpression(ATermExpression node)
+    public void caseASubStatement(ASubStatement node)
     {
-        inATermExpression(node);
-        if(node.getTerm() != null)
+        inASubStatement(node);
+        if(node.getQuotedText() != null)
         {
-            node.getTerm().apply(this);
+            node.getQuotedText().apply(this);
         }
-        outATermExpression(node);
+        if(node.getSpace() != null)
+        {
+            node.getSpace().apply(this);
+        }
+        if(node.getProg() != null)
+        {
+            node.getProg().apply(this);
+        }
+        outASubStatement(node);
+    }
+
+    public void inASingleExpression(ASingleExpression node)
+    {
+        defaultIn(node);
+    }
+
+    public void outASingleExpression(ASingleExpression node)
+    {
+        defaultOut(node);
+    }
+
+    @Override
+    public void caseASingleExpression(ASingleExpression node)
+    {
+        inASingleExpression(node);
+        if(node.getSingle() != null)
+        {
+            node.getSingle().apply(this);
+        }
+        outASingleExpression(node);
     }
 
     public void inAPlusExpression(APlusExpression node)
@@ -382,17 +411,17 @@ public class ReversedDepthFirstAdapter extends AnalysisAdapter
     public void caseAPlusExpression(APlusExpression node)
     {
         inAPlusExpression(node);
-        if(node.getTerm() != null)
+        if(node.getRight() != null)
         {
-            node.getTerm().apply(this);
+            node.getRight().apply(this);
         }
         if(node.getPlus() != null)
         {
             node.getPlus().apply(this);
         }
-        if(node.getExpression() != null)
+        if(node.getLeft() != null)
         {
-            node.getExpression().apply(this);
+            node.getLeft().apply(this);
         }
         outAPlusExpression(node);
     }
@@ -411,286 +440,165 @@ public class ReversedDepthFirstAdapter extends AnalysisAdapter
     public void caseAMinusExpression(AMinusExpression node)
     {
         inAMinusExpression(node);
-        if(node.getTerm() != null)
+        if(node.getRight() != null)
         {
-            node.getTerm().apply(this);
+            node.getRight().apply(this);
         }
         if(node.getMinus() != null)
         {
             node.getMinus().apply(this);
         }
-        if(node.getExpression() != null)
+        if(node.getLeft() != null)
         {
-            node.getExpression().apply(this);
+            node.getLeft().apply(this);
         }
         outAMinusExpression(node);
     }
 
-    public void inAFactorTerm(AFactorTerm node)
+    public void inASingleMultdiv(ASingleMultdiv node)
     {
         defaultIn(node);
     }
 
-    public void outAFactorTerm(AFactorTerm node)
+    public void outASingleMultdiv(ASingleMultdiv node)
     {
         defaultOut(node);
     }
 
     @Override
-    public void caseAFactorTerm(AFactorTerm node)
+    public void caseASingleMultdiv(ASingleMultdiv node)
     {
-        inAFactorTerm(node);
-        if(node.getFactor() != null)
+        inASingleMultdiv(node);
+        if(node.getSingle() != null)
         {
-            node.getFactor().apply(this);
+            node.getSingle().apply(this);
         }
-        outAFactorTerm(node);
+        outASingleMultdiv(node);
     }
 
-    public void inAMultTerm(AMultTerm node)
+    public void inAMultMultdiv(AMultMultdiv node)
     {
         defaultIn(node);
     }
 
-    public void outAMultTerm(AMultTerm node)
+    public void outAMultMultdiv(AMultMultdiv node)
     {
         defaultOut(node);
     }
 
     @Override
-    public void caseAMultTerm(AMultTerm node)
+    public void caseAMultMultdiv(AMultMultdiv node)
     {
-        inAMultTerm(node);
-        if(node.getFactor() != null)
+        inAMultMultdiv(node);
+        if(node.getRight() != null)
         {
-            node.getFactor().apply(this);
+            node.getRight().apply(this);
         }
         if(node.getMult() != null)
         {
             node.getMult().apply(this);
         }
-        if(node.getTerm() != null)
+        if(node.getLeft() != null)
         {
-            node.getTerm().apply(this);
+            node.getLeft().apply(this);
         }
-        outAMultTerm(node);
+        outAMultMultdiv(node);
     }
 
-    public void inADivTerm(ADivTerm node)
+    public void inADivMultdiv(ADivMultdiv node)
     {
         defaultIn(node);
     }
 
-    public void outADivTerm(ADivTerm node)
+    public void outADivMultdiv(ADivMultdiv node)
     {
         defaultOut(node);
     }
 
     @Override
-    public void caseADivTerm(ADivTerm node)
+    public void caseADivMultdiv(ADivMultdiv node)
     {
-        inADivTerm(node);
-        if(node.getFactor() != null)
+        inADivMultdiv(node);
+        if(node.getRight() != null)
         {
-            node.getFactor().apply(this);
+            node.getRight().apply(this);
         }
         if(node.getDiv() != null)
         {
             node.getDiv().apply(this);
         }
-        if(node.getTerm() != null)
+        if(node.getLeft() != null)
         {
-            node.getTerm().apply(this);
+            node.getLeft().apply(this);
         }
-        outADivTerm(node);
+        outADivMultdiv(node);
     }
 
-    public void inASingleFactor(ASingleFactor node)
+    public void inASinglePrefixop(ASinglePrefixop node)
     {
         defaultIn(node);
     }
 
-    public void outASingleFactor(ASingleFactor node)
+    public void outASinglePrefixop(ASinglePrefixop node)
     {
         defaultOut(node);
     }
 
     @Override
-    public void caseASingleFactor(ASingleFactor node)
+    public void caseASinglePrefixop(ASinglePrefixop node)
     {
-        inASingleFactor(node);
-        if(node.getMultgroup() != null)
+        inASinglePrefixop(node);
+        if(node.getSingle() != null)
         {
-            node.getMultgroup().apply(this);
+            node.getSingle().apply(this);
         }
-        outASingleFactor(node);
+        outASinglePrefixop(node);
     }
 
-    public void inAMultgroupFactor(AMultgroupFactor node)
+    public void inANegatePrefixop(ANegatePrefixop node)
     {
         defaultIn(node);
     }
 
-    public void outAMultgroupFactor(AMultgroupFactor node)
+    public void outANegatePrefixop(ANegatePrefixop node)
     {
         defaultOut(node);
     }
 
     @Override
-    public void caseAMultgroupFactor(AMultgroupFactor node)
+    public void caseANegatePrefixop(ANegatePrefixop node)
     {
-        inAMultgroupFactor(node);
-        if(node.getMultgroup() != null)
+        inANegatePrefixop(node);
+        if(node.getFunc() != null)
         {
-            node.getMultgroup().apply(this);
-        }
-        if(node.getFactor() != null)
-        {
-            node.getFactor().apply(this);
-        }
-        outAMultgroupFactor(node);
-    }
-
-    public void inANegateFactor(ANegateFactor node)
-    {
-        defaultIn(node);
-    }
-
-    public void outANegateFactor(ANegateFactor node)
-    {
-        defaultOut(node);
-    }
-
-    @Override
-    public void caseANegateFactor(ANegateFactor node)
-    {
-        inANegateFactor(node);
-        if(node.getMultgroup() != null)
-        {
-            node.getMultgroup().apply(this);
+            node.getFunc().apply(this);
         }
         if(node.getMinus() != null)
         {
             node.getMinus().apply(this);
         }
-        outANegateFactor(node);
+        outANegatePrefixop(node);
     }
 
-    public void inAPostfixopMultgroup(APostfixopMultgroup node)
+    public void inASingleFunc(ASingleFunc node)
     {
         defaultIn(node);
     }
 
-    public void outAPostfixopMultgroup(APostfixopMultgroup node)
+    public void outASingleFunc(ASingleFunc node)
     {
         defaultOut(node);
     }
 
     @Override
-    public void caseAPostfixopMultgroup(APostfixopMultgroup node)
+    public void caseASingleFunc(ASingleFunc node)
     {
-        inAPostfixopMultgroup(node);
-        if(node.getPostfixop() != null)
+        inASingleFunc(node);
+        if(node.getSingle() != null)
         {
-            node.getPostfixop().apply(this);
+            node.getSingle().apply(this);
         }
-        outAPostfixopMultgroup(node);
-    }
-
-    public void inAPowerMultgroup(APowerMultgroup node)
-    {
-        defaultIn(node);
-    }
-
-    public void outAPowerMultgroup(APowerMultgroup node)
-    {
-        defaultOut(node);
-    }
-
-    @Override
-    public void caseAPowerMultgroup(APowerMultgroup node)
-    {
-        inAPowerMultgroup(node);
-        if(node.getPostfixop() != null)
-        {
-            node.getPostfixop().apply(this);
-        }
-        if(node.getPow() != null)
-        {
-            node.getPow().apply(this);
-        }
-        if(node.getMultgroup() != null)
-        {
-            node.getMultgroup().apply(this);
-        }
-        outAPowerMultgroup(node);
-    }
-
-    public void inAFuncPostfixop(AFuncPostfixop node)
-    {
-        defaultIn(node);
-    }
-
-    public void outAFuncPostfixop(AFuncPostfixop node)
-    {
-        defaultOut(node);
-    }
-
-    @Override
-    public void caseAFuncPostfixop(AFuncPostfixop node)
-    {
-        inAFuncPostfixop(node);
-        if(node.getFunc() != null)
-        {
-            node.getFunc().apply(this);
-        }
-        outAFuncPostfixop(node);
-    }
-
-    public void inAFactorialPostfixop(AFactorialPostfixop node)
-    {
-        defaultIn(node);
-    }
-
-    public void outAFactorialPostfixop(AFactorialPostfixop node)
-    {
-        defaultOut(node);
-    }
-
-    @Override
-    public void caseAFactorialPostfixop(AFactorialPostfixop node)
-    {
-        inAFactorialPostfixop(node);
-        if(node.getBang() != null)
-        {
-            node.getBang().apply(this);
-        }
-        if(node.getAtom() != null)
-        {
-            node.getAtom().apply(this);
-        }
-        outAFactorialPostfixop(node);
-    }
-
-    public void inAAtomFunc(AAtomFunc node)
-    {
-        defaultIn(node);
-    }
-
-    public void outAAtomFunc(AAtomFunc node)
-    {
-        defaultOut(node);
-    }
-
-    @Override
-    public void caseAAtomFunc(AAtomFunc node)
-    {
-        inAAtomFunc(node);
-        if(node.getAtom() != null)
-        {
-            node.getAtom().apply(this);
-        }
-        outAAtomFunc(node);
+        outASingleFunc(node);
     }
 
     public void inAFunc1Func(AFunc1Func node)
@@ -707,9 +615,9 @@ public class ReversedDepthFirstAdapter extends AnalysisAdapter
     public void caseAFunc1Func(AFunc1Func node)
     {
         inAFunc1Func(node);
-        if(node.getAtom() != null)
+        if(node.getMultgroup() != null)
         {
-            node.getAtom().apply(this);
+            node.getMultgroup().apply(this);
         }
         if(node.getFunctionName() != null)
         {
@@ -759,6 +667,256 @@ public class ReversedDepthFirstAdapter extends AnalysisAdapter
         outAFunc2Func(node);
     }
 
+    public void inAFuncNoArgsFunc(AFuncNoArgsFunc node)
+    {
+        defaultIn(node);
+    }
+
+    public void outAFuncNoArgsFunc(AFuncNoArgsFunc node)
+    {
+        defaultOut(node);
+    }
+
+    @Override
+    public void caseAFuncNoArgsFunc(AFuncNoArgsFunc node)
+    {
+        inAFuncNoArgsFunc(node);
+        if(node.getFunctionNoargsName() != null)
+        {
+            node.getFunctionNoargsName().apply(this);
+        }
+        outAFuncNoArgsFunc(node);
+    }
+
+    public void inASingleMultgroup(ASingleMultgroup node)
+    {
+        defaultIn(node);
+    }
+
+    public void outASingleMultgroup(ASingleMultgroup node)
+    {
+        defaultOut(node);
+    }
+
+    @Override
+    public void caseASingleMultgroup(ASingleMultgroup node)
+    {
+        inASingleMultgroup(node);
+        if(node.getSingle() != null)
+        {
+            node.getSingle().apply(this);
+        }
+        outASingleMultgroup(node);
+    }
+
+    public void inAMultMultgroup(AMultMultgroup node)
+    {
+        defaultIn(node);
+    }
+
+    public void outAMultMultgroup(AMultMultgroup node)
+    {
+        defaultOut(node);
+    }
+
+    @Override
+    public void caseAMultMultgroup(AMultMultgroup node)
+    {
+        inAMultMultgroup(node);
+        if(node.getRight() != null)
+        {
+            node.getRight().apply(this);
+        }
+        if(node.getLeft() != null)
+        {
+            node.getLeft().apply(this);
+        }
+        outAMultMultgroup(node);
+    }
+
+    public void inASingleFrac(ASingleFrac node)
+    {
+        defaultIn(node);
+    }
+
+    public void outASingleFrac(ASingleFrac node)
+    {
+        defaultOut(node);
+    }
+
+    @Override
+    public void caseASingleFrac(ASingleFrac node)
+    {
+        inASingleFrac(node);
+        if(node.getSingle() != null)
+        {
+            node.getSingle().apply(this);
+        }
+        outASingleFrac(node);
+    }
+
+    public void inAPairFrac(APairFrac node)
+    {
+        defaultIn(node);
+    }
+
+    public void outAPairFrac(APairFrac node)
+    {
+        defaultOut(node);
+    }
+
+    @Override
+    public void caseAPairFrac(APairFrac node)
+    {
+        inAPairFrac(node);
+        if(node.getDenominator() != null)
+        {
+            node.getDenominator().apply(this);
+        }
+        if(node.getFractionSep() != null)
+        {
+            node.getFractionSep().apply(this);
+        }
+        if(node.getNumerator() != null)
+        {
+            node.getNumerator().apply(this);
+        }
+        outAPairFrac(node);
+    }
+
+    public void inATripleFrac(ATripleFrac node)
+    {
+        defaultIn(node);
+    }
+
+    public void outATripleFrac(ATripleFrac node)
+    {
+        defaultOut(node);
+    }
+
+    @Override
+    public void caseATripleFrac(ATripleFrac node)
+    {
+        inATripleFrac(node);
+        if(node.getDenominator() != null)
+        {
+            node.getDenominator().apply(this);
+        }
+        if(node.getSecondSep() != null)
+        {
+            node.getSecondSep().apply(this);
+        }
+        if(node.getNumerator() != null)
+        {
+            node.getNumerator().apply(this);
+        }
+        if(node.getFirstSep() != null)
+        {
+            node.getFirstSep().apply(this);
+        }
+        if(node.getUnits() != null)
+        {
+            node.getUnits().apply(this);
+        }
+        outATripleFrac(node);
+    }
+
+    public void inASinglePow(ASinglePow node)
+    {
+        defaultIn(node);
+    }
+
+    public void outASinglePow(ASinglePow node)
+    {
+        defaultOut(node);
+    }
+
+    @Override
+    public void caseASinglePow(ASinglePow node)
+    {
+        inASinglePow(node);
+        if(node.getSingle() != null)
+        {
+            node.getSingle().apply(this);
+        }
+        outASinglePow(node);
+    }
+
+    public void inAPowerPow(APowerPow node)
+    {
+        defaultIn(node);
+    }
+
+    public void outAPowerPow(APowerPow node)
+    {
+        defaultOut(node);
+    }
+
+    @Override
+    public void caseAPowerPow(APowerPow node)
+    {
+        inAPowerPow(node);
+        if(node.getRight() != null)
+        {
+            node.getRight().apply(this);
+        }
+        if(node.getOp() != null)
+        {
+            node.getOp().apply(this);
+        }
+        if(node.getLeft() != null)
+        {
+            node.getLeft().apply(this);
+        }
+        outAPowerPow(node);
+    }
+
+    public void inASinglePostfixop(ASinglePostfixop node)
+    {
+        defaultIn(node);
+    }
+
+    public void outASinglePostfixop(ASinglePostfixop node)
+    {
+        defaultOut(node);
+    }
+
+    @Override
+    public void caseASinglePostfixop(ASinglePostfixop node)
+    {
+        inASinglePostfixop(node);
+        if(node.getSingle() != null)
+        {
+            node.getSingle().apply(this);
+        }
+        outASinglePostfixop(node);
+    }
+
+    public void inAFactorialPostfixop(AFactorialPostfixop node)
+    {
+        defaultIn(node);
+    }
+
+    public void outAFactorialPostfixop(AFactorialPostfixop node)
+    {
+        defaultOut(node);
+    }
+
+    @Override
+    public void caseAFactorialPostfixop(AFactorialPostfixop node)
+    {
+        inAFactorialPostfixop(node);
+        if(node.getBang() != null)
+        {
+            node.getBang().apply(this);
+        }
+        if(node.getPostfixop() != null)
+        {
+            node.getPostfixop().apply(this);
+        }
+        outAFactorialPostfixop(node);
+    }
+
     public void inAVarAtom(AVarAtom node)
     {
         defaultIn(node);
@@ -799,27 +957,6 @@ public class ReversedDepthFirstAdapter extends AnalysisAdapter
             node.getNumberLiteral().apply(this);
         }
         outANumberAtom(node);
-    }
-
-    public void inAFractionAtom(AFractionAtom node)
-    {
-        defaultIn(node);
-    }
-
-    public void outAFractionAtom(AFractionAtom node)
-    {
-        defaultOut(node);
-    }
-
-    @Override
-    public void caseAFractionAtom(AFractionAtom node)
-    {
-        inAFractionAtom(node);
-        if(node.getFractionLiteral() != null)
-        {
-            node.getFractionLiteral().apply(this);
-        }
-        outAFractionAtom(node);
     }
 
     public void inAInputAtom(AInputAtom node)
@@ -870,72 +1007,6 @@ public class ReversedDepthFirstAdapter extends AnalysisAdapter
             node.getLparen().apply(this);
         }
         outAExpressionAtom(node);
-    }
-
-    public void inAPairFractionLiteral(APairFractionLiteral node)
-    {
-        defaultIn(node);
-    }
-
-    public void outAPairFractionLiteral(APairFractionLiteral node)
-    {
-        defaultOut(node);
-    }
-
-    @Override
-    public void caseAPairFractionLiteral(APairFractionLiteral node)
-    {
-        inAPairFractionLiteral(node);
-        if(node.getDenominator() != null)
-        {
-            node.getDenominator().apply(this);
-        }
-        if(node.getFractionSep() != null)
-        {
-            node.getFractionSep().apply(this);
-        }
-        if(node.getNumerator() != null)
-        {
-            node.getNumerator().apply(this);
-        }
-        outAPairFractionLiteral(node);
-    }
-
-    public void inATripleFractionLiteral(ATripleFractionLiteral node)
-    {
-        defaultIn(node);
-    }
-
-    public void outATripleFractionLiteral(ATripleFractionLiteral node)
-    {
-        defaultOut(node);
-    }
-
-    @Override
-    public void caseATripleFractionLiteral(ATripleFractionLiteral node)
-    {
-        inATripleFractionLiteral(node);
-        if(node.getDenominator() != null)
-        {
-            node.getDenominator().apply(this);
-        }
-        if(node.getSecondSep() != null)
-        {
-            node.getSecondSep().apply(this);
-        }
-        if(node.getNumerator() != null)
-        {
-            node.getNumerator().apply(this);
-        }
-        if(node.getFirstSep() != null)
-        {
-            node.getFirstSep().apply(this);
-        }
-        if(node.getUnits() != null)
-        {
-            node.getUnits().apply(this);
-        }
-        outATripleFractionLiteral(node);
     }
 
     public void inASingleExpressionList(ASingleExpressionList node)

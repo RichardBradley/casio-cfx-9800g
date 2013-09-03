@@ -5,46 +5,46 @@ package org.bradders.casiocfx9800g.node;
 import org.bradders.casiocfx9800g.analysis.*;
 
 @SuppressWarnings("nls")
-public final class ASingleFactor extends PFactor
+public final class ASingleFrac extends PFrac
 {
-    private PMultgroup _multgroup_;
+    private PPow _single_;
 
-    public ASingleFactor()
+    public ASingleFrac()
     {
         // Constructor
     }
 
-    public ASingleFactor(
-        @SuppressWarnings("hiding") PMultgroup _multgroup_)
+    public ASingleFrac(
+        @SuppressWarnings("hiding") PPow _single_)
     {
         // Constructor
-        setMultgroup(_multgroup_);
+        setSingle(_single_);
 
     }
 
     @Override
     public Object clone()
     {
-        return new ASingleFactor(
-            cloneNode(this._multgroup_));
+        return new ASingleFrac(
+            cloneNode(this._single_));
     }
 
     @Override
     public void apply(Switch sw)
     {
-        ((Analysis) sw).caseASingleFactor(this);
+        ((Analysis) sw).caseASingleFrac(this);
     }
 
-    public PMultgroup getMultgroup()
+    public PPow getSingle()
     {
-        return this._multgroup_;
+        return this._single_;
     }
 
-    public void setMultgroup(PMultgroup node)
+    public void setSingle(PPow node)
     {
-        if(this._multgroup_ != null)
+        if(this._single_ != null)
         {
-            this._multgroup_.parent(null);
+            this._single_.parent(null);
         }
 
         if(node != null)
@@ -57,23 +57,23 @@ public final class ASingleFactor extends PFactor
             node.parent(this);
         }
 
-        this._multgroup_ = node;
+        this._single_ = node;
     }
 
     @Override
     public String toString()
     {
         return ""
-            + toString(this._multgroup_);
+            + toString(this._single_);
     }
 
     @Override
     void removeChild(@SuppressWarnings("unused") Node child)
     {
         // Remove child
-        if(this._multgroup_ == child)
+        if(this._single_ == child)
         {
-            this._multgroup_ = null;
+            this._single_ = null;
             return;
         }
 
@@ -84,9 +84,9 @@ public final class ASingleFactor extends PFactor
     void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild)
     {
         // Replace child
-        if(this._multgroup_ == oldChild)
+        if(this._single_ == oldChild)
         {
-            setMultgroup((PMultgroup) newChild);
+            setSingle((PPow) newChild);
             return;
         }
 

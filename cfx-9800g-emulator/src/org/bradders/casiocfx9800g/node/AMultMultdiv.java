@@ -5,56 +5,56 @@ package org.bradders.casiocfx9800g.node;
 import org.bradders.casiocfx9800g.analysis.*;
 
 @SuppressWarnings("nls")
-public final class AMultTerm extends PTerm
+public final class AMultMultdiv extends PMultdiv
 {
-    private PTerm _term_;
+    private PMultdiv _left_;
     private TMult _mult_;
-    private PFactor _factor_;
+    private PPrefixop _right_;
 
-    public AMultTerm()
+    public AMultMultdiv()
     {
         // Constructor
     }
 
-    public AMultTerm(
-        @SuppressWarnings("hiding") PTerm _term_,
+    public AMultMultdiv(
+        @SuppressWarnings("hiding") PMultdiv _left_,
         @SuppressWarnings("hiding") TMult _mult_,
-        @SuppressWarnings("hiding") PFactor _factor_)
+        @SuppressWarnings("hiding") PPrefixop _right_)
     {
         // Constructor
-        setTerm(_term_);
+        setLeft(_left_);
 
         setMult(_mult_);
 
-        setFactor(_factor_);
+        setRight(_right_);
 
     }
 
     @Override
     public Object clone()
     {
-        return new AMultTerm(
-            cloneNode(this._term_),
+        return new AMultMultdiv(
+            cloneNode(this._left_),
             cloneNode(this._mult_),
-            cloneNode(this._factor_));
+            cloneNode(this._right_));
     }
 
     @Override
     public void apply(Switch sw)
     {
-        ((Analysis) sw).caseAMultTerm(this);
+        ((Analysis) sw).caseAMultMultdiv(this);
     }
 
-    public PTerm getTerm()
+    public PMultdiv getLeft()
     {
-        return this._term_;
+        return this._left_;
     }
 
-    public void setTerm(PTerm node)
+    public void setLeft(PMultdiv node)
     {
-        if(this._term_ != null)
+        if(this._left_ != null)
         {
-            this._term_.parent(null);
+            this._left_.parent(null);
         }
 
         if(node != null)
@@ -67,7 +67,7 @@ public final class AMultTerm extends PTerm
             node.parent(this);
         }
 
-        this._term_ = node;
+        this._left_ = node;
     }
 
     public TMult getMult()
@@ -95,16 +95,16 @@ public final class AMultTerm extends PTerm
         this._mult_ = node;
     }
 
-    public PFactor getFactor()
+    public PPrefixop getRight()
     {
-        return this._factor_;
+        return this._right_;
     }
 
-    public void setFactor(PFactor node)
+    public void setRight(PPrefixop node)
     {
-        if(this._factor_ != null)
+        if(this._right_ != null)
         {
-            this._factor_.parent(null);
+            this._right_.parent(null);
         }
 
         if(node != null)
@@ -117,25 +117,25 @@ public final class AMultTerm extends PTerm
             node.parent(this);
         }
 
-        this._factor_ = node;
+        this._right_ = node;
     }
 
     @Override
     public String toString()
     {
         return ""
-            + toString(this._term_)
+            + toString(this._left_)
             + toString(this._mult_)
-            + toString(this._factor_);
+            + toString(this._right_);
     }
 
     @Override
     void removeChild(@SuppressWarnings("unused") Node child)
     {
         // Remove child
-        if(this._term_ == child)
+        if(this._left_ == child)
         {
-            this._term_ = null;
+            this._left_ = null;
             return;
         }
 
@@ -145,9 +145,9 @@ public final class AMultTerm extends PTerm
             return;
         }
 
-        if(this._factor_ == child)
+        if(this._right_ == child)
         {
-            this._factor_ = null;
+            this._right_ = null;
             return;
         }
 
@@ -158,9 +158,9 @@ public final class AMultTerm extends PTerm
     void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild)
     {
         // Replace child
-        if(this._term_ == oldChild)
+        if(this._left_ == oldChild)
         {
-            setTerm((PTerm) newChild);
+            setLeft((PMultdiv) newChild);
             return;
         }
 
@@ -170,9 +170,9 @@ public final class AMultTerm extends PTerm
             return;
         }
 
-        if(this._factor_ == oldChild)
+        if(this._right_ == oldChild)
         {
-            setFactor((PFactor) newChild);
+            setRight((PPrefixop) newChild);
             return;
         }
 

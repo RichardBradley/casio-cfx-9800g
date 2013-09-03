@@ -5,21 +5,21 @@ package org.bradders.casiocfx9800g.node;
 import org.bradders.casiocfx9800g.analysis.*;
 
 @SuppressWarnings("nls")
-public final class APairFractionLiteral extends PFractionLiteral
+public final class APairFrac extends PFrac
 {
-    private TNumberLiteral _numerator_;
+    private PPow _numerator_;
     private TFractionSep _fractionSep_;
-    private TNumberLiteral _denominator_;
+    private PPow _denominator_;
 
-    public APairFractionLiteral()
+    public APairFrac()
     {
         // Constructor
     }
 
-    public APairFractionLiteral(
-        @SuppressWarnings("hiding") TNumberLiteral _numerator_,
+    public APairFrac(
+        @SuppressWarnings("hiding") PPow _numerator_,
         @SuppressWarnings("hiding") TFractionSep _fractionSep_,
-        @SuppressWarnings("hiding") TNumberLiteral _denominator_)
+        @SuppressWarnings("hiding") PPow _denominator_)
     {
         // Constructor
         setNumerator(_numerator_);
@@ -33,7 +33,7 @@ public final class APairFractionLiteral extends PFractionLiteral
     @Override
     public Object clone()
     {
-        return new APairFractionLiteral(
+        return new APairFrac(
             cloneNode(this._numerator_),
             cloneNode(this._fractionSep_),
             cloneNode(this._denominator_));
@@ -42,15 +42,15 @@ public final class APairFractionLiteral extends PFractionLiteral
     @Override
     public void apply(Switch sw)
     {
-        ((Analysis) sw).caseAPairFractionLiteral(this);
+        ((Analysis) sw).caseAPairFrac(this);
     }
 
-    public TNumberLiteral getNumerator()
+    public PPow getNumerator()
     {
         return this._numerator_;
     }
 
-    public void setNumerator(TNumberLiteral node)
+    public void setNumerator(PPow node)
     {
         if(this._numerator_ != null)
         {
@@ -95,12 +95,12 @@ public final class APairFractionLiteral extends PFractionLiteral
         this._fractionSep_ = node;
     }
 
-    public TNumberLiteral getDenominator()
+    public PPow getDenominator()
     {
         return this._denominator_;
     }
 
-    public void setDenominator(TNumberLiteral node)
+    public void setDenominator(PPow node)
     {
         if(this._denominator_ != null)
         {
@@ -160,7 +160,7 @@ public final class APairFractionLiteral extends PFractionLiteral
         // Replace child
         if(this._numerator_ == oldChild)
         {
-            setNumerator((TNumberLiteral) newChild);
+            setNumerator((PPow) newChild);
             return;
         }
 
@@ -172,7 +172,7 @@ public final class APairFractionLiteral extends PFractionLiteral
 
         if(this._denominator_ == oldChild)
         {
-            setDenominator((TNumberLiteral) newChild);
+            setDenominator((PPow) newChild);
             return;
         }
 

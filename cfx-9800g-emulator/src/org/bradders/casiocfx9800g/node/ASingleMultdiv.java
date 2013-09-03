@@ -5,46 +5,46 @@ package org.bradders.casiocfx9800g.node;
 import org.bradders.casiocfx9800g.analysis.*;
 
 @SuppressWarnings("nls")
-public final class AFactorTerm extends PTerm
+public final class ASingleMultdiv extends PMultdiv
 {
-    private PFactor _factor_;
+    private PPrefixop _single_;
 
-    public AFactorTerm()
+    public ASingleMultdiv()
     {
         // Constructor
     }
 
-    public AFactorTerm(
-        @SuppressWarnings("hiding") PFactor _factor_)
+    public ASingleMultdiv(
+        @SuppressWarnings("hiding") PPrefixop _single_)
     {
         // Constructor
-        setFactor(_factor_);
+        setSingle(_single_);
 
     }
 
     @Override
     public Object clone()
     {
-        return new AFactorTerm(
-            cloneNode(this._factor_));
+        return new ASingleMultdiv(
+            cloneNode(this._single_));
     }
 
     @Override
     public void apply(Switch sw)
     {
-        ((Analysis) sw).caseAFactorTerm(this);
+        ((Analysis) sw).caseASingleMultdiv(this);
     }
 
-    public PFactor getFactor()
+    public PPrefixop getSingle()
     {
-        return this._factor_;
+        return this._single_;
     }
 
-    public void setFactor(PFactor node)
+    public void setSingle(PPrefixop node)
     {
-        if(this._factor_ != null)
+        if(this._single_ != null)
         {
-            this._factor_.parent(null);
+            this._single_.parent(null);
         }
 
         if(node != null)
@@ -57,23 +57,23 @@ public final class AFactorTerm extends PTerm
             node.parent(this);
         }
 
-        this._factor_ = node;
+        this._single_ = node;
     }
 
     @Override
     public String toString()
     {
         return ""
-            + toString(this._factor_);
+            + toString(this._single_);
     }
 
     @Override
     void removeChild(@SuppressWarnings("unused") Node child)
     {
         // Remove child
-        if(this._factor_ == child)
+        if(this._single_ == child)
         {
-            this._factor_ = null;
+            this._single_ = null;
             return;
         }
 
@@ -84,9 +84,9 @@ public final class AFactorTerm extends PTerm
     void replaceChild(@SuppressWarnings("unused") Node oldChild, @SuppressWarnings("unused") Node newChild)
     {
         // Replace child
-        if(this._factor_ == oldChild)
+        if(this._single_ == oldChild)
         {
-            setFactor((PFactor) newChild);
+            setSingle((PPrefixop) newChild);
             return;
         }
 

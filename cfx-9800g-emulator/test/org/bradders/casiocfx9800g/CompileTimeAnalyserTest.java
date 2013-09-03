@@ -10,11 +10,13 @@ import org.junit.Test;
 
 public class CompileTimeAnalyserTest
 {
+   private Compiler compiler = new Compiler();
+   
    @Test
    public void testDuplicateLabelIsError()
    {
       try {
-         Main.compile(new RuntimeContext(), new StringReader(
+         compiler.compile(new StringReader(
                "1+1#:Lbl 1:1+1#:Lbl 2:1+1#:Lbl 1"));
          fail("Expected exception");
       } catch (Exception e) {
@@ -26,7 +28,7 @@ public class CompileTimeAnalyserTest
    public void testFloatLabelIsError()
    {
       try {
-         Main.compile(new RuntimeContext(), new StringReader(
+         compiler.compile(new StringReader(
                "Lbl 1.5:1+1#"));
          fail("Expected exception");
       } catch (Exception e) {
@@ -38,7 +40,7 @@ public class CompileTimeAnalyserTest
    public void testDanglingGotoIsError()
    {
       try {
-         Main.compile(new RuntimeContext(), new StringReader(
+         compiler.compile(new StringReader(
                "1+1#\nGoto 4"));
          fail("Expected exception");
       } catch (Exception e) {

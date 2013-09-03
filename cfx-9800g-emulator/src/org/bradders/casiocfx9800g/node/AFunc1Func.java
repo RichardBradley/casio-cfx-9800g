@@ -8,7 +8,7 @@ import org.bradders.casiocfx9800g.analysis.*;
 public final class AFunc1Func extends PFunc
 {
     private TFunctionName _functionName_;
-    private PAtom _atom_;
+    private PMultgroup _multgroup_;
 
     public AFunc1Func()
     {
@@ -17,12 +17,12 @@ public final class AFunc1Func extends PFunc
 
     public AFunc1Func(
         @SuppressWarnings("hiding") TFunctionName _functionName_,
-        @SuppressWarnings("hiding") PAtom _atom_)
+        @SuppressWarnings("hiding") PMultgroup _multgroup_)
     {
         // Constructor
         setFunctionName(_functionName_);
 
-        setAtom(_atom_);
+        setMultgroup(_multgroup_);
 
     }
 
@@ -31,7 +31,7 @@ public final class AFunc1Func extends PFunc
     {
         return new AFunc1Func(
             cloneNode(this._functionName_),
-            cloneNode(this._atom_));
+            cloneNode(this._multgroup_));
     }
 
     @Override
@@ -65,16 +65,16 @@ public final class AFunc1Func extends PFunc
         this._functionName_ = node;
     }
 
-    public PAtom getAtom()
+    public PMultgroup getMultgroup()
     {
-        return this._atom_;
+        return this._multgroup_;
     }
 
-    public void setAtom(PAtom node)
+    public void setMultgroup(PMultgroup node)
     {
-        if(this._atom_ != null)
+        if(this._multgroup_ != null)
         {
-            this._atom_.parent(null);
+            this._multgroup_.parent(null);
         }
 
         if(node != null)
@@ -87,7 +87,7 @@ public final class AFunc1Func extends PFunc
             node.parent(this);
         }
 
-        this._atom_ = node;
+        this._multgroup_ = node;
     }
 
     @Override
@@ -95,7 +95,7 @@ public final class AFunc1Func extends PFunc
     {
         return ""
             + toString(this._functionName_)
-            + toString(this._atom_);
+            + toString(this._multgroup_);
     }
 
     @Override
@@ -108,9 +108,9 @@ public final class AFunc1Func extends PFunc
             return;
         }
 
-        if(this._atom_ == child)
+        if(this._multgroup_ == child)
         {
-            this._atom_ = null;
+            this._multgroup_ = null;
             return;
         }
 
@@ -127,9 +127,9 @@ public final class AFunc1Func extends PFunc
             return;
         }
 
-        if(this._atom_ == oldChild)
+        if(this._multgroup_ == oldChild)
         {
-            setAtom((PAtom) newChild);
+            setMultgroup((PMultgroup) newChild);
             return;
         }
 

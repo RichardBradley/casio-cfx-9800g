@@ -43,7 +43,7 @@ public class ConsoleUserInterface implements UserInterface
       System.out.println(String.format(FORMAT_STR, value));
       System.out.print(String.format(FORMAT_STR, "- Disp -"));
       try {
-         System.in.read();
+         in.readLine();
       } catch (IOException e) {
          throw new RuntimeException(e);
       }

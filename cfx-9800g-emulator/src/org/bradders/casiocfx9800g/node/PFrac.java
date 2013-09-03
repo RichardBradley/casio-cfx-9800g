@@ -2,7 +2,7 @@
 
 package org.bradders.casiocfx9800g.node;
 
-public abstract class PTerm extends Node
+public abstract class PFrac extends Node
 {
     // Empty body
 }

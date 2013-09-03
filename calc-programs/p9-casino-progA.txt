@@ -1,0 +1,59 @@
+D!=1=>Goto 1
+E!=1=>Goto 2
+F!=1=>Goto 2
+S+(5*B)->S
+"YOU WON"
+5*B#
+Goto 9
+Lbl 2
+E!=2=>Goto 1
+F!=3=>Goto 1
+S+(50*B)->S
+"YOU WON"
+50*B#
+Goto 9
+Lbl 1
+D!=2=>Goto 3
+E!=2=>Goto 3
+F!=2=>Goto 3
+S+(100*B)->S
+"YOU WON"
+100*B#
+Goto 9
+Lbl 3
+D!=3=>Goto 4
+E!=3=>Goto 4
+F!=3=>Goto 4
+S+(125*B)->S
+"YOU WON"
+125*B#
+Goto 9
+Lbl 4
+D!=4=>Goto 9
+E!=4=>S+(5*B)=>S
+E!=4=>"YOU WON"
+E!=4=>5*B#
+E!=4=>Goto 9
+F!=4=>S+(50*B)=>S
+F!=4=>"YOU WON"
+F!=4=>50*B#
+F!=4=>Goto 9
+S+(500*B)->S
+"YOU WON"
+500*B#
+Lbl 9
+D!=5=>Goto 6
+"YOU WON"
+50*B->B#
+B+S->S
+Lbl 6
+E!=5=>Goto 7
+"YOU WON"
+50*B->B#
+B+S->S
+Lbl 7
+F!=5=>Goto 8
+"YOU WON"
+50*B->B#
+B+S->S
+Lbl 8

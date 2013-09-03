@@ -5,25 +5,25 @@ package org.bradders.casiocfx9800g.node;
 import org.bradders.casiocfx9800g.analysis.*;
 
 @SuppressWarnings("nls")
-public final class ATripleFractionLiteral extends PFractionLiteral
+public final class ATripleFrac extends PFrac
 {
-    private TNumberLiteral _units_;
+    private PPow _units_;
     private TFractionSep _firstSep_;
-    private TNumberLiteral _numerator_;
+    private PPow _numerator_;
     private TFractionSep _secondSep_;
-    private TNumberLiteral _denominator_;
+    private PPow _denominator_;
 
-    public ATripleFractionLiteral()
+    public ATripleFrac()
     {
         // Constructor
     }
 
-    public ATripleFractionLiteral(
-        @SuppressWarnings("hiding") TNumberLiteral _units_,
+    public ATripleFrac(
+        @SuppressWarnings("hiding") PPow _units_,
         @SuppressWarnings("hiding") TFractionSep _firstSep_,
-        @SuppressWarnings("hiding") TNumberLiteral _numerator_,
+        @SuppressWarnings("hiding") PPow _numerator_,
         @SuppressWarnings("hiding") TFractionSep _secondSep_,
-        @SuppressWarnings("hiding") TNumberLiteral _denominator_)
+        @SuppressWarnings("hiding") PPow _denominator_)
     {
         // Constructor
         setUnits(_units_);
@@ -41,7 +41,7 @@ public final class ATripleFractionLiteral extends PFractionLiteral
     @Override
     public Object clone()
     {
-        return new ATripleFractionLiteral(
+        return new ATripleFrac(
             cloneNode(this._units_),
             cloneNode(this._firstSep_),
             cloneNode(this._numerator_),
@@ -52,15 +52,15 @@ public final class ATripleFractionLiteral extends PFractionLiteral
     @Override
     public void apply(Switch sw)
     {
-        ((Analysis) sw).caseATripleFractionLiteral(this);
+        ((Analysis) sw).caseATripleFrac(this);
     }
 
-    public TNumberLiteral getUnits()
+    public PPow getUnits()
     {
         return this._units_;
     }
 
-    public void setUnits(TNumberLiteral node)
+    public void setUnits(PPow node)
     {
         if(this._units_ != null)
         {
@@ -105,12 +105,12 @@ public final class ATripleFractionLiteral extends PFractionLiteral
         this._firstSep_ = node;
     }
 
-    public TNumberLiteral getNumerator()
+    public PPow getNumerator()
     {
         return this._numerator_;
     }
 
-    public void setNumerator(TNumberLiteral node)
+    public void setNumerator(PPow node)
     {
         if(this._numerator_ != null)
         {
@@ -155,12 +155,12 @@ public final class ATripleFractionLiteral extends PFractionLiteral
         this._secondSep_ = node;
     }
 
-    public TNumberLiteral getDenominator()
+    public PPow getDenominator()
     {
         return this._denominator_;
     }
 
-    public void setDenominator(TNumberLiteral node)
+    public void setDenominator(PPow node)
     {
         if(this._denominator_ != null)
         {
@@ -234,7 +234,7 @@ public final class ATripleFractionLiteral extends PFractionLiteral
         // Replace child
         if(this._units_ == oldChild)
         {
-            setUnits((TNumberLiteral) newChild);
+            setUnits((PPow) newChild);
             return;
         }
 
@@ -246,7 +246,7 @@ public final class ATripleFractionLiteral extends PFractionLiteral
 
         if(this._numerator_ == oldChild)
         {
-            setNumerator((TNumberLiteral) newChild);
+            setNumerator((PPow) newChild);
             return;
         }
 
@@ -258,7 +258,7 @@ public final class ATripleFractionLiteral extends PFractionLiteral
 
         if(this._denominator_ == oldChild)
         {
-            setDenominator((TNumberLiteral) newChild);
+            setDenominator((PPow) newChild);
             return;
         }
 
