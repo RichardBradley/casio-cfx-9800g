@@ -30,11 +30,11 @@ S+(125*B)->S
 Goto 9
 Lbl 4
 D!=4=>Goto 9
-E!=4=>S+(5*B)=>S
+E!=4=>S+(5*B)->S
 E!=4=>"YOU WON"
 E!=4=>5*B#
 E!=4=>Goto 9
-F!=4=>S+(50*B)=>S
+F!=4=>S+(50*B)->S
 F!=4=>"YOU WON"
 F!=4=>50*B#
 F!=4=>Goto 9

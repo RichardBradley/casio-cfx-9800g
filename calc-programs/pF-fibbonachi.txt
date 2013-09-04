@@ -1,0 +1,8 @@
+"FiBBONACHI"
+?->A
+?->B
+Lbl 1
+A+B->#
+B->A
+C->B
+Goto 1

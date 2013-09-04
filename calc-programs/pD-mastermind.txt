@@ -1,0 +1,73 @@
+"MASTER MIND"
+Int (Ran#*10)->G
+Lbl 1
+Int (Ran#*10)->H
+H=G=>Goto 1
+Int (Ran#*10)->I
+I=H=>Goto 1
+Int (Ran#*10)->J
+J=I=>Goto 1
+0->X
+Lbl 9
+X+1->X
+?->F
+Int F
+(10*(Frac (F*0.1)))->D
+Int (F*0.1)->F
+(10*(Frac (F*0.1)))->C
+Int (F*0.1)->F
+(10*(Frac (F*0.1)))->B
+Int (F*0.1)->F
+(10*(Frac (F*0.1)))->A
+0->r
+0->t
+G->P
+H->Q
+I->R
+J->S
+A=P=>r+1->r
+A=P=>10->P
+B=Q=>r+1->r
+B=Q=>10->Q
+C=R=>r+1->r
+C=R=>10->R
+D=S=>r+1->r
+D=S=>10->S
+"HITS="
+r#
+A=Q=>t+1->t
+A=Q=>10->Q
+A=R=>t+1->t
+A=R=>10->R
+A=S=>t+1->t
+A=S=>10->S
+B=P=>t+1->t
+B=P=>10->P
+B=R=>t+1->t
+B=R=>10->R
+B=S=>t+1->t
+B=S=>10->S
+C=P=>t+1->t
+C=P=>10->P
+C=Q=>t+1->t
+C=Q=>10->Q
+C=S=>t+1->t
+C=S=>10->S
+D=P=>t+1->t
+D=P=>10->P
+D=Q=>t+1->t
+D=Q=>10->Q
+D=R=>t+1->t
+D=R=>10->R
+"HALF="
+t#
+r=4=>Goto 8
+Goto 9
+Lbl 8
+"YOU"
+"W   W III N  N"
+"W   W  I  NN N"
+"W W W  I  N NN"
+" W W  III N  N"
+"IN"
+X#

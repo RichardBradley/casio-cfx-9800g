@@ -1,0 +1,26 @@
+"CCCP"
+Range 0.97,1.91,10,1,1.62,10
+Graph Y<2
+1->A
+1.18->B:1.39->C:1.09->D:1.48->E:Prog "pTheta-line.txt"
+1.17->B:1.39->C:1.08->D:1.48->E:Prog "pTheta-line.txt"
+1.18->B:1.4->C:1.09->D:1.49->E:Prog "pTheta-line.txt"
+Plot 1.08,1.47:Plot 1.07,1.47:Plot 1.08,1.46
+1.10->B:1.49->C:1.11->D:1.49->E:Prog "pTheta-line.txt"
+1.5->C:1.12->D:1.5->E:Prog "pTheta-line.txt"
+1.01->B:1.39->C:1.05->D:1.43->E:Prog "pTheta-line.txt"
+1.4->C:1.04->D:Prog "pTheta-line.txt"
+1.02->B:1.39->C:1.06->D:Prog "pTheta-line.txt"
+Plot 1.03,1.44:Plot 1.04,1.44
+1.06->B:1.42->C:1.12->D:1.42->E:Prog "pTheta-line.txt"
+1.07->B:1.41->C:1.10->D:1.41->E:Prog "pTheta-line.txt"
+1.10->B:1.43->C:1.12->D:1.43->E:Prog "pTheta-line.txt"
+1.14->B:1.45->C:1.14->D:1.46->E:Prog "pTheta-line.txt"
+1.54->C:1.56->E:Prog "pTheta-line.txt"
+1.15->B:B->D:1.45->C:1.48->E:Prog "pTheta-line.txt"
+1.52->C:1.55->E:Prog "pTheta-line.txt"
+1.16->B:B->D:1.46->C:1.54->E:Prog "pTheta-line.txt"
+1.17->B:B->D:1.48->C:1.52->E:Prog "pTheta-line.txt"
+Plot 1.13,1.56:Plot 1.13,1.55:Plot 1.12,1.56
+1.57->C:C->E:1.13->B:1.1->D:Prog "pTheta-line.txt"
+1.58->C:C->E:1.11->B:1.08->D:Prog "pTheta-line.txt"

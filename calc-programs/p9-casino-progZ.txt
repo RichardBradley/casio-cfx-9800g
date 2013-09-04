@@ -8,6 +8,7 @@ Z>60=>Goto 2
 2->F
 "BABOON"
 Goto 9
+Lbl 2
 Z>80=>Goto 3
 3->F
 "CATTERPILLAR"

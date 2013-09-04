@@ -1,0 +1,38 @@
+"DICE"
+100->S
+0->P
+Lbl 1
+"YOU HAVE"
+S#
+"BET="
+?->B
+S-B->S
+P+(B*2)->P
+"YOU GOT"
+(Int (Ran#*6)+1)+(Int (Ran#*6)+1)->Y#
+Y=7=>P+S->S
+Y=7=>"U WIN THE POT"
+Y=7=>P#
+Y=7=>0->P#
+Y>7=>P-B->P
+Y>7=>S+B->S
+Y>7=>"U KEEP YOU BET"
+Y=7=>Goto 7
+"HE GOT"
+(Int (Ran#*6)+1)+(Int (Ran#*6)+1)->H#
+H=7=>"HE WON THE POT"
+H=7=>P#
+H=7=>0->P
+H>7=>P-B->P
+H>7=>"HE KEEPS HIS BET"
+Lbl 7
+S<0=>Goto 3
+S>=1000000=>Goto 2
+Goto 1
+Lbl 2
+"YOU'RE A MILLIONAIRE..."
+"YOU WIN"
+Goto 9
+Lbl 3
+"YOU'RE BROKE"
+Lbl 9
