@@ -147,6 +147,12 @@ public class AnalysisAdapter implements Analysis
     }
 
     @Override
+    public void caseAGraphStatement(AGraphStatement node)
+    {
+        defaultCase(node);
+    }
+
+    @Override
     public void caseASingleExpression(ASingleExpression node)
     {
         defaultCase(node);
@@ -484,6 +490,12 @@ public class AnalysisAdapter implements Analysis
 
     @Override
     public void caseTProg(TProg node)
+    {
+        defaultCase(node);
+    }
+
+    @Override
+    public void caseTGraph(TGraph node)
     {
         defaultCase(node);
     }

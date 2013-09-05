@@ -376,6 +376,43 @@ public class DepthFirstAdapter extends AnalysisAdapter
         outASubStatement(node);
     }
 
+    public void inAGraphStatement(AGraphStatement node)
+    {
+        defaultIn(node);
+    }
+
+    public void outAGraphStatement(AGraphStatement node)
+    {
+        defaultOut(node);
+    }
+
+    @Override
+    public void caseAGraphStatement(AGraphStatement node)
+    {
+        inAGraphStatement(node);
+        if(node.getGraph() != null)
+        {
+            node.getGraph().apply(this);
+        }
+        if(node.getSpace() != null)
+        {
+            node.getSpace().apply(this);
+        }
+        if(node.getVariableName() != null)
+        {
+            node.getVariableName().apply(this);
+        }
+        if(node.getComparisonOp() != null)
+        {
+            node.getComparisonOp().apply(this);
+        }
+        if(node.getExpression() != null)
+        {
+            node.getExpression().apply(this);
+        }
+        outAGraphStatement(node);
+    }
+
     public void inASingleExpression(ASingleExpression node)
     {
         defaultIn(node);

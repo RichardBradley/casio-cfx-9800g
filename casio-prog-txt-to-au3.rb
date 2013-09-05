@@ -51,6 +51,7 @@ class AutoItTranslator
           when 'ln' then [159,451]
           when '->' then [290,487]
           when 'fraction' then [73,487]
+          when '4' then [78,578]
           else raise "Bad button_name '#{button_name}'"
           end
     @out << "MouseClick('left', $x + #{x}, $y + #{y}) ; #{comment}"
@@ -97,6 +98,9 @@ class AutoItTranslator
       when 'OPTN -> more -> NUM'
         @text << '{F4}'
         flush_text 'NUM'
+      when 'CATALOG'
+        click 'SHIFT'
+        click '4', 'CATALOG'
       else
         raise "Bad menu '#{@menu.join ' -> '}'"
       end
@@ -106,7 +110,7 @@ class AutoItTranslator
   # Converts the given txt line into au3
   def translate_line line
     return if line =~ /^#/
-    line.scan /Lbl |Goto |=\>|Isz |Dsz |e\^|Deg|Range |Int |Plot |Ran#|-\>|\<=|\>=|!=|./ do |token|
+    line.scan /Lbl |Goto |=\>|Isz |Dsz |e\^|Deg|Range |Int |Frac |Plot |Ran#|-\>|\<=|\>=|!=|Graph Y(?:\<|\>|=|\>=|\<=)|./ do |token|
       case token
       when '#'
         enter_menu 'PRGM'
@@ -155,6 +159,19 @@ class AutoItTranslator
               else raise "invalid token '#{token}'"
               end
         @text << "{F#{key}}"
+        flush_text token
+      when 'Graph Y=', 'Graph Y<=', 'Graph Y<', 'Graph Y>=', 'Graph Y>'
+        enter_menu 'CATALOG'
+        @text << 'G'
+        idx = case token
+              when 'Graph Y=' then 10
+              when 'Graph Y<' then 11
+              when 'Graph Y>' then 12
+              when 'Graph Y<=' then 13
+              when 'Graph Y>=' then 14
+              else raise "invalid token '#{token}'"
+              end
+        @text << ("{DOWN}" * idx) << '{ENTER}'
         flush_text token
       when 'r'
         click 'ALPHA'
@@ -231,7 +248,7 @@ END
       raise "Expecting an input filename ending in '.txt', got '#{filename}'"
     end 
      
-    prog_name = infilename.sub(/.*?(p.-)?([^\/]*)\.txt$/, '\\2').upcase
+    prog_name = infilename[/([A-Z]*).txt$/i, 1].upcase
 
     add_preamble prog_name
 

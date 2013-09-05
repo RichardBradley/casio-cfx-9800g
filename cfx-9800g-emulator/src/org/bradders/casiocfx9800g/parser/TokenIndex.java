@@ -178,8 +178,14 @@ class TokenIndex extends AnalysisAdapter
     }
 
     @Override
-    public void caseEOF(@SuppressWarnings("unused") EOF node)
+    public void caseTGraph(@SuppressWarnings("unused") TGraph node)
     {
         this.index = 28;
+    }
+
+    @Override
+    public void caseEOF(@SuppressWarnings("unused") EOF node)
+    {
+        this.index = 29;
     }
 }

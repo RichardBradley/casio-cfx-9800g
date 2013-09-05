@@ -1,0 +1,13 @@
+all coords need +1
+First line is:
+  a = 2/5H
+  b = 0
+  c = 0.5H
+  d = 1H
+
+second line is:
+  a = same
+  b = same
+  c = H
+  d = 3/5H
+

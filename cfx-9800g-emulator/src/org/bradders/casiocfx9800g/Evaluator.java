@@ -437,7 +437,7 @@ public class Evaluator
    public double evaluate(AFactorialPostfixop expression)
    {
       double value = evaluate(expression.getPostfixop());
-      int valInt = (int)value;
+      int valInt = (int)Math.round(value);
       if (valInt != value) {
          throw new RuntimeException(String.format(
                "Cannot compute factorial of non-integer value '%s' at %s",

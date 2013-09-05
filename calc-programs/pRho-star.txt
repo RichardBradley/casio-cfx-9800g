@@ -22,6 +22,8 @@ N=5=>Goto 5
 N=6=>Goto 6
 Lbl 2
 H+1->C:0.6529H+1->D:Goto 9
+Lbl 3
+1->A:D->B:Goto 9
 Lbl 4
 0.7952H+1->C:1->D:Goto 9
 Lbl 5

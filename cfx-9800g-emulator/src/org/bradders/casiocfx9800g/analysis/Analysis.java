@@ -24,6 +24,7 @@ public interface Analysis extends Switch
     void caseAIfStatement(AIfStatement node);
     void caseACountJumpStatement(ACountJumpStatement node);
     void caseASubStatement(ASubStatement node);
+    void caseAGraphStatement(AGraphStatement node);
     void caseASingleExpression(ASingleExpression node);
     void caseAPlusExpression(APlusExpression node);
     void caseAMinusExpression(AMinusExpression node);
@@ -82,6 +83,7 @@ public interface Analysis extends Switch
     void caseTSpace(TSpace node);
     void caseTCountJumpOp(TCountJumpOp node);
     void caseTProg(TProg node);
+    void caseTGraph(TGraph node);
     void caseEOF(EOF node);
     void caseInvalidToken(InvalidToken node);
 }

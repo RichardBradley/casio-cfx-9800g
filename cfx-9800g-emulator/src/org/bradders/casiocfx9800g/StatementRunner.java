@@ -5,6 +5,7 @@ import java.util.List;
 import org.bradders.casiocfx9800g.node.AAssignStatement;
 import org.bradders.casiocfx9800g.node.ACountJumpStatement;
 import org.bradders.casiocfx9800g.node.AGotoStatement;
+import org.bradders.casiocfx9800g.node.AGraphStatement;
 import org.bradders.casiocfx9800g.node.AIfStatement;
 import org.bradders.casiocfx9800g.node.ALabelStatement;
 import org.bradders.casiocfx9800g.node.APrinttextStatement;
@@ -15,6 +16,7 @@ import org.bradders.casiocfx9800g.node.ASubStatement;
 import org.bradders.casiocfx9800g.node.PStatement;
 import org.bradders.casiocfx9800g.node.TNumberLiteral;
 import org.bradders.casiocfx9800g.ui.CalcColour;
+import org.bradders.casiocfx9800g.ui.GraphShading;
 import org.bradders.casiocfx9800g.ui.UserInterface;
 import org.bradders.casiocfx9800g.util.Printer;
 
@@ -25,6 +27,10 @@ public class StatementRunner
    private final UserInterface userInterface;
    private final Evaluator evaluator;
    public boolean traceExecution = false;
+   /**
+    * True if the current graph already has at least one inequality graph drawn
+    */
+   private boolean inequalityIsIntersect = false;
 
    public StatementRunner(RuntimeContext context, Compiler compiler, UserInterface userInterface)
    {
@@ -84,7 +90,8 @@ public class StatementRunner
                   {sub_args} sub_args_name space atom_list |
                   {if} [left]:expression comparison_op [right]:expression then_arrow statement |
                   {count_jump} count_jump_op variable_name statement_separator statement |
-                  {sub} prog space quoted_text;
+                  {sub} prog space quoted_text |
+                  {graph} graph space variable_name comparison_op expression;
       </code>
     * @param statement
     * @return the label of the next statement which should be executed, or null
@@ -112,6 +119,8 @@ public class StatementRunner
          return run((ACountJumpStatement)statement);
       } else if (statement instanceof ASubStatement) {
          run((ASubStatement)statement);
+      } else if (statement instanceof AGraphStatement) {
+         run((AGraphStatement)statement);
       } else {
          throw new CompileException(String.format(
                "Unexpected type: %s at %s",
@@ -181,6 +190,7 @@ public class StatementRunner
       if (subName.equals("Range")) {
          evaluator.assertArgumentCount(args, 6, statement);
          userInterface.range(args.get(0), args.get(1), args.get(2), args.get(3), args.get(4), args.get(5));
+         inequalityIsIntersect = false;
       } else if (subName.equals("Plot")) {
          evaluator.assertArgumentCount(args, 2, statement);
          userInterface.plot(CalcColour.BLACK, args.get(0), args.get(1));
@@ -271,6 +281,62 @@ public class StatementRunner
                Printer.nodeToString(statement),
                e.getMessage()),
                e);
+      }
+   }
+   
+   /**
+    * Draws a line or inequality graph.
+    * See Chapter 8 of CFX-9800G.pdf
+    * 
+    * We currently only support rectangular graphs
+    */
+   private void run(AGraphStatement statement)
+   {
+      final String msg = "Graphs must be of the form 'Graph Y=f(x)' or 'Graph Y>=f(x)'. ";
+      
+      // The graph is in the form
+      // Graph Y [op] f(X)
+      if (!statement.getVariableName().getText().equals("Y")) {
+         throw new CompileException(String.format(
+               msg + "The left hand side was not 'Y' at %s",
+               Printer.nodeToString(statement)));
+      }
+      
+      String op = statement.getComparisonOp().getText();
+      GraphShading shadingMode;
+      if (op.equals("=")) {
+         shadingMode = GraphShading.NONE;
+      } else if (op.equals("<") || op.equals("<=")) {
+         if (inequalityIsIntersect) {
+            shadingMode = GraphShading.LESS_THAN_INTERSECT;
+         } else {
+            shadingMode = GraphShading.LESS_THAN_FIRST;
+            inequalityIsIntersect = true;
+         }
+      } else if (op.equals(">") || op.equals(">=")) {
+         if (inequalityIsIntersect) {
+            shadingMode = GraphShading.GREATER_THAN_INTERSECT;
+         } else {
+            shadingMode = GraphShading.GREATER_THAN_FIRST;
+            inequalityIsIntersect = true;
+         }
+      } else {
+         throw new CompileException(String.format(
+               "Unrecognised comparison operator: '%s' at %s",
+               op,
+               Printer.nodeToString(statement)));
+      }
+      
+      // note that we do not preserve the prior value of X: drawing the graph
+      // overwrites this value on the Casio
+      for (double x : userInterface.iterateGraphXValues())
+      {
+         context.setVariableValue("X", x);
+         double y = evaluator.evaluate(statement.getExpression());
+         // TODO: the graphing alg used here will draw only one dot per vertical column,
+         // whereas the alg used by the calc will draw a proper line, especially where the
+         // graph is steep. We should redo this. Read up on line drawing algs.
+         userInterface.graphDot(x, y, shadingMode);
       }
    }
 }
