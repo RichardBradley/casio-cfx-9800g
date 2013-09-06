@@ -5,16 +5,19 @@ import java.awt.Dimension;
 import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.geom.Line2D;
-import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
 import java.awt.image.WritableRaster;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.Iterator;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+
+import org.bradders.casiocfx9800g.Evaluator;
 
 public class ConsoleUserInterface implements UserInterface
 {
@@ -22,6 +25,8 @@ public class ConsoleUserInterface implements UserInterface
    private static final String FORMAT_STR = "%" + CONSOLE_WIDTH + "s";
    static final int WIDTH_PIXELS = 96;
    static final int HEIGHT_PIXELS = 64;
+   static final BigDecimal WIDTH_PIXELS_BD = new BigDecimal(WIDTH_PIXELS);
+   static final BigDecimal HEIGHT_PIXELS_BD = new BigDecimal(HEIGHT_PIXELS);
    private static final int IMAGE_SCALE = 4;
    
    private BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
@@ -30,10 +35,10 @@ public class ConsoleUserInterface implements UserInterface
    private WritableRaster imageRaster;
    private Point prevPoint;
    private Point prevPrevPoint;
-   private double xMin;
-   private double xMax;
-   private double yMin;
-   private double yMax;
+   private BigDecimal xMin;
+   private BigDecimal xMax;
+   private BigDecimal yMin;
+   private BigDecimal yMax;
    private JFrame frame;
    
    @Override
@@ -43,7 +48,7 @@ public class ConsoleUserInterface implements UserInterface
    }
 
    @Override
-   public void printResult(double value)
+   public void printResult(String value)
    {
       System.out.println(String.format(FORMAT_STR, value));
       System.out.print(String.format(FORMAT_STR, "- Disp -"));
@@ -55,14 +60,14 @@ public class ConsoleUserInterface implements UserInterface
    }
 
    @Override
-   public double readValue()
+   public BigDecimal readValue()
    {
       try {
          while (true) {
             System.out.println("?");
             String line = in.readLine();
             try {
-               return Double.parseDouble(line);
+               return new BigDecimal(line, Evaluator.STORED_PRECISION);
             } catch (Exception e) {
                System.out.println("Bad input, must be number: " + e.getMessage());
             }
@@ -74,8 +79,8 @@ public class ConsoleUserInterface implements UserInterface
 
    @Override
    public void range(
-         double xMin, double xMax, double xScale,
-         double yMin, double yMax, double yScale)
+         BigDecimal xMin, BigDecimal xMax, BigDecimal xScale,
+         BigDecimal yMin, BigDecimal yMax, BigDecimal yScale)
    {
       BufferedImage image = new BufferedImage(
             WIDTH_PIXELS,
@@ -124,14 +129,14 @@ public class ConsoleUserInterface implements UserInterface
    }
 
    @Override
-   public void plot(CalcColour colour, double x, double y)
+   public void plot(CalcColour colour, BigDecimal x, BigDecimal y)
    {
       if (graphics == null) {
          throw new RuntimeException("You may not call 'Plot' without first calling 'Range'");
       }
       graphics.setColor(colour.getColor());
       
-      Point2D.Double requestedPoint = new Point2D.Double(x, y);
+      PointBigDecimal requestedPoint = new PointBigDecimal(x, y);
       Point point = mapPointToBitmapCoords(requestedPoint);
       
       // there is no "draw point", instead do a zero-length line
@@ -145,14 +150,15 @@ public class ConsoleUserInterface implements UserInterface
    }
 
    @Override
-   public void graphDot(double dotX, double dotY, GraphShading shading)
+   public void graphDot(BigDecimal dotX, BigDecimal dotY, GraphShading shading)
    {
       graphics.setColor(CalcColour.BLACK.getColor());
-      Point2D.Double requestedPoint = new Point2D.Double(dotX, dotY);
+      PointBigDecimal requestedPoint = new PointBigDecimal(dotX, dotY);
       Point point = mapPointToBitmapCoords(requestedPoint);
       
       // there is no "draw point", instead do a zero-length line
       graphics.draw(new Line2D.Double(point, point));
+      afterImageChange();
 
       if (shading == GraphShading.NONE) {
          return;
@@ -210,16 +216,17 @@ public class ConsoleUserInterface implements UserInterface
             break;
          default: throw new RuntimeException("Unexpected case: " + shading);
       }
+      afterImageChange();
    }
 
    @Override
-   public Iterable<Double> iterateGraphXValues()
+   public Iterable<BigDecimal> iterateGraphXValues()
    {
-      return new Iterable<Double>() {
+      return new Iterable<BigDecimal>() {
          @Override
-         public Iterator<Double> iterator()
+         public Iterator<BigDecimal> iterator()
          {
-            return new Iterator<Double>() {
+            return new Iterator<BigDecimal>() {
                int idx = 0;
                
                @Override
@@ -229,9 +236,14 @@ public class ConsoleUserInterface implements UserInterface
                }
                
                @Override
-               public Double next()
+               public BigDecimal next()
                {
-                  double val = xMin + idx * (xMax - xMin) / WIDTH_PIXELS;
+                  // val = xMin + idx * (xMax - xMin) / WIDTH_PIXELS;
+                  BigDecimal widthG = xMax.subtract(xMin, Evaluator.STORED_PRECISION);
+                  BigDecimal unitsPerPixel = widthG.divide(WIDTH_PIXELS_BD, Evaluator.STORED_PRECISION);
+                  BigDecimal offset = unitsPerPixel.multiply(new BigDecimal(idx), Evaluator.STORED_PRECISION);
+                  BigDecimal val = offset.add(xMin, Evaluator.STORED_PRECISION);
+                  
                   idx ++;
                   return val;
                }
@@ -255,10 +267,34 @@ public class ConsoleUserInterface implements UserInterface
     * Maps a point in graph space to bitmap space
     */
    Point mapPointToBitmapCoords(
-         Point2D.Double point)
+         PointBigDecimal point)
    {
+      // x = (int)Math.round(((point.x - xMin) / (xMax - xMin) * WIDTH_PIXELS))
+      BigDecimal xWidthG = xMax.subtract(xMin, Evaluator.STORED_PRECISION);
+      BigDecimal xOffG = point.x.subtract(xMin, Evaluator.STORED_PRECISION);
+      BigDecimal xB = xOffG.divide(xWidthG, Evaluator.STORED_PRECISION).multiply(WIDTH_PIXELS_BD, Evaluator.STORED_PRECISION);
+
+      // y = (int)Math.round(((yMax - point.y) / (yMax - yMin) * HEIGHT_PIXELS)
+      BigDecimal yHeightG = yMax.subtract(yMin, Evaluator.STORED_PRECISION);
+      BigDecimal yOffG = yMax.subtract(point.y, Evaluator.STORED_PRECISION);
+      BigDecimal yB = yOffG.divide(yHeightG, Evaluator.STORED_PRECISION).multiply(HEIGHT_PIXELS_BD, Evaluator.STORED_PRECISION);
+      
       return new Point(
-            (int)Math.round(((point.x - xMin) / (xMax - xMin) * WIDTH_PIXELS)),
-            (int)Math.round(((yMax - point.y) / (yMax - yMin) * HEIGHT_PIXELS)));
+            // "scale" is not the same as precision.
+            // setScale(0) will round to the nearest int.
+            xB.setScale(0, RoundingMode.HALF_UP).intValueExact(),
+            yB.setScale(0, RoundingMode.HALF_UP).intValueExact());
+   }
+   
+   static class PointBigDecimal
+   {
+      BigDecimal x;
+      BigDecimal y;
+      
+      public PointBigDecimal(BigDecimal x, BigDecimal y)
+      {
+         this.x = x;
+         this.y = y;
+      }
    }
 }

@@ -13,10 +13,9 @@ public class FractionTest extends EvaluationTestBase
    @Test
    public void testFractions() throws Exception
    {
-      assertProgramPrints("1|3#", 0.333333);
-      assertProgramPrints("1|3->A:A+1#", 1.333333);
-      assertProgramPrints("1|3->A:A+1#", 1.333333);
-      assertProgramPrints("1|3->A:A+1|7|8#", 2.2083333);
+      assertThat(outputOfProgram("1|3#"), equalTo("0.3333333333"));
+      assertThat(outputOfProgram("1|3->A:A+1#"), equalTo("1.333333333"));
+      assertThat(outputOfProgram("1|3->A:A+1|7|8#"), equalTo("2.208333333"));
    }
    
    /**
@@ -34,7 +33,7 @@ public class FractionTest extends EvaluationTestBase
    @Test
    public void testFracPrecendence() throws Exception
    {
-      assertThat(evaluate("1|3!"), equalTo(1.0/6.0));
+      assertThat(evaluate("1|3!"), equalTo("0.1666666667"));
       assertThat(evaluate("1|3!"), equalTo(evaluate("1|(3!)")));
       try {
          evaluate("(1|3)!");
@@ -43,8 +42,8 @@ public class FractionTest extends EvaluationTestBase
          assertThat(e.getMessage(), containsString("factorial of non-integer"));
       }
       
-      assertThat(evaluate("3|2^2"), equalTo(3.0/4.0));
-      assertThat(evaluate("(3|2)^2"), equalTo(9.0/4.0));
+      assertThat(evaluate("3|2^2"), equalTo("0.75"));
+      assertThat(evaluate("(3|2)^2"), equalTo("2.25"));
       
       // Frac is higher precedence than func
       assertThat(evaluate("sin 1|2"), equalTo(evaluate("sin (1|2)")));
@@ -54,13 +53,13 @@ public class FractionTest extends EvaluationTestBase
    @Test
    public void testFracVariables() throws Exception
    {
-      context.setVariableValue("A", 2.0);
-      context.setVariableValue("B", 3.0);
-      context.setVariableValue("C", 4.0);
+      context.setVariableValue("A", 2);
+      context.setVariableValue("B", 3);
+      context.setVariableValue("C", 4);
 
-      assertThat(evaluate("A|B|C"), equalTo(11.0/4.0));
-      assertThat(evaluate("A|2B"), equalTo(3.0));
-      assertThat(evaluate("A|(2B)"), equalTo(1.0/3.0));
-      assertThat(evaluate("(A+1)|(B+1)|(C+1)"), equalTo(19.0/5.0));
+      assertThat(evaluate("A|B|C"), equalTo("2.75"));
+      assertThat(evaluate("A|2B"), equalTo("3"));
+      assertThat(evaluate("A|(2B)"), equalTo("0.3333333333"));
+      assertThat(evaluate("(A+1)|(B+1)|(C+1)"), equalTo("3.8"));
    }
 }

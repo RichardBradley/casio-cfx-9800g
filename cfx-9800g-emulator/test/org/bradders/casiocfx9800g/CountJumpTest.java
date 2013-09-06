@@ -1,6 +1,7 @@
 package org.bradders.casiocfx9800g;
 
 import java.io.StringReader;
+import java.math.BigDecimal;
 
 import org.bradders.casiocfx9800g.ui.UserInterface;
 import org.jmock.Expectations;
@@ -25,18 +26,18 @@ public class CountJumpTest
       
       final States inputSeq = mockery.states("inputSeq").startsAs("1");
       mockery.checking(new Expectations() {{
-         allowing(userInterface).readValue(); will(returnValue(1.0)); when(inputSeq.is("1")); then(inputSeq.is("2"));
-         allowing(userInterface).readValue(); will(returnValue(2.0)); when(inputSeq.is("2")); then(inputSeq.is("3"));
-         allowing(userInterface).readValue(); will(returnValue(3.0)); when(inputSeq.is("3")); then(inputSeq.is("4"));
-         allowing(userInterface).readValue(); will(returnValue(4.0)); when(inputSeq.is("4")); then(inputSeq.is("5"));
-         allowing(userInterface).readValue(); will(returnValue(5.0)); when(inputSeq.is("5")); then(inputSeq.is("6"));
-         allowing(userInterface).readValue(); will(returnValue(6.0)); when(inputSeq.is("6")); then(inputSeq.is("7"));
-         allowing(userInterface).readValue(); will(returnValue(7.0)); when(inputSeq.is("7")); then(inputSeq.is("8"));
-         allowing(userInterface).readValue(); will(returnValue(8.0)); when(inputSeq.is("8")); then(inputSeq.is("9"));
-         allowing(userInterface).readValue(); will(returnValue(9.0)); when(inputSeq.is("9")); then(inputSeq.is("10"));
-         allowing(userInterface).readValue(); will(returnValue(10.0)); when(inputSeq.is("10")); then(inputSeq.is("11"));
+         allowing(userInterface).readValue(); will(returnValue(bd(1.0))); when(inputSeq.is("1")); then(inputSeq.is("2"));
+         allowing(userInterface).readValue(); will(returnValue(bd(2.0))); when(inputSeq.is("2")); then(inputSeq.is("3"));
+         allowing(userInterface).readValue(); will(returnValue(bd(3.0))); when(inputSeq.is("3")); then(inputSeq.is("4"));
+         allowing(userInterface).readValue(); will(returnValue(bd(4.0))); when(inputSeq.is("4")); then(inputSeq.is("5"));
+         allowing(userInterface).readValue(); will(returnValue(bd(5.0))); when(inputSeq.is("5")); then(inputSeq.is("6"));
+         allowing(userInterface).readValue(); will(returnValue(bd(6.0))); when(inputSeq.is("6")); then(inputSeq.is("7"));
+         allowing(userInterface).readValue(); will(returnValue(bd(7.0))); when(inputSeq.is("7")); then(inputSeq.is("8"));
+         allowing(userInterface).readValue(); will(returnValue(bd(8.0))); when(inputSeq.is("8")); then(inputSeq.is("9"));
+         allowing(userInterface).readValue(); will(returnValue(bd(9.0))); when(inputSeq.is("9")); then(inputSeq.is("10"));
+         allowing(userInterface).readValue(); will(returnValue(bd(10.0))); when(inputSeq.is("10")); then(inputSeq.is("11"));
 
-         oneOf(userInterface).printResult(5.5);
+         oneOf(userInterface).printResult("5.5");
          allowing(userInterface).printLine(with(any(String.class)));
       }});
       
@@ -48,5 +49,8 @@ public class CountJumpTest
       mockery.assertIsSatisfied();
    }
    
-
+   private static BigDecimal bd(double val)
+   {
+      return new BigDecimal(val, Evaluator.STORED_PRECISION);
+   }
 }

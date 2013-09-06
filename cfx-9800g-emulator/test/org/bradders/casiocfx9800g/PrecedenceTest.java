@@ -14,11 +14,11 @@ public class PrecedenceTest extends EvaluationTestBase
    @Test
    public void testPrecedence() throws Exception
    {
-      context.setVariableValue("A", 2.0);
-      context.setVariableValue("B", 3.0);
-      context.setVariableValue("C", 4.0);
-      context.setVariableValue("D", 4.0);
-      context.setVariableValue("E", 6.0);
+      context.setVariableValue("A", 2);
+      context.setVariableValue("B", 3);
+      context.setVariableValue("C", 4);
+      context.setVariableValue("D", 4);
+      context.setVariableValue("E", 6);
       
       // expression(add) is lower precedence than multdiv
       assertThat(evaluate("A+B*C"), equalTo(evaluate("A+(B*C)")));

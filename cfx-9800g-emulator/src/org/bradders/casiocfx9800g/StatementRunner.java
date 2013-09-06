@@ -1,5 +1,6 @@
 package org.bradders.casiocfx9800g;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import org.bradders.casiocfx9800g.node.AAssignStatement;
@@ -143,17 +144,17 @@ public class StatementRunner
          userInterface.printLine(string);
       }
 
-      double value = evaluator.evaluate(statement.getExpression());
+      BigDecimal value = evaluator.evaluate(statement.getExpression());
       context.setVariableValue(statement.getVariableName().getText(), value);
       if (null != statement.getPrintResult()) {
-         userInterface.printResult(value);
+         userInterface.printResult(evaluator.formatForDisplay(value));
       }
    }
 
    private void run(APrintvalStatement statement)
    {
-      double value = evaluator.evaluate(statement.getExpression());
-      userInterface.printResult(value);
+      BigDecimal value = evaluator.evaluate(statement.getExpression());
+      userInterface.printResult(evaluator.formatForDisplay(value));
    }
 
    private int run(AGotoStatement statement)
@@ -185,7 +186,7 @@ public class StatementRunner
    private void run(ASubArgsStatement statement)
    {
       String subName = statement.getSubArgsName().getText();
-      List<Double> args = evaluator.evaluate(statement.getAtomList());
+      List<BigDecimal> args = evaluator.evaluate(statement.getAtomList());
       
       if (subName.equals("Range")) {
          evaluator.assertArgumentCount(args, 6, statement);
@@ -210,22 +211,25 @@ public class StatementRunner
    
    private Integer run(AIfStatement statement)
    {
-      double leftValue = evaluator.evaluate(statement.getLeft());
-      double rightValue = evaluator.evaluate(statement.getRight());
+      BigDecimal leftValue = evaluator.evaluate(statement.getLeft());
+      BigDecimal rightValue = evaluator.evaluate(statement.getRight());
       String op = statement.getComparisonOp().getText();
+      
+      int cmp = leftValue.compareTo(rightValue);
+      
       boolean result;
       if (op.equals("=")) {
-         result = leftValue == rightValue;
+         result = cmp == 0;
       } else if (op.equals("!=")) {
-         result = leftValue != rightValue;
+         result = cmp != 0;
       } else if (op.equals(">")) {
-         result = leftValue > rightValue;
+         result = cmp > 0;
       } else if (op.equals(">=")) {
-         result = leftValue >= rightValue;
+         result = cmp >= 0;
       } else if (op.equals("<")) {
-         result = leftValue < rightValue;
+         result = cmp < 0;
       } else if (op.equals("<=")) {
-         result = leftValue <= rightValue;
+         result = cmp <= 0;
       } else {
          throw new CompileException(String.format(
                "Unrecognised comparison operator: '%s' at %s",
@@ -244,12 +248,12 @@ public class StatementRunner
    {
       String op = statement.getCountJumpOp().getText();
       String varName = statement.getVariableName().getText();
-      double variableValue = context.getVariableValue(varName, statement.getVariableName());
+      BigDecimal variableValue = context.getVariableValue(varName, statement.getVariableName());
       
       if (op.equals("Isz")) {
-         variableValue += 1;
+         variableValue = variableValue.add(BigDecimal.ONE, Evaluator.STORED_PRECISION);
       } else if (op.equals("Dsz")) {
-         variableValue -= 1;
+         variableValue = variableValue.subtract(BigDecimal.ONE, Evaluator.STORED_PRECISION);
       } else {
          throw new CompileException(String.format(
                "Unrecognised count jump operator: '%s' at %s",
@@ -258,7 +262,7 @@ public class StatementRunner
       }
       
       context.setVariableValue(varName, variableValue);
-      if (variableValue != 0.0) {
+      if (variableValue.compareTo(BigDecimal.ZERO) != 0) {
          return run(statement.getStatement());
       } else {
          return null;
@@ -329,10 +333,10 @@ public class StatementRunner
       
       // note that we do not preserve the prior value of X: drawing the graph
       // overwrites this value on the Casio
-      for (double x : userInterface.iterateGraphXValues())
+      for (BigDecimal x : userInterface.iterateGraphXValues())
       {
          context.setVariableValue("X", x);
-         double y = evaluator.evaluate(statement.getExpression());
+         BigDecimal y = evaluator.evaluate(statement.getExpression());
          // TODO: the graphing alg used here will draw only one dot per vertical column,
          // whereas the alg used by the calc will draw a proper line, especially where the
          // graph is steep. We should redo this. Read up on line drawing algs.

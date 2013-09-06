@@ -1,5 +1,6 @@
 package org.bradders.casiocfx9800g;
 
+import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -11,11 +12,11 @@ import org.bradders.casiocfx9800g.util.Printer;
  */
 public class RuntimeContext
 {
-   public Map<String, Double> variableValues = new HashMap<String, Double>();
+   public Map<String, BigDecimal> variableValues = new HashMap<String, BigDecimal>();
    
-   public double getVariableValue(String name, Node location)
+   public BigDecimal getVariableValue(String name, Node location)
    {
-      Double entry = variableValues.get(name);
+      BigDecimal entry = variableValues.get(name);
       if (entry == null) {
          throw new RuntimeException("Use of uninitialised variable at " +
                Printer.nodeToString(location));
@@ -23,11 +24,16 @@ public class RuntimeContext
       return entry;
    }
 
-   public void setVariableValue(String name, double value)
+   public void setVariableValue(String name, BigDecimal value)
    {
       variableValues.put(name, value);
    }
 
+   public void setVariableValue(String name, int value)
+   {
+      variableValues.put(name, new BigDecimal(value, Evaluator.STORED_PRECISION));
+   }
+   
    public void memoryClear()
    {
       variableValues.clear();

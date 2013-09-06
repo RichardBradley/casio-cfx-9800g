@@ -1,12 +1,18 @@
 package org.bradders.casiocfx9800g.ui;
 
+import java.math.BigDecimal;
+
 public interface UserInterface
 {
    void printLine(String string);
 
-   void printResult(double value);
+   void printResult(String value);
 
-   double readValue();
+   /**
+    * Reads in a number from the user.
+    * The value should use Evaluator.STORED_PRECISION
+    */
+   BigDecimal readValue();
 
    /**
     * Draws a line between the last two Plot points
@@ -17,8 +23,8 @@ public interface UserInterface
     * Initialise the drawing surface.
     */
    void range(
-         double xMin, double xMax, double xScale,
-         double yMin, double yMax, double yScale);
+         BigDecimal xMin, BigDecimal xMax, BigDecimal xScale,
+         BigDecimal yMin, BigDecimal yMax, BigDecimal yScale);
 
    /**
     * Draws a dot at the given coords.
@@ -28,7 +34,7 @@ public interface UserInterface
     * @param x
     * @param y
     */
-   void plot(CalcColour colour, double x, double y);
+   void plot(CalcColour colour, BigDecimal x, BigDecimal y);
    
    /**
     * Draws a black dot at the given location, for a graph line.
@@ -37,10 +43,10 @@ public interface UserInterface
     * If shading is given, then the line is part of an inequality graph.
     * See comments on GraphShading
     */
-   void graphDot(double x, double y, GraphShading shading);
+   void graphDot(BigDecimal x, BigDecimal y, GraphShading shading);
 
    /**
     * @return the value of X for each horizontal pixel column in the current range
     */
-   Iterable<Double> iterateGraphXValues();
+   Iterable<BigDecimal> iterateGraphXValues();
 }

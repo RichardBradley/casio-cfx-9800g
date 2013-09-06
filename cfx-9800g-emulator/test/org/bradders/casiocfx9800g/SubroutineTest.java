@@ -1,6 +1,7 @@
 package org.bradders.casiocfx9800g;
 
 import static org.hamcrest.Matchers.containsString;
+import static org.hamcrest.Matchers.equalTo;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.fail;
 
@@ -15,7 +16,7 @@ public class SubroutineTest extends EvaluationTestBase
       {
          String main = "Lbl 1\nProg \"sub\"";
          fileContentsByFileName.put("sub", "Goto 1");
-         assertProgramPrints(main, -1);
+         outputOfProgram(main);
 
          fail("expected exception");
       }
@@ -32,6 +33,6 @@ public class SubroutineTest extends EvaluationTestBase
       String main = "99->A:Prog \"sub\":A#";
       fileContentsByFileName.put("sub", "A#:A+1->A");
       
-      assertProgramPrints(main, 99.0, 100.0);
+      assertThat(outputOfProgram(main), equalTo("99\n100"));
    }
 }
