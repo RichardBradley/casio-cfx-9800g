@@ -1,0 +1,40 @@
+"SWISS"
+Range 1,2.5,100,1,2,100
+1.1->A
+Lbl 1
+Orange Plot A,1.9
+Orange Plot A,1.8
+Orange Line
+A+0.015->A
+A<1.9=>Goto 1
+1.1->A
+Lbl 2
+Orange Plot A,1.8
+Orange Plot A,1.6
+Orange Line
+A+0.015->A
+A=1.4=>1.6->A
+A<=1.9=>Goto 2
+1.1->A
+Lbl 3
+Orange Plot A,1.6
+Orange Plot A,1.4
+Orange Line
+A+0.01->A
+A=1.2=>1.8->A
+A<1.9=>Goto 3
+1.1->A
+Lbl 4
+Orange Plot A,1.4
+Orange Plot A,1.2
+Orange Line
+A+0.015->A
+A=1.4=>1.6->A
+A<=1.9=>Goto 4
+1.1->A
+Lbl 5
+Orange Plot A,1.2
+Orange Plot A,1.1
+Orange Line
+A+0.015->A
+A<=1.9=>Goto 5

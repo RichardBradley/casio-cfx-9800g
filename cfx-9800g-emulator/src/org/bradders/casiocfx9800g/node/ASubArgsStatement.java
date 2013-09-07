@@ -9,7 +9,7 @@ public final class ASubArgsStatement extends PStatement
 {
     private TSubArgsName _subArgsName_;
     private TSpace _space_;
-    private PAtomList _atomList_;
+    private PExpressionList _expressionList_;
 
     public ASubArgsStatement()
     {
@@ -19,14 +19,14 @@ public final class ASubArgsStatement extends PStatement
     public ASubArgsStatement(
         @SuppressWarnings("hiding") TSubArgsName _subArgsName_,
         @SuppressWarnings("hiding") TSpace _space_,
-        @SuppressWarnings("hiding") PAtomList _atomList_)
+        @SuppressWarnings("hiding") PExpressionList _expressionList_)
     {
         // Constructor
         setSubArgsName(_subArgsName_);
 
         setSpace(_space_);
 
-        setAtomList(_atomList_);
+        setExpressionList(_expressionList_);
 
     }
 
@@ -36,7 +36,7 @@ public final class ASubArgsStatement extends PStatement
         return new ASubArgsStatement(
             cloneNode(this._subArgsName_),
             cloneNode(this._space_),
-            cloneNode(this._atomList_));
+            cloneNode(this._expressionList_));
     }
 
     @Override
@@ -95,16 +95,16 @@ public final class ASubArgsStatement extends PStatement
         this._space_ = node;
     }
 
-    public PAtomList getAtomList()
+    public PExpressionList getExpressionList()
     {
-        return this._atomList_;
+        return this._expressionList_;
     }
 
-    public void setAtomList(PAtomList node)
+    public void setExpressionList(PExpressionList node)
     {
-        if(this._atomList_ != null)
+        if(this._expressionList_ != null)
         {
-            this._atomList_.parent(null);
+            this._expressionList_.parent(null);
         }
 
         if(node != null)
@@ -117,7 +117,7 @@ public final class ASubArgsStatement extends PStatement
             node.parent(this);
         }
 
-        this._atomList_ = node;
+        this._expressionList_ = node;
     }
 
     @Override
@@ -126,7 +126,7 @@ public final class ASubArgsStatement extends PStatement
         return ""
             + toString(this._subArgsName_)
             + toString(this._space_)
-            + toString(this._atomList_);
+            + toString(this._expressionList_);
     }
 
     @Override
@@ -145,9 +145,9 @@ public final class ASubArgsStatement extends PStatement
             return;
         }
 
-        if(this._atomList_ == child)
+        if(this._expressionList_ == child)
         {
-            this._atomList_ = null;
+            this._expressionList_ = null;
             return;
         }
 
@@ -170,9 +170,9 @@ public final class ASubArgsStatement extends PStatement
             return;
         }
 
-        if(this._atomList_ == oldChild)
+        if(this._expressionList_ == oldChild)
         {
-            setAtomList((PAtomList) newChild);
+            setExpressionList((PExpressionList) newChild);
             return;
         }
 

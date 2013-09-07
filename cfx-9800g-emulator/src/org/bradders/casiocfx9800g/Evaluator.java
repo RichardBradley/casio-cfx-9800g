@@ -544,7 +544,7 @@ public class Evaluator
       return userInterface.readValue();
    }
    
-   private List<BigDecimal> evaluate(PExpressionList list)
+   public List<BigDecimal> evaluate(PExpressionList list)
    {
       List<BigDecimal> acc = new ArrayList<BigDecimal>();
       

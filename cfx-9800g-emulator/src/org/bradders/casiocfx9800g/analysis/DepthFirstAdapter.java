@@ -266,9 +266,9 @@ public class DepthFirstAdapter extends AnalysisAdapter
         {
             node.getSpace().apply(this);
         }
-        if(node.getAtomList() != null)
+        if(node.getExpressionList() != null)
         {
-            node.getAtomList().apply(this);
+            node.getExpressionList().apply(this);
         }
         outASubArgsStatement(node);
     }

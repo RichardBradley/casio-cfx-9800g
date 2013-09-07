@@ -49,4 +49,6 @@ public interface UserInterface
     * @return the value of X for each horizontal pixel column in the current range
     */
    Iterable<BigDecimal> iterateGraphXValues();
+
+   void clearScreen();
 }

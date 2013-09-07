@@ -39,6 +39,7 @@ Tokens
         function_noargs_name =
                   'Ran#';
         sub_noargs_name =
+                  'Cls' |
                   'Mcl' |
                   'Line' |
                   'Orange Line' |
@@ -71,7 +72,7 @@ Productions
                   {label} label number_literal |
                   {goto} goto number_literal |
                   {sub_noargs} sub_noargs_name |
-                  {sub_args} sub_args_name space atom_list |
+                  {sub_args} sub_args_name space expression_list |
                   {if} [left]:expression comparison_op [right]:expression then_arrow statement |
                   {count_jump} count_jump_op space variable_name statement_separator statement |
                   {sub} prog space quoted_text |

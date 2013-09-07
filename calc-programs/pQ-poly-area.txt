@@ -1,0 +1,10 @@
+"POLY AREA"
+Deg
+"LEN"?->L
+"NO OF SIDES"?->N
+360/N->t
+0.5*t->t
+0.5L/tan t->B
+B*0.5L*0.5->B
+2B->B
+N*B#

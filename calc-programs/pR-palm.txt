@@ -1,0 +1,38 @@
+"PALM"
+Range 2,11,100,2,8,100
+6->B
+Lbl 1
+Green Plot 2,B
+Green Plot 11,B
+Green Line
+B-0.1->B
+B>=4=>Goto 1
+Green Plot 2,3.9:Green Plot 5,3.9:Green Line:Green Plot 2,3.8:Green Plot 3,3.8:Green Line:Green Plot 8,3.9:Green Plot 11,3.9:Green Line:Green Plot 11,3.8:Green Plot 10,3.8:Green Line
+2.7->A:2.5->B:1->W
+Prog "pR-palm-progS.txt"
+B+1(6/62)->B
+0->K
+Lbl 2
+Prog "pR-palm-progS.txt"
+B+(6/62)->B:A+(3/31)->A
+Isz K
+K<4=>Goto 2
+A+(3/31)->A
+Prog "pR-palm-progS.txt"
+B+(6/62)->B:A+2(3/31)->A
+Prog "pR-palm-progS.txt"
+4->A:3->B
+Prog "pR-palm-progS.txt"
+8->B
+Lbl 3
+8.6641-B->C
+sqrt(3.664-C^2)->r
+Orange Plot (8.75-r),B
+Orange Plot (8.75+r),B
+Orange Line
+B-(3/31)->B
+B>6.75=>Goto 3
+0->W
+2.38->A:6.74->B:A->C:6.94->D:Prog "pR-palm-progS.txt":3.82->A:7.13->B:3.91->C:B->D:Prog "pR-palm-progS.txt":2.48->A:6.94->B:A->C:7.13->D:Prog "pR-palm-progS.txt":Plot 2.57,7.03
+2.57->A:7.13->B:2.77->C:7.13->D:Prog "pR-palm-progS.txt":2.57->A:7.23->B:3.05->C:B->D:Prog "pR-palm-progS.txt":2.77->A:7.32->B:4.41->C:B->D:Prog "pR-palm-progS.txt":3.24->A:7.52->B:4.11->C:B->D:Prog "pR-palm-progS.txt":3.72->A:7.61->B:2.57->C:7.61->D:Prog "pR-palm-progS.txt":2.86->A:7.71->B:3.44->C:7.71->D:Prog "pR-palm-progS.txt":2.86->A:7.52->B:2.38->C:7.52->D:Prog "pR-palm-progS.txt":2.48->A:7.42->B:2.29->C:7.42->D:Prog "pR-palm-progS.txt":2.29->A:7.32->B:A->C:B->D:Prog "pR-palm-progS.txt":4.3->A:7.23->B:4.49->C:B->D:Prog "pR-palm-progS.txt":4.59->A:7.13->B:4.39->C:B->D:Prog "pR-palm-progS.txt":A->C:4.49->A:7.03->B:B->D:Prog "pR-palm-progS.txt":C->A:6.94->B:4.68->C:B->D:Prog "pR-palm-progS.txt":C->A:6.84->B:6.74->D:Prog "pR-palm-progS.txt":4.39->A:6.35->B:A->C:6.65->D:Prog "pR-palm-progS.txt":4.3->A:6.55->B:4.3->C:6.84->D:Prog "pR-palm-progS.txt":4.2->A:6.74->B:A->C:7.03->D:Prog "pR-palm-progS.txt":4.11->A:7.13->B:A->C:6.94->D:Prog "pR-palm-progS.txt":4.01->A:7.03->B:A->C:7.32->D:Prog "pR-palm-progS.txt":3.05->A:7.42->B:4.2->C:B->D:Prog "pR-palm-progS.txt":3.34->A:7.23->B:3.91->C:B->D:Prog "pR-palm-progS.txt"
+5->W:7.65->A:5.87->B:10.14->C:5.87->D:Prog "pR-palm-progS.txt":9.95->A:5.68->B:9.18->C:5.68->D:Prog "pR-palm-progS.txt":8.89->A:5.68->B:7.74->C:5.68->D:Prog "pR-palm-progS.txt":8.51->A:5.48->B:9.37->C:5.48->D:Prog "pR-palm-progS.txt":9.09->A:5.29->B:9.66->C:5.29->D:Prog "pR-palm-progS.txt":8.22->A:8.03->C:Prog "pR-palm-progS.txt":8.41->A:5.1->B:8.8->C:5.1->D:Prog "pR-palm-progS.txt":8.13->A:4.9->B:8.61->C:4.9->D:Prog "pR-palm-progS.txt":9.18->A:9.76->C:Prog "pR-palm-progS.txt":9.37->A:4.71->B:8.99->C:4.71->D:Prog "pR-palm-progS.txt":8.90->A:4.52->B:8.51->C:4.52->D:Prog "pR-palm-progS.txt":9.09->A:4.32->B:8.7->C:4.32->D:Prog "pR-palm-progS.txt":8.89->A:4.13->B:8.99->C:B->D:Prog "pR-palm-progS.txt"

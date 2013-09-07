@@ -1,0 +1,27 @@
+W=0=>Goto 2
+W=1=>Goto 1
+Orange Plot A,B
+Orange Plot C,D
+Orange Line
+Goto 9
+Lbl 2
+Plot A,B
+Plot C,D
+Line
+Goto 9
+Lbl 1
+Plot (A+(3/31)),B
+Plot (A+4(3/31)),B
+Line
+1->C
+Lbl 5
+B+(6/62)->B:C+1->C
+Plot A,B
+Plot 5(3/31)+A,B
+Line
+C<=5=>Goto 5
+B+(6/62)->B
+Plot A+(3/31),B
+Plot A+4(3/31),B
+Line
+Lbl 9

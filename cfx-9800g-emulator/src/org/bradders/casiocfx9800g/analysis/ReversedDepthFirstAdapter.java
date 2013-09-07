@@ -258,9 +258,9 @@ public class ReversedDepthFirstAdapter extends AnalysisAdapter
     public void caseASubArgsStatement(ASubArgsStatement node)
     {
         inASubArgsStatement(node);
-        if(node.getAtomList() != null)
+        if(node.getExpressionList() != null)
         {
-            node.getAtomList().apply(this);
+            node.getExpressionList().apply(this);
         }
         if(node.getSpace() != null)
         {

@@ -175,6 +175,8 @@ public class StatementRunner
          userInterface.line(CalcColour.GREEN);
       } else if (subName.equals("Mcl")) {
          context.memoryClear();
+      } else if (subName.equals("Cls")) {
+         userInterface.clearScreen();
       } else {
          throw new CompileException(String.format(
                "Unrecognised sub: '%s' at %s",
@@ -186,7 +188,7 @@ public class StatementRunner
    private void run(ASubArgsStatement statement)
    {
       String subName = statement.getSubArgsName().getText();
-      List<BigDecimal> args = evaluator.evaluate(statement.getAtomList());
+      List<BigDecimal> args = evaluator.evaluate(statement.getExpressionList());
       
       if (subName.equals("Range")) {
          evaluator.assertArgumentCount(args, 6, statement);

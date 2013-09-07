@@ -818,12 +818,12 @@ public class Parser
             // Block
         TSubArgsName tsubargsnameNode2;
         TSpace tspaceNode3;
-        PAtomList patomlistNode4;
+        PExpressionList pexpressionlistNode4;
         tsubargsnameNode2 = (TSubArgsName)nodeArrayList1.get(0);
         tspaceNode3 = (TSpace)nodeArrayList2.get(0);
-        patomlistNode4 = (PAtomList)nodeArrayList3.get(0);
+        pexpressionlistNode4 = (PExpressionList)nodeArrayList3.get(0);
 
-        pstatementNode1 = new ASubArgsStatement(tsubargsnameNode2, tspaceNode3, patomlistNode4);
+        pstatementNode1 = new ASubArgsStatement(tsubargsnameNode2, tspaceNode3, pexpressionlistNode4);
         }
 	nodeList.add(pstatementNode1);
         return nodeList;
@@ -1660,7 +1660,7 @@ public class Parser
 			{{-1, ERROR, 29}, {7, SHIFT, 40}, {8, SHIFT, 41}, {12, SHIFT, 51}, },
 			{{-1, ERROR, 30}, {2, SHIFT, 2}, {3, SHIFT, 3}, {8, SHIFT, 4}, {11, SHIFT, 5}, {15, SHIFT, 6}, {16, SHIFT, 7}, {23, SHIFT, 12}, },
 			{{-1, REDUCE, 27}, {2, SHIFT, 2}, {3, SHIFT, 3}, {11, SHIFT, 5}, {23, SHIFT, 12}, },
-			{{-1, ERROR, 32}, {2, SHIFT, 2}, {3, SHIFT, 3}, {11, SHIFT, 5}, {23, SHIFT, 12}, },
+			{{-1, ERROR, 32}, {2, SHIFT, 2}, {3, SHIFT, 3}, {8, SHIFT, 4}, {11, SHIFT, 5}, {15, SHIFT, 6}, {16, SHIFT, 7}, {23, SHIFT, 12}, },
 			{{-1, REDUCE, 10}, },
 			{{-1, REDUCE, 11}, },
 			{{-1, ERROR, 35}, {2, SHIFT, 55}, },
@@ -1681,7 +1681,7 @@ public class Parser
 			{{-1, ERROR, 50}, {2, SHIFT, 67}, },
 			{{-1, REDUCE, 42}, },
 			{{-1, ERROR, 52}, {5, SHIFT, 68}, {7, SHIFT, 40}, {8, SHIFT, 41}, {12, SHIFT, 51}, },
-			{{-1, REDUCE, 45}, {5, SHIFT, 69}, },
+			{{-1, REDUCE, 43}, {5, SHIFT, 69}, {7, SHIFT, 40}, {8, SHIFT, 41}, },
 			{{-1, REDUCE, 13}, },
 			{{-1, ERROR, 55}, {0, SHIFT, 70}, },
 			{{-1, REDUCE, 16}, },
@@ -1697,39 +1697,36 @@ public class Parser
 			{{-1, REDUCE, 36}, {24, SHIFT, 49}, },
 			{{-1, REDUCE, 5}, {6, SHIFT, 75}, },
 			{{-1, ERROR, 68}, {2, SHIFT, 2}, {3, SHIFT, 3}, {8, SHIFT, 4}, {11, SHIFT, 5}, {15, SHIFT, 6}, {16, SHIFT, 7}, {23, SHIFT, 12}, },
-			{{-1, ERROR, 69}, {2, SHIFT, 2}, {3, SHIFT, 3}, {11, SHIFT, 5}, {23, SHIFT, 12}, },
+			{{-1, ERROR, 69}, {2, SHIFT, 2}, {3, SHIFT, 3}, {8, SHIFT, 4}, {11, SHIFT, 5}, {15, SHIFT, 6}, {16, SHIFT, 7}, {23, SHIFT, 12}, },
 			{{-1, ERROR, 70}, {1, SHIFT, 1}, {2, SHIFT, 2}, {3, SHIFT, 3}, {8, SHIFT, 4}, {11, SHIFT, 5}, {15, SHIFT, 6}, {16, SHIFT, 7}, {17, SHIFT, 8}, {18, SHIFT, 9}, {21, SHIFT, 10}, {22, SHIFT, 11}, {23, SHIFT, 12}, {26, SHIFT, 13}, {27, SHIFT, 14}, {28, SHIFT, 15}, },
 			{{-1, ERROR, 71}, {2, SHIFT, 2}, {3, SHIFT, 3}, {8, SHIFT, 4}, {11, SHIFT, 5}, {15, SHIFT, 6}, {16, SHIFT, 7}, {23, SHIFT, 12}, },
 			{{-1, REDUCE, 6}, },
 			{{-1, ERROR, 73}, {1, SHIFT, 1}, {2, SHIFT, 2}, {3, SHIFT, 3}, {8, SHIFT, 4}, {11, SHIFT, 5}, {15, SHIFT, 6}, {16, SHIFT, 7}, {17, SHIFT, 8}, {18, SHIFT, 9}, {21, SHIFT, 10}, {22, SHIFT, 11}, {23, SHIFT, 12}, {26, SHIFT, 13}, {27, SHIFT, 14}, {28, SHIFT, 15}, },
 			{{-1, ERROR, 74}, {2, SHIFT, 2}, {3, SHIFT, 3}, {11, SHIFT, 5}, {23, SHIFT, 12}, },
 			{{-1, REDUCE, 7}, },
-			{{-1, REDUCE, 43}, {5, SHIFT, 83}, {7, SHIFT, 40}, {8, SHIFT, 41}, },
-			{{-1, ERROR, 77}, {12, SHIFT, 84}, },
-			{{-1, REDUCE, 46}, },
+			{{-1, ERROR, 76}, {12, SHIFT, 82}, },
+			{{-1, REDUCE, 44}, },
 			{{-1, REDUCE, 15}, },
 			{{-1, REDUCE, 17}, {7, SHIFT, 40}, {8, SHIFT, 41}, },
 			{{-1, REDUCE, 14}, },
 			{{-1, REDUCE, 34}, {20, SHIFT, 48}, },
-			{{-1, ERROR, 83}, {2, SHIFT, 2}, {3, SHIFT, 3}, {8, SHIFT, 4}, {11, SHIFT, 5}, {15, SHIFT, 6}, {16, SHIFT, 7}, {23, SHIFT, 12}, },
 			{{-1, REDUCE, 28}, },
-			{{-1, REDUCE, 44}, },
         };*/
     private static int[][][] gotoTable;
 /*      {
 			{{-1, 16}, {38, 58}, },
-			{{-1, 17}, {70, 79}, {73, 81}, },
-			{{-1, 18}, {1, 27}, {5, 29}, {30, 52}, {43, 62}, {68, 76}, {71, 80}, {83, 76}, },
+			{{-1, 17}, {70, 78}, {73, 80}, },
+			{{-1, 18}, {1, 27}, {5, 29}, {30, 52}, {32, 53}, {43, 62}, {68, 53}, {69, 53}, {71, 79}, },
 			{{-1, 19}, {40, 59}, {41, 60}, },
 			{{-1, 20}, {44, 63}, {45, 64}, },
 			{{-1, 21}, {4, 28}, },
 			{{-1, 22}, {6, 31}, },
 			{{-1, 23}, {22, 46}, {31, 46}, },
-			{{-1, 24}, {47, 65}, {74, 82}, },
+			{{-1, 24}, {47, 65}, {74, 81}, },
 			{{-1, 25}, {48, 66}, },
-			{{-1, 26}, {32, 53}, {69, 53}, },
-			{{-1, 77}, {83, 85}, },
-			{{-1, 54}, {69, 78}, },
+			{{-1, 26}, },
+			{{-1, 54}, {68, 76}, {69, 77}, },
+			{{-1, -1}, },
         };*/
     private static String[] errorMessages;
 /*      {
@@ -1753,18 +1750,19 @@ public class Parser
 			"expecting: quoted text",
 			"expecting: quoted text, variable name, number literal, '-', '(', function name, 'Ran#', sub noargs name, sub args name, 'Lbl ', 'Goto ', '?', count jump op, 'Prog', 'Graph', EOF",
 			"expecting: ',', '+', '-', ')'",
-			"expecting: statement separator, ',', EOF",
+			"expecting: statement separator, ',', '+', '-', ')', EOF",
 			"expecting: statement separator",
 			"expecting: comparison op",
 			"expecting: statement separator, '#', EOF",
 			"expecting: '+', '-', '=>'",
 			"expecting: ')'",
+			"expecting: statement separator, ')', EOF",
 			"expecting: statement separator, '+', '-', EOF",
 			"expecting: statement separator, variable name, number literal, ',', '#', '+', '-', '*', '/', '(', ')', '->', '=>', comparison op, '^', '?', EOF",
         };*/
     private static int[] errors;
 /*      {
-			0, 1, 2, 2, 3, 4, 5, 6, 7, 8, 9, 9, 2, 8, 8, 8, 10, 7, 11, 6, 6, 6, 12, 12, 13, 2, 2, 14, 6, 15, 4, 12, 5, 7, 7, 16, 17, 16, 18, 7, 4, 4, 16, 4, 4, 4, 12, 5, 5, 2, 16, 2, 19, 20, 7, 21, 7, 22, 10, 6, 6, 23, 24, 6, 6, 13, 2, 23, 4, 5, 0, 4, 7, 0, 5, 7, 19, 25, 7, 7, 26, 7, 27, 4, 6, 25, 
+			0, 1, 2, 2, 3, 4, 5, 6, 7, 8, 9, 9, 2, 8, 8, 8, 10, 7, 11, 6, 6, 6, 12, 12, 13, 2, 2, 14, 6, 15, 4, 12, 4, 7, 7, 16, 17, 16, 18, 7, 4, 4, 16, 4, 4, 4, 12, 5, 5, 2, 16, 2, 19, 20, 7, 21, 7, 22, 10, 6, 6, 23, 24, 6, 6, 13, 2, 23, 4, 4, 0, 4, 7, 0, 5, 7, 25, 26, 7, 27, 7, 28, 6, 
         };*/
 
     static 

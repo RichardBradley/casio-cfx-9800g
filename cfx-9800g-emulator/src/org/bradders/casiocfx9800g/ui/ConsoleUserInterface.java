@@ -258,6 +258,14 @@ public class ConsoleUserInterface implements UserInterface
       };
    }
    
+   @Override
+   public void clearScreen()
+   {
+      graphics.setColor(CalcColour.BACKGROUND.getColor());
+      graphics.fillRect(0, 0, WIDTH_PIXELS, HEIGHT_PIXELS);
+      afterImageChange();
+   }
+   
    private void afterImageChange()
    {
       frame.repaint();
@@ -282,8 +290,8 @@ public class ConsoleUserInterface implements UserInterface
       return new Point(
             // "scale" is not the same as precision.
             // setScale(0) will round to the nearest int.
-            xB.setScale(0, RoundingMode.HALF_UP).intValueExact(),
-            yB.setScale(0, RoundingMode.HALF_UP).intValueExact());
+            xB.setScale(0, RoundingMode.FLOOR).intValueExact(),
+            yB.setScale(0, RoundingMode.FLOOR).intValueExact());
    }
    
    static class PointBigDecimal

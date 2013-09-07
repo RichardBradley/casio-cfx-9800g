@@ -1,0 +1,30 @@
+"FIREWORKS"
+Range 1,1.94,10,1,1.62,10
+Lbl 1
+Ran#>0.8=>Cls
+Ran#*0.4+(0.94*0.5)+1-0.2->A
+Ran#*0.7+(0.94*0.5)+1-0.35->C
+Ran#*0.4+(0.62*0.5)+1-0.1->D
+15->N:N->M:Int (Ran#*3)->r
+Lbl 2
+(NA+(M-N)C)/M->X
+(N+(M-N)D)/M->Y
+r=0=>Plot X,Y
+r=1=>Orange Plot X,Y
+r=2=>Green Plot X,Y
+Dsz N
+N=0=>Goto 2
+Int (Ran#*3)->R:Ran#*0.2+0.05->L:0->S:Int (Ran#*11)+4->T:1->N
+Lbl 3
+90->t
+Lbl 4
+NL/6*cos t+C->X
+NL/6*sin t+D->Y
+r=0=>Plot X,Y
+r=1=>Orange Plot X,Y
+r=2=>Green Plot X,Y
+t+360/T->t
+t<(360+90)=>Goto 4
+Isz N
+N<=6=>Goto 3
+Goto 1
