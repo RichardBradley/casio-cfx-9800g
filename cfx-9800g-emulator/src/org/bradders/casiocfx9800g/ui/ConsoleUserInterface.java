@@ -23,10 +23,16 @@ public class ConsoleUserInterface implements UserInterface
 {
    private static final int CONSOLE_WIDTH = 21;
    private static final String FORMAT_STR = "%" + CONSOLE_WIDTH + "s";
-   static final int WIDTH_PIXELS = 96;
-   static final int HEIGHT_PIXELS = 64;
+   // On the calc, the top row and left col of pixels are not used in graph mode
+   // (I don't know why).
+   //
+   // Note that the fx-9860G is 128x64
+   static final int WIDTH_PIXELS = 96 - 1;
+   static final int HEIGHT_PIXELS = 64 - 1;
    static final BigDecimal WIDTH_PIXELS_BD = new BigDecimal(WIDTH_PIXELS);
+   static final BigDecimal WIDTH_PIXELS_MINUS_ONE = new BigDecimal(WIDTH_PIXELS - 1);
    static final BigDecimal HEIGHT_PIXELS_BD = new BigDecimal(HEIGHT_PIXELS);
+   static final BigDecimal HEIGHT_PIXELS_MINUS_ONE = new BigDecimal(HEIGHT_PIXELS - 1);
    private static final int IMAGE_SCALE = 4;
    
    private BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
@@ -100,6 +106,11 @@ public class ConsoleUserInterface implements UserInterface
       this.yMin = yMin;
       this.yMax = yMax;
       
+      addImageToFrameAndShow(image);
+   }
+
+   protected void addImageToFrameAndShow(BufferedImage image)
+   {
       frame = new JFrame("cfx-9800g-emulator");
       
       JLabel label = new ScaledImageJLabel(image);
@@ -241,7 +252,7 @@ public class ConsoleUserInterface implements UserInterface
                   // val = xMin + idx * (xMax - xMin) / WIDTH_PIXELS;
                   BigDecimal widthG = xMax.subtract(xMin, Evaluator.STORED_PRECISION);
                   BigDecimal unitsPerPixel = widthG.divide(WIDTH_PIXELS_BD, Evaluator.STORED_PRECISION);
-                  BigDecimal offset = unitsPerPixel.multiply(new BigDecimal(idx), Evaluator.STORED_PRECISION);
+                  BigDecimal offset = unitsPerPixel.multiply(new BigDecimal(idx + 0.5), Evaluator.STORED_PRECISION);
                   BigDecimal val = offset.add(xMin, Evaluator.STORED_PRECISION);
                   
                   idx ++;
@@ -280,18 +291,18 @@ public class ConsoleUserInterface implements UserInterface
       // x = (int)Math.round(((point.x - xMin) / (xMax - xMin) * WIDTH_PIXELS))
       BigDecimal xWidthG = xMax.subtract(xMin, Evaluator.STORED_PRECISION);
       BigDecimal xOffG = point.x.subtract(xMin, Evaluator.STORED_PRECISION);
-      BigDecimal xB = xOffG.divide(xWidthG, Evaluator.STORED_PRECISION).multiply(WIDTH_PIXELS_BD, Evaluator.STORED_PRECISION);
+      BigDecimal xB = xOffG.divide(xWidthG, Evaluator.STORED_PRECISION).multiply(WIDTH_PIXELS_MINUS_ONE, Evaluator.STORED_PRECISION);
 
       // y = (int)Math.round(((yMax - point.y) / (yMax - yMin) * HEIGHT_PIXELS)
       BigDecimal yHeightG = yMax.subtract(yMin, Evaluator.STORED_PRECISION);
       BigDecimal yOffG = yMax.subtract(point.y, Evaluator.STORED_PRECISION);
-      BigDecimal yB = yOffG.divide(yHeightG, Evaluator.STORED_PRECISION).multiply(HEIGHT_PIXELS_BD, Evaluator.STORED_PRECISION);
+      BigDecimal yB = yOffG.divide(yHeightG, Evaluator.STORED_PRECISION).multiply(HEIGHT_PIXELS_MINUS_ONE, Evaluator.STORED_PRECISION);
       
       return new Point(
             // "scale" is not the same as precision.
             // setScale(0) will round to the nearest int.
-            xB.setScale(0, RoundingMode.FLOOR).intValueExact(),
-            yB.setScale(0, RoundingMode.FLOOR).intValueExact());
+            xB.setScale(0, RoundingMode.HALF_UP).intValueExact(),
+            yB.setScale(0, RoundingMode.HALF_UP).intValueExact());
    }
    
    static class PointBigDecimal

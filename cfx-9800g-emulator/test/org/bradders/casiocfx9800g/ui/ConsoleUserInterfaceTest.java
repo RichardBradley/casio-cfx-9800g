@@ -5,16 +5,16 @@ import static org.junit.Assert.assertThat;
 
 import java.math.BigDecimal;
 
-import org.bradders.casiocfx9800g.Evaluator;
+import org.bradders.casiocfx9800g.EvaluationTestBase;
 import org.bradders.casiocfx9800g.ui.ConsoleUserInterface.PointBigDecimal;
 import org.junit.Test;
 
-public class ConsoleUserInterfaceTest
+public class ConsoleUserInterfaceTest extends EvaluationTestBase
 {
    @Test
    public void testEachBitmapPixelIsCoveredByIterateGraphXValues()
    {
-      ConsoleUserInterface ui = new ConsoleUserInterface();
+      ConsoleUserInterface ui = new ConsoleUserInterfaceNoFrame();
       ui.range(bd(1), bd(1.62), bd(10), bd(1), bd(1.62), bd(10));
       
       int x = 0;
@@ -32,10 +32,5 @@ public class ConsoleUserInterfaceTest
    public void testDoubleRounding()
    {
       assertThat((int)0.9999999999985, equalTo(0));
-   }
-   
-   private static BigDecimal bd(double val)
-   {
-      return new BigDecimal(val, Evaluator.STORED_PRECISION);
    }
 }

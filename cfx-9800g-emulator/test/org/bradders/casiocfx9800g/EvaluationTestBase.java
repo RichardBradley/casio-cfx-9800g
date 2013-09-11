@@ -81,6 +81,16 @@ public abstract class EvaluationTestBase
       }
    }
    
+   protected static BigDecimal bd(double val)
+   {
+      return new BigDecimal(val, Evaluator.STORED_PRECISION);
+   }
+   
+   protected static BigDecimal bd(int val)
+   {
+      return new BigDecimal(val, Evaluator.STORED_PRECISION);
+   }
+   
    private static class OutputCapturingUserInterface implements UserInterface
    {
       public List<String> printedValues = new ArrayList<String>();
@@ -131,6 +141,12 @@ public abstract class EvaluationTestBase
 
       @Override
       public Iterable<BigDecimal> iterateGraphXValues()
+      {
+         throw new RuntimeException("Not supported");
+      }
+
+      @Override
+      public void clearScreen()
       {
          throw new RuntimeException("Not supported");
       }

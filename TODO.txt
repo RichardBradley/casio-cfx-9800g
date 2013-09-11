@@ -1,6 +1,3 @@
-* Finish transcribing programs
-** Test and fix them:
-*** p6-mandl2: fix misalignment on image
 * Publish to bradders.org
 ** Make the emulator run as an applet
 ** Write up development

@@ -110,7 +110,7 @@ class AutoItTranslator
   # Converts the given txt line into au3
   def translate_line line
     return if line =~ /^#/
-    line.scan /Lbl |Goto |=\>|Isz |Dsz |e\^|Deg|Range |Int |Frac |Plot |Ran#|-\>|\<=|\>=|!=|Graph Y(?:\<|\>|=|\>=|\<=)|./ do |token|
+    line.scan /Lbl |Goto |=\>|Isz |Dsz |e\^|Deg|Range |Int |Frac |Plot |Line|Ran#|-\>|\<=|\>=|!=|Graph Y(?:\<|\>|=|\>=|\<=)|./ do |token|
       case token
       when '#'
         enter_menu 'PRGM'
@@ -149,6 +149,11 @@ class AutoItTranslator
         enter_menu ''
         click 'SHIFT'
         @text << '{F4}{F6}{F1}{F1}'
+        flush_text 'Plot'
+      when 'Line'
+        enter_menu ''
+        click 'SHIFT'
+        @text << '{F4}{F6}{F2}{F1}'
         flush_text 'Plot'
       when '!=', '<=', '>='
         enter_menu 'PRGM -> more -> REL'
