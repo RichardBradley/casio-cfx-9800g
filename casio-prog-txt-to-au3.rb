@@ -56,6 +56,7 @@ class AutoItTranslator
           when 'VARS' then [159,376]
           when 'ALPHA' then [73,413]
           when 'x^2' then [117,413]
+          when '^' then [159,413]
           when 'EXIT' then [202,413]
           when 'ln' then [159,451]
           when '->' then [290,487]
@@ -193,6 +194,9 @@ class AutoItTranslator
       when 'r'
         click 'ALPHA'
         click 'x^2', 'rho'
+      when 't'
+        click 'ALPHA'
+        click '^', 'theta'
       when 'e^'
         click 'SHIFT'
         click 'ln', 'e^x'
