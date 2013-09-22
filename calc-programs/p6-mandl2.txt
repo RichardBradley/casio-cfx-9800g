@@ -1,3 +1,9 @@
+// A rendering of the Mandlebrot set
+//
+// fx-emulator: Orange off
+// fx-emulator: s/0\.035/0.026/
+// fx-emulator: append "Line"
+//
 "MANDL 2"
 Range 2.8,6.1,10,3.6,6.4,10
 1.1->Q

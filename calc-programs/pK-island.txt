@@ -1,3 +1,11 @@
+// A pic of an island.
+//
+// This works well in the java emulator.
+//
+// This doesn't quite look right in the fx emulator, as the view screen has 
+// more horizontal pixels.
+// For some reason the green lines don't appear on that one, but it works better
+// that way.
 "ISLAND"
 Range 2,11,100,2,8,100
 5->B

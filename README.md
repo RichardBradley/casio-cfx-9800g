@@ -24,6 +24,8 @@ This emulator is useful for verifying the accuracy of the Java emulator (see "cf
 
 (Note that the ruby script uploads the program files into the emulator by typing in the program text using AutoIt. This seems a little redundant, but I couldn't figure out a sensble system for uploading files directly into the emulator. The emulator does have a "storage memory" configured which interacts with the filesystem, but it saves any files inside the binary "gy363.fls" archive -- how can I add files to that archive without reverse-engineering the binary format?)
 
+The fx-9800G USB has a screen resolution of 128x64, whereas the CFX-9800G has only 96x64.
+
 "cfx-9800g-emulator"
 --------------------
 

@@ -29,6 +29,9 @@ class AutoItTranslator
     # The set of filenames in the calc which have been used. This is needed
     # to detect name collisions and to avoid re-entering the same prog twice.
     @used_calc_prog_names = Set.new
+
+    # If necessary, you can define regex replacements for the program text
+    @line_replacements = {}
   end
 
   # Before starting a key sequence (e.g. for a keyword like Goto),
@@ -118,6 +121,16 @@ class AutoItTranslator
       when 'CATALOG'
         click 'SHIFT'
         click '4', 'CATALOG'
+      when 'SKTCH'
+        click 'SHIFT'
+        @text << '{F4}'
+        flush_text 'SKTCH'
+      when 'SKTCH -> GRPH'
+        @text << '{F5}'
+        flush_text 'GRPH'
+      when 'SKTCH -> GRPH -> more'
+        @text << '{F6}'
+        flush_text 'more'
       else
         raise "Bad menu '#{@menu.join ' -> '}'"
       end
@@ -126,8 +139,29 @@ class AutoItTranslator
 
   # Converts the given txt line into au3
   def translate_line line
+    if line =~ %r{^// fx-emulator: (.*)}
+      case $1
+      when 'Orange off'
+        @orange_behaviour = 'off'
+      when %r{s/(.*)/(.*)/}
+        @line_replacements[Regexp.new($1)] = $2
+      when /append "(.*)"/
+        @appended_lines << $1
+      else
+        raise "Unrecognised 'fx-emulator' command: #{$1}"
+      end
+    end
+
     return if line =~ %r{^//}
-    line.scan /Prog "[^"]+"|Lbl |Goto |=\>|Isz |Dsz |e\^|Deg|Range |Int |Frac |Plot |Line|Ran#|-\>|\<=|\>=|!=|Graph Y(?:\<|\>|=|\>=|\<=)|Cls|Mcl|Deg|sin |cos |tan |./ do |token|
+
+    @line_replacements.each do |from,to|
+      line = line.sub from, to
+    end
+
+    # (see below)
+    convert_next_comma_to_plus = false
+
+    line.scan /Prog "[^"]+"|Lbl |Goto |=\>|Isz |Dsz |e\^|Deg|Range |Int |Frac |Abs |(?:Orange |Green )?Plot |(?:Orange |Green )?Line|Ran#|-\>|\<=|\>=|!=|Graph Y(?:\<|\>|=|\>=|\<=)|Cls|Mcl|Deg|sin |cos |tan |sqrt|G\<-\>T|./ do |token|
       case token
       when '#'
         enter_menu 'PRGM'
@@ -162,16 +196,26 @@ class AutoItTranslator
         click 'SHIFT'
         @text << '{F3}{F1}'
         flush_text 'ViewWindow'
-      when 'Plot '
-        enter_menu ''
-        click 'SHIFT'
-        @text << '{F4}{F6}{F1}{F1}'
-        flush_text 'Plot'
-      when 'Line'
-        enter_menu ''
-        click 'SHIFT'
-        @text << '{F4}{F6}{F2}{F1}'
-        flush_text 'Plot'
+      when /(Orange|Green)? ?Plot /
+        if $1 == 'Orange' && @orange_behaviour == 'off'
+          # To turn "Plot a,b" into a noop, we rewrite it as a+b
+          convert_next_comma_to_plus = true
+        else
+          enter_menu ''
+          click 'SHIFT'
+          @text << '{F4}{F6}{F1}{F1}'
+          flush_text 'Plot'
+        end
+      when /(Orange|Green)? ?Line/
+        if $1 == 'Orange' && @orange_behaviour == 'off'
+          # Turn "Orange Line" into a noop
+          @text << '0'
+        else
+          enter_menu ''
+          click 'SHIFT'
+          @text << '{F4}{F6}{F2}{F1}'
+          flush_text 'Line'
+        end
       when '!=', '<=', '>='
         enter_menu 'PRGM -> more -> REL'
         key = case token
@@ -182,18 +226,20 @@ class AutoItTranslator
               end
         @text << "{F#{key}}"
         flush_text token
-      when 'Graph Y=', 'Graph Y<=', 'Graph Y<', 'Graph Y>=', 'Graph Y>'
-        enter_menu 'CATALOG'
-        @text << 'G'
-        idx = case token
-              when 'Graph Y=' then 10
-              when 'Graph Y<' then 11
-              when 'Graph Y>' then 12
-              when 'Graph Y<=' then 13
-              when 'Graph Y>=' then 14
+      when 'Graph Y='
+        enter_menu 'SKTCH -> GRPH'
+        @text << "{F1}"
+        flush_text token
+      when 'Graph Y<=', 'Graph Y<', 'Graph Y>=', 'Graph Y>'
+        enter_menu 'SKTCH -> GRPH -> more'
+        key = case token
+              when 'Graph Y>' then 1
+              when 'Graph Y<' then 2
+              when 'Graph Y>=' then 3
+              when 'Graph Y<=' then 4
               else raise "invalid token '#{token}'"
               end
-        @text << ("{DOWN}" * idx) << '{ENTER}'
+        @text << "{F#{key}}"
         flush_text token
       when 'Deg'
         enter_menu 'CATALOG'
@@ -209,6 +255,9 @@ class AutoItTranslator
       when 'e^'
         click 'SHIFT'
         click 'ln', 'e^x'
+      when 'sqrt'
+        click 'SHIFT'
+        click 'x^2', 'sqrt'
       when '!'
         enter_menu 'OPTN -> more -> PROB'
         @text << '{F1}'
@@ -237,6 +286,13 @@ class AutoItTranslator
         @text << "{#{token}}"
       when "'"
         @text << "''"
+      when ','
+        if convert_next_comma_to_plus
+          convert_next_comma_to_plus = false
+          @text << '+'
+        else
+          @text << ','
+        end
       when /^[-"A-Z0-9?:\/()*= ,.<>]$/
         @text << token
       else
@@ -327,7 +383,11 @@ END
         
         add_preamble_for_prog prog_name
         File.open(File.join(@in_dir, next_filename), 'r') do |f|
+          @appended_lines = []
           f.each do |line|
+            translate_line line
+          end
+          @appended_lines.each do |line|
             translate_line line
           end
         end
