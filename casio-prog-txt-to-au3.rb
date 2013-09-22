@@ -226,6 +226,10 @@ class AutoItTranslator
               end
         @text << "{F#{key}}"
         flush_text token
+      when 'Cls'
+        enter_menu 'SKTCH'
+        @text << "{F1}"
+        flush_text token
       when 'Graph Y='
         enter_menu 'SKTCH -> GRPH'
         @text << "{F1}"

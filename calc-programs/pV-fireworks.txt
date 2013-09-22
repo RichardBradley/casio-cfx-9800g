@@ -1,3 +1,11 @@
+// An animated fireworks display
+//
+// Works best on the CFX, with colour
+//
+// Works ok on the FX emulator
+//
+// A bit too fast on the java emulator TODO: add sleep
+//
 "FIREWORKS"
 Range 1,1.94,10,1,1.62,10
 Lbl 1
