@@ -42,6 +42,7 @@ Tokens
         function_noargs_name =
                   'Ran#';
         sub_noargs_name =
+                  'Deg' |
                   'Cls' |
                   'Mcl' |
                   'Line' |

@@ -305,15 +305,15 @@ public class Evaluator
       }
       if (funcName.equals("sin ")) {
          assertArgumentCount(args, 1, location);
-         return new BigDecimal(Math.sin(args.get(0).doubleValue()), STORED_PRECISION);
+         return new BigDecimal(Math.sin(degToRad(args.get(0).doubleValue())), STORED_PRECISION);
       }
       if (funcName.equals("cos ")) {
          assertArgumentCount(args, 1, location);
-         return new BigDecimal(Math.cos(args.get(0).doubleValue()), STORED_PRECISION);
+         return new BigDecimal(Math.cos(degToRad(args.get(0).doubleValue())), STORED_PRECISION);
       }
       if (funcName.equals("tan ")) {
          assertArgumentCount(args, 1, location);
-         return new BigDecimal(Math.tan(args.get(0).doubleValue()), STORED_PRECISION);
+         return new BigDecimal(Math.tan(degToRad(args.get(0).doubleValue())), STORED_PRECISION);
       }
       if (funcName.equals("Frac ")) {
          assertArgumentCount(args, 1, location);
@@ -331,6 +331,11 @@ public class Evaluator
             "Unrecognised function: '%s' at %s",
             funcName,
             Printer.nodeToString(location)));
+   }
+
+   private double degToRad(double angleDeg)
+   {
+      return angleDeg * Math.PI / 180.0;
    }
 
    /**

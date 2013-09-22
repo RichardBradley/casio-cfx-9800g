@@ -59,6 +59,9 @@ class AutoItTranslator
           when '^' then [159,413]
           when 'EXIT' then [202,413]
           when 'ln' then [159,451]
+          when 'sin' then [202,451]
+          when 'cos' then [246,451]
+          when 'tan' then [290,451]
           when '->' then [290,487]
           when 'fraction' then [73,487]
           when '4' then [78,578]
@@ -123,7 +126,7 @@ class AutoItTranslator
   # Converts the given txt line into au3
   def translate_line line
     return if line =~ %r{^//}
-    line.scan /Prog "[^"]+"|Lbl |Goto |=\>|Isz |Dsz |e\^|Deg|Range |Int |Frac |Plot |Line|Ran#|-\>|\<=|\>=|!=|Graph Y(?:\<|\>|=|\>=|\<=)|Cls|Mcl|./ do |token|
+    line.scan /Prog "[^"]+"|Lbl |Goto |=\>|Isz |Dsz |e\^|Deg|Range |Int |Frac |Plot |Line|Ran#|-\>|\<=|\>=|!=|Graph Y(?:\<|\>|=|\>=|\<=)|Cls|Mcl|Deg|sin |cos |tan |./ do |token|
       case token
       when '#'
         enter_menu 'PRGM'
@@ -191,6 +194,11 @@ class AutoItTranslator
               end
         @text << ("{DOWN}" * idx) << '{ENTER}'
         flush_text token
+      when 'Deg'
+        enter_menu 'CATALOG'
+        @text << 'D'
+        @text << ("{DOWN}" * 10) << '{ENTER}'
+        flush_text token
       when 'r'
         click 'ALPHA'
         click 'x^2', 'rho'
@@ -210,8 +218,8 @@ class AutoItTranslator
         flush_text 'Ran#'
       when '|'
         click 'fraction'
-      when '->'
-        click '->'
+      when 'ln', '->', 'sin ', 'cos ', 'tan '
+        click token.strip
       when /Prog "([^"]+)"/
         enter_menu 'PRGM -> CTL'
         @text << "{F1}"

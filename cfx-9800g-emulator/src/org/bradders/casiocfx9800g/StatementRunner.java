@@ -180,6 +180,8 @@ public class StatementRunner
          context.memoryClear();
       } else if (subName.equals("Cls")) {
          userInterface.clearScreen();
+      } else if (subName.equals("Deg")) {
+         // This emulator always uses Degrees, so no action needed here.
       } else {
          throw new CompileException(String.format(
                "Unrecognised sub: '%s' at %s",
