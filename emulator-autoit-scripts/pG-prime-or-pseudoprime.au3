@@ -28,7 +28,6 @@ Send('(Q/P)')
 MouseClick('left', $x + 73, $y + 376) ; SHIFT (state is PRGM)
 MouseClick('left', $x + 159, $y + 376) ; PRGM (state is PRGM)
 Send('{F5}') ; print result (state is ["PRGM"])
-Send('{ENTER}')
 
 ; end program text
 
