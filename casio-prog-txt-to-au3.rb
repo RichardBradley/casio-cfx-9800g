@@ -109,7 +109,7 @@ class AutoItTranslator
 
   # Converts the given txt line into au3
   def translate_line line
-    return if line =~ /^#/
+    return if line =~ %r{^//}
     line.scan /Lbl |Goto |=\>|Isz |Dsz |e\^|Deg|Range |Int |Frac |Plot |Line|Ran#|-\>|\<=|\>=|!=|Graph Y(?:\<|\>|=|\>=|\<=)|./ do |token|
       case token
       when '#'

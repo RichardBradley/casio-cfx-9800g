@@ -90,6 +90,27 @@ public class ReversedDepthFirstAdapter extends AnalysisAdapter
         outASequenceProgram(node);
     }
 
+    public void inACommentStatement(ACommentStatement node)
+    {
+        defaultIn(node);
+    }
+
+    public void outACommentStatement(ACommentStatement node)
+    {
+        defaultOut(node);
+    }
+
+    @Override
+    public void caseACommentStatement(ACommentStatement node)
+    {
+        inACommentStatement(node);
+        if(node.getComment() != null)
+        {
+            node.getComment().apply(this);
+        }
+        outACommentStatement(node);
+    }
+
     public void inAPrinttextStatement(APrinttextStatement node)
     {
         defaultIn(node);

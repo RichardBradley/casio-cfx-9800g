@@ -87,6 +87,12 @@ public class AnalysisAdapter implements Analysis
     }
 
     @Override
+    public void caseACommentStatement(ACommentStatement node)
+    {
+        defaultCase(node);
+    }
+
+    @Override
     public void caseAPrinttextStatement(APrinttextStatement node)
     {
         defaultCase(node);
@@ -328,6 +334,12 @@ public class AnalysisAdapter implements Analysis
 
     @Override
     public void caseTStatementSeparator(TStatementSeparator node)
+    {
+        defaultCase(node);
+    }
+
+    @Override
+    public void caseTComment(TComment node)
     {
         defaultCase(node);
     }

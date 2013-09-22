@@ -1,3 +1,10 @@
+// rtb 2013-08-31 This doesn't work!
+//
+// I think I gave up on this version. It runs very slowly on the calculator,
+// so perhaps I wasn't patient enough to debug it.
+//
+// The adjacent program "p6-mandl2.txt" does work, and is similar. Perhaps
+// this version could be fixed up using parts from that.
 "MANDLBROT"
 "RES=1 IN "?->r
 "X MIN"?->G

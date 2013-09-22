@@ -55,7 +55,6 @@ public abstract class EvaluationTestBase
       return join(ui.printedValues);
    }
    
-   // TODO: look up library method for this...
    private static String join(Iterable<String> vals)
    {
       String sep = "";

@@ -14,6 +14,7 @@ public interface Analysis extends Switch
     void caseStart(Start node);
     void caseASingleProgram(ASingleProgram node);
     void caseASequenceProgram(ASequenceProgram node);
+    void caseACommentStatement(ACommentStatement node);
     void caseAPrinttextStatement(APrinttextStatement node);
     void caseAAssignStatement(AAssignStatement node);
     void caseAPrintvalStatement(APrintvalStatement node);
@@ -56,6 +57,7 @@ public interface Analysis extends Switch
     void caseASequenceAtomList(ASequenceAtomList node);
 
     void caseTStatementSeparator(TStatementSeparator node);
+    void caseTComment(TComment node);
     void caseTQuotedText(TQuotedText node);
     void caseTVariableName(TVariableName node);
     void caseTNumberLiteral(TNumberLiteral node);

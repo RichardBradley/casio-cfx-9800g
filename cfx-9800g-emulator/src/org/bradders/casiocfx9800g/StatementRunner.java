@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.util.List;
 
 import org.bradders.casiocfx9800g.node.AAssignStatement;
+import org.bradders.casiocfx9800g.node.ACommentStatement;
 import org.bradders.casiocfx9800g.node.ACountJumpStatement;
 import org.bradders.casiocfx9800g.node.AGotoStatement;
 import org.bradders.casiocfx9800g.node.AGraphStatement;
@@ -100,7 +101,9 @@ public class StatementRunner
     */
    private Integer run(PStatement statement)
    {
-      if (statement instanceof APrinttextStatement) {
+      if (statement instanceof ACommentStatement) {
+         // nothing to do
+      } else if (statement instanceof APrinttextStatement) {
          run((APrinttextStatement)statement);
       } else if (statement instanceof AAssignStatement) {
          run((AAssignStatement)statement);

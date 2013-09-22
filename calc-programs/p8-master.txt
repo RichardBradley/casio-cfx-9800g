@@ -1,3 +1,5 @@
+// This is my reimagining of a game I used to play on the BBC Micro.
+// You are in charge of a village and have to decide how much rice to plant v.s. eat each year.
 "MASTER"
 5000->R
 5000->T

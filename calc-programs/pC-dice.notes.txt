@@ -1,1 +1,0 @@
-This is an implementation of a dice betting game I saw in a computer game on the Acorn. It was a medieval themed game; I don't know if this is a traditional dice game, or was made up for that computer game.
