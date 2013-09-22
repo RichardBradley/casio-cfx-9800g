@@ -222,6 +222,8 @@ class AutoItTranslator
         @text << "\"#{prog_name}\""
       when /^[+^]$/
         @text << "{#{token}}"
+      when "'"
+        @text << "''"
       when /^[-"A-Z0-9?:\/()*= ,.<>]$/
         @text << token
       else
