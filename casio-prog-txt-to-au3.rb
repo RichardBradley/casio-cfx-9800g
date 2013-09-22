@@ -65,6 +65,7 @@ class AutoItTranslator
           when '->' then [290,487]
           when 'fraction' then [73,487]
           when '4' then [78,578]
+          when 'EXP' then [182,663]
           else raise "Bad button_name '#{button_name}'"
           end
     @out << "MouseClick('left', $x + #{x}, $y + #{y}) ; #{comment}"
@@ -220,6 +221,8 @@ class AutoItTranslator
         click 'fraction'
       when 'ln', '->', 'sin ', 'cos ', 'tan '
         click token.strip
+      when 'e'
+        click 'EXP'
       when /Prog "([^"]+)"/
         enter_menu 'PRGM -> CTL'
         @text << "{F1}"
