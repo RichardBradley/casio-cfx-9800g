@@ -1,6 +1,5 @@
 "POWER SEQS"
 Lbl 1
-Mcl
 "POWER? (2-3)"
 ?->A
 A=2=>Goto 2

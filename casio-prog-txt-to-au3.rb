@@ -123,7 +123,7 @@ class AutoItTranslator
   # Converts the given txt line into au3
   def translate_line line
     return if line =~ %r{^//}
-    line.scan /Prog "[^"]+"|Lbl |Goto |=\>|Isz |Dsz |e\^|Deg|Range |Int |Frac |Plot |Line|Ran#|-\>|\<=|\>=|!=|Graph Y(?:\<|\>|=|\>=|\<=)|Cls|./ do |token|
+    line.scan /Prog "[^"]+"|Lbl |Goto |=\>|Isz |Dsz |e\^|Deg|Range |Int |Frac |Plot |Line|Ran#|-\>|\<=|\>=|!=|Graph Y(?:\<|\>|=|\>=|\<=)|Cls|Mcl|./ do |token|
       case token
       when '#'
         enter_menu 'PRGM'
@@ -220,6 +220,8 @@ class AutoItTranslator
         @referenced_filenames << $1
         prog_name = filename_to_calc_prog_name($1)
         @text << "\"#{prog_name}\""
+      when 'Mcl'
+        raise "The fx-9960G does not appear to support memory clear!"
       when /^[+^]$/
         @text << "{#{token}}"
       when "'"
