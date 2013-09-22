@@ -1,3 +1,10 @@
+// A rendering of a palm tree at sunset
+//
+// It doesn't look great on the FX emulator, as the Y<=X fill is
+// hatched, which interferes with the hammer and sickle.
+//
+// fx-emulator: s/11,/14,/
+//
 "PALM"
 Range 2,11,100,2,8,100
 6->B
