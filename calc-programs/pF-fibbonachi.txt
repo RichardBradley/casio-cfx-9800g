@@ -1,8 +1,8 @@
-"FiBBONACHI"
+"FIBBONACHI"
 ?->A
 ?->B
 Lbl 1
-A+B->#
+A+B->C#
 B->A
 C->B
 Goto 1
