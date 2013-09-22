@@ -7,7 +7,8 @@ $y = $pos[1]
 
 Send('B') ; open program menu
 Send('{F3}') ; start new prog
-Send('POISSON{ENTER}') ; file name - at most 8 chars
+; Send the program name in lowercase to avoid a strange ALPHA-LOCK behaviour
+Send('poisson{ENTER}') ; file name - at most 8 chars
 
 ; program text starts here
 
@@ -37,16 +38,12 @@ Send(')*(')
 MouseClick('left', $x + 73, $y + 413) ; ALPHA (state is PRGM -> JUMP)
 MouseClick('left', $x + 117, $y + 413) ; rho (state is PRGM -> JUMP)
 Send('{^}X)/X')
-MouseClick('left', $x + 202, $y + 413) ; EXIT (state is PRGM)
-MouseClick('left', $x + 202, $y + 413) ; EXIT
 MouseClick('left', $x + 117, $y + 376) ; OPTN (state is OPTN)
 Send('{F6}') ; more (state is ["OPTN", "more"])
 Send('{F3}') ; PROB (state is ["OPTN", "more", "PROB"])
 Send('{F1}') ; x! (state is ["OPTN", "more", "PROB"])
 MouseClick('left', $x + 290, $y + 487) ; -> (state is OPTN -> more -> PROB)
 Send('C')
-MouseClick('left', $x + 202, $y + 413) ; EXIT (state is OPTN -> more)
-MouseClick('left', $x + 202, $y + 413) ; EXIT
 MouseClick('left', $x + 73, $y + 376) ; SHIFT (state is PRGM)
 MouseClick('left', $x + 159, $y + 376) ; PRGM (state is PRGM)
 Send('{F5}') ; print result (state is ["PRGM"])
@@ -54,12 +51,14 @@ Send('"SUM="{ENTER}')
 Send('C{+}S')
 MouseClick('left', $x + 290, $y + 487) ; -> (state is PRGM)
 Send('S{F5}') ; print result (state is ["PRGM"])
+MouseClick('left', $x + 73, $y + 376) ; SHIFT (state is PRGM)
+MouseClick('left', $x + 159, $y + 376) ; PRGM (state is PRGM)
 Send('{F3}') ; JUMP (state is ["PRGM", "JUMP"])
 Send('{F2}') ; Goto  (state is ["PRGM", "JUMP"])
 Send('1{ENTER}')
-MouseClick('left', $x + 202, $y + 413) ; EXIT (state is PRGM)
-MouseClick('left', $x + 202, $y + 413) ; EXIT
 
 ; end program text
-MouseClick('left', $x + 202, $y + 413) ; EXIT
+
+MouseClick('left', $x + 73, $y + 376) ; SHIFT (state is PRGM -> JUMP)
+MouseClick('left', $x + 202, $y + 413) ; QUIT (state is PRGM -> JUMP)
 Send('{F1}') ; EXE

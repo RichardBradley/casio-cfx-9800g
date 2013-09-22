@@ -8,6 +8,7 @@
 #
 # The output is written to the file of the same name, but with an ".au3"
 # extension. The script will overwrite files without prompting.
+require 'set'
 
 class AutoItTranslator
 
@@ -20,6 +21,14 @@ class AutoItTranslator
 
     # 'menu' holds the current menu state in the programme text editor
     @menu = []
+
+    # 'referenced_filenames' holds the filenames of other programs referenced by this
+    # program
+    @referenced_filenames = Set.new
+
+    # The set of filenames in the calc which have been used. This is needed
+    # to detect name collisions and to avoid re-entering the same prog twice.
+    @used_calc_prog_names = Set.new
   end
 
   # Before starting a key sequence (e.g. for a keyword like Goto),
@@ -78,6 +87,9 @@ class AutoItTranslator
       when 'PRGM'
         click 'SHIFT'
         click 'VARS', 'PRGM'
+      when 'PRGM -> CTL'
+        @text << '{F2}'
+        flush_text 'CTL'
       when 'PRGM -> JUMP'
         @text << '{F3}'
         flush_text 'JUMP'
@@ -110,7 +122,7 @@ class AutoItTranslator
   # Converts the given txt line into au3
   def translate_line line
     return if line =~ %r{^//}
-    line.scan /Lbl |Goto |=\>|Isz |Dsz |e\^|Deg|Range |Int |Frac |Plot |Line|Ran#|-\>|\<=|\>=|!=|Graph Y(?:\<|\>|=|\>=|\<=)|./ do |token|
+    line.scan /Prog "[^"]+"|Lbl |Goto |=\>|Isz |Dsz |e\^|Deg|Range |Int |Frac |Plot |Line|Ran#|-\>|\<=|\>=|!=|Graph Y(?:\<|\>|=|\>=|\<=)|Cls|./ do |token|
       case token
       when '#'
         enter_menu 'PRGM'
@@ -196,6 +208,14 @@ class AutoItTranslator
         click 'fraction'
       when '->'
         click '->'
+      when /Prog "([^"]+)"/
+        enter_menu 'PRGM -> CTL'
+        @text << "{F1}"
+        flush_text 'Prog'
+
+        @referenced_filenames << $1
+        prog_name = filename_to_calc_prog_name($1)
+        @text << "\"#{prog_name}\""
       when /^[+^]$/
         @text << "{#{token}}"
       when /^[-"A-Z0-9?:\/()*= ,.<>]$/
@@ -212,11 +232,7 @@ class AutoItTranslator
     flush_text
   end
 
-  def add_preamble prog_name
-    unless prog_name =~ /[A-Za-z]{1,8}/
-      raise "Program name invalid: '#{prog_name}'"
-    end
-
+  def add_global_preamble
     @out << <<END
 Run('fx-9860g-emulator/NewGraph.exe', 'fx-9860g-emulator')
 WinWait('NewGraph', '', 1)
@@ -226,15 +242,29 @@ $x = $pos[0]
 $y = $pos[1]
 
 Send('B') ; open program menu
+END
+  end
+
+  def add_preamble_for_prog prog_name
+    unless prog_name =~ /[A-Za-z]{1,8}/
+      raise "Program name invalid: '#{prog_name}'"
+    end
+
+    unless @used_calc_prog_names.add? prog_name
+      raise "Program name already used: '#{prog_name}'"
+    end
+
+    @out << <<END
 Send('{F3}') ; start new prog
-Send('#{prog_name}{ENTER}') ; file name - at most 8 chars
+; Send the program name in lowercase to avoid a strange ALPHA-LOCK behaviour
+Send('#{prog_name.downcase}{ENTER}') ; file name - at most 8 chars
 
 ; program text starts here
 
 END
   end
 
-  def add_postamble
+  def add_postamble_for_prog
     flush_text
     @out << <<END
 
@@ -243,8 +273,20 @@ END
 END
     click 'SHIFT'
     click 'EXIT', 'QUIT'
+    @menu.clear
+  end
+
+  def add_global_postamble main_prog_name
+    idx = @used_calc_prog_names.sort.find_index main_prog_name
+    idx.times do
+      @test << '{DOWN}'
+    end
     @text << '{F1}'
     flush_text 'EXE'
+  end
+
+  def filename_to_calc_prog_name filename
+    filename[/([A-Z0-9]*).txt$/i, 1].upcase
   end
 
   # returns the au3 text as a string
@@ -252,18 +294,31 @@ END
     unless infilename =~ /\.txt$/
       raise "Expecting an input filename ending in '.txt', got '#{filename}'"
     end 
-     
-    prog_name = infilename[/([A-Z]*).txt$/i, 1].upcase
+    
+    @in_dir = File.dirname(infilename)
+    @referenced_filenames << File.basename(infilename)
+    translated_filenames = Set.new
 
-    add_preamble prog_name
-
-    File.open(infilename, 'r') do |f|
-      f.each do |line|
-        translate_line line
+    add_global_preamble
+    
+    while next_filename = (@referenced_filenames - translated_filenames).first
+      begin
+        translated_filenames << next_filename
+        prog_name = filename_to_calc_prog_name next_filename
+        
+        add_preamble_for_prog prog_name
+        File.open(File.join(@in_dir, next_filename), 'r') do |f|
+          f.each do |line|
+            translate_line line
+          end
+        end
+        add_postamble_for_prog
+      rescue => e
+        raise e, "#{e} for file '#{next_filename}'", e.backtrace
       end
     end
 
-    add_postamble
+    add_global_postamble filename_to_calc_prog_name(File.basename(infilename))
 
     File.open(outfilename, 'w') do |f|
       f << @out

@@ -7,7 +7,8 @@ $y = $pos[1]
 
 Send('B') ; open program menu
 Send('{F3}') ; start new prog
-Send('BSE{ENTER}') ; file name - at most 8 chars
+; Send the program name in lowercase to avoid a strange ALPHA-LOCK behaviour
+Send('bse{ENTER}') ; file name - at most 8 chars
 
 ; program text starts here
 
@@ -248,4 +249,4 @@ Send('9{ENTER}')
 
 MouseClick('left', $x + 73, $y + 376) ; SHIFT (state is PRGM -> JUMP)
 MouseClick('left', $x + 202, $y + 413) ; QUIT (state is PRGM -> JUMP)
-Send('{F1}') ; EXE (state is ["PRGM", "JUMP"])
+Send('{F1}') ; EXE
