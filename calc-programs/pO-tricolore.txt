@@ -1,3 +1,8 @@
+// A rendering of the French flag
+//
+// It doesn't really work on the FX emulator, as it needs colours.
+//
+// fx-emulator: append "Line"
 "TRICOLORE"
 Range 1,4,100,1,2,100
 1->A
