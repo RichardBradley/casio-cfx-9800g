@@ -43,16 +43,18 @@ public class StatementRunner
    }
 
    /**
-    * Runs the whole program
+    * Runs the whole program in "file".
+    * Returns the value from the last statement, if any.
     */
-   public void run(CompiledFile file)
+   public BigDecimal run(CompiledFile file)
    {
       int statementPtr = 0;
+      BigDecimal lastValue = null;
       while (true)
       {
          PStatement statement = file.statements.get(statementPtr);
          
-         Integer nextStatementLabel = run(statement);
+         StatementRetVal retVal = run(statement);
 
          if (traceExecution) {
             System.out.print(statementPtr);
@@ -62,20 +64,26 @@ public class StatementRunner
             System.out.print(context.variableValues);
             System.out.println();
          }
-
-         if (null == nextStatementLabel) {
-            statementPtr++;
-            if (statementPtr >= file.statements.size()) {
-               break;
-            }
-         } else {
+         
+         if (retVal instanceof StatementRetValGoto) {
+            int nextStatementLabel = ((StatementRetValGoto) retVal).nextStatementLabel;
             Integer statementIdx = file.statementIdxByLabelNumber.get(nextStatementLabel);
             if (statementIdx == null) {
                throw new RuntimeException("Bad goto label: " + Printer.nodeToString(statement));
             }
             statementPtr = statementIdx;
-         }
+         } else {
+            if (retVal instanceof StatementRetValValue) {
+               lastValue = ((StatementRetValValue) retVal).value;
+            }
+            
+            statementPtr++;
+            if (statementPtr >= file.statements.size()) {
+               break;
+            }
+         } 
       }
+      return lastValue;
    }
 
    /**
@@ -99,48 +107,50 @@ public class StatementRunner
     * @return the label of the next statement which should be executed, or null
     *         to proceed at the next in sequence  
     */
-   private Integer run(PStatement statement)
+   private StatementRetVal run(PStatement statement)
    {
       if (statement instanceof ACommentStatement) {
          // nothing to do
+         return null;
       } else if (statement instanceof APrinttextStatement) {
-         run((APrinttextStatement)statement);
+         return run((APrinttextStatement)statement);
       } else if (statement instanceof AAssignStatement) {
-         run((AAssignStatement)statement);
+         return run((AAssignStatement)statement);
       } else if (statement instanceof APrintvalStatement) {
-         run((APrintvalStatement)statement);
+         return run((APrintvalStatement)statement);
       } else if (statement instanceof ALabelStatement) {
          // nothing to do
+         return null;
       } else if (statement instanceof AGotoStatement) {
          return run((AGotoStatement)statement);
       } else if (statement instanceof ASubNoargsStatement) {
-         run((ASubNoargsStatement)statement);
+         return run((ASubNoargsStatement)statement);
       } else if (statement instanceof ASubArgsStatement) {
-         run((ASubArgsStatement)statement);
+         return run((ASubArgsStatement)statement);
       } else if (statement instanceof AIfStatement) {
          return run((AIfStatement)statement);
       } else if (statement instanceof ACountJumpStatement) {
          return run((ACountJumpStatement)statement);
       } else if (statement instanceof ASubStatement) {
-         run((ASubStatement)statement);
+         return run((ASubStatement)statement);
       } else if (statement instanceof AGraphStatement) {
-         run((AGraphStatement)statement);
+         return run((AGraphStatement)statement);
       } else {
          throw new CompileException(String.format(
                "Unexpected type: %s at %s",
                statement.getClass(),
                Printer.nodeToString(statement)));
       }
-      return null;
    }
 
-   private void run(APrinttextStatement statement)
+   private StatementRetVal run(APrinttextStatement statement)
    {
       String string = Evaluator.getString(statement.getQuotedText(), statement);
       userInterface.printLine(string);
+      return null;
    }
 
-   private void run(AAssignStatement statement)
+   private StatementRetVal run(AAssignStatement statement)
    {
       if (statement.getQuotedText() != null) {
          String string = Evaluator.getString(statement.getQuotedText(), statement);
@@ -152,22 +162,25 @@ public class StatementRunner
       if (null != statement.getPrintResult()) {
          userInterface.printResult(evaluator.formatForDisplay(value));
       }
+      
+      return new StatementRetValValue(value);
    }
 
-   private void run(APrintvalStatement statement)
+   private StatementRetVal run(APrintvalStatement statement)
    {
       BigDecimal value = evaluator.evaluate(statement.getExpression());
       userInterface.printResult(evaluator.formatForDisplay(value));
+      return new StatementRetValValue(value);
    }
 
-   private int run(AGotoStatement statement)
+   private StatementRetVal run(AGotoStatement statement)
    {
       TNumberLiteral label = ((AGotoStatement)statement).getNumberLiteral();
       int labelNumber = Evaluator.getInt(label, statement);
-      return labelNumber;
+      return new StatementRetValGoto(labelNumber);
    }
 
-   private void run(ASubNoargsStatement statement)
+   private StatementRetVal run(ASubNoargsStatement statement)
    {
       String subName = statement.getSubNoargsName().getText();
       if (subName.equals("Line")) {
@@ -188,9 +201,10 @@ public class StatementRunner
                subName,
                Printer.nodeToString(statement)));
       }
+      return null;
    }
    
-   private void run(ASubArgsStatement statement)
+   private StatementRetVal run(ASubArgsStatement statement)
    {
       String subName = statement.getSubArgsName().getText();
       List<BigDecimal> args = evaluator.evaluate(statement.getExpressionList());
@@ -214,9 +228,10 @@ public class StatementRunner
                subName,
                Printer.nodeToString(statement)));
       }
+      return null;
    }
    
-   private Integer run(AIfStatement statement)
+   private StatementRetVal run(AIfStatement statement)
    {
       BigDecimal leftValue = evaluator.evaluate(statement.getLeft());
       BigDecimal rightValue = evaluator.evaluate(statement.getRight());
@@ -251,7 +266,7 @@ public class StatementRunner
       }
    }
 
-   private Integer run(ACountJumpStatement statement)
+   private StatementRetVal run(ACountJumpStatement statement)
    {
       String op = statement.getCountJumpOp().getText();
       String varName = statement.getVariableName().getText();
@@ -276,14 +291,15 @@ public class StatementRunner
       }
    }
    
-   private void run(ASubStatement statement)
+   private StatementRetVal run(ASubStatement statement)
    {
       String filename = Evaluator.getString(statement.getQuotedText(), statement);
       
       try
       {
          CompiledFile file = compiler.loadFile(filename);
-         run(file);
+         BigDecimal ret = run(file);
+         return ret == null ? null : new StatementRetValValue(ret);
       }
       catch (Exception e)
       {
@@ -300,8 +316,9 @@ public class StatementRunner
     * See Chapter 8 of CFX-9800G.pdf
     * 
     * We currently only support rectangular graphs
+    * @return 
     */
-   private void run(AGraphStatement statement)
+   private StatementRetVal run(AGraphStatement statement)
    {
       final String msg = "Graphs must be of the form 'Graph Y=f(x)' or 'Graph Y>=f(x)'. ";
       
@@ -348,6 +365,30 @@ public class StatementRunner
          // whereas the alg used by the calc will draw a proper line, especially where the
          // graph is steep. We should redo this. Read up on line drawing algs.
          userInterface.graphDot(x, y, shadingMode);
+      }
+      
+      return null;
+   }
+   
+   private abstract static class StatementRetVal
+   {
+   }
+   
+   private static class StatementRetValValue extends StatementRetVal
+   {
+      public BigDecimal value;
+      public StatementRetValValue(BigDecimal value)
+      {
+         this.value = value;
+      }
+   }
+   
+   private static class StatementRetValGoto extends StatementRetVal
+   {
+      public int nextStatementLabel;
+      public StatementRetValGoto(int nextStatementLabel)
+      {
+         this.nextStatementLabel = nextStatementLabel;
       }
    }
 }

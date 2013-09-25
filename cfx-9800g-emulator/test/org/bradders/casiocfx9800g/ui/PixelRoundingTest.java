@@ -6,7 +6,7 @@ import static org.junit.Assert.assertThat;
 import java.awt.Point;
 
 import org.bradders.casiocfx9800g.EvaluationTestBase;
-import org.bradders.casiocfx9800g.ui.ConsoleUserInterface.PointBigDecimal;
+import org.bradders.casiocfx9800g.ui.GraphImageJLabel.PointBigDecimal;
 import org.junit.Test;
 
 public class PixelRoundingTest extends EvaluationTestBase
@@ -34,6 +34,6 @@ public class PixelRoundingTest extends EvaluationTestBase
    
    private Point mapPoint(int x, int y)
    {
-      return ui.mapPointToBitmapCoords(new PointBigDecimal(bd(x), bd(y)));
+      return ui.graph.mapPointToBitmapCoords(new PointBigDecimal(bd(x), bd(y)));
    }
 }

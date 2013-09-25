@@ -6,7 +6,7 @@ import static org.junit.Assert.assertThat;
 import java.math.BigDecimal;
 
 import org.bradders.casiocfx9800g.EvaluationTestBase;
-import org.bradders.casiocfx9800g.ui.ConsoleUserInterface.PointBigDecimal;
+import org.bradders.casiocfx9800g.ui.GraphImageJLabel.PointBigDecimal;
 import org.junit.Test;
 
 public class ConsoleUserInterfaceTest extends EvaluationTestBase
@@ -21,11 +21,11 @@ public class ConsoleUserInterfaceTest extends EvaluationTestBase
       for (BigDecimal graphX : ui.iterateGraphXValues())
       {
          assertThat(
-               ui.mapPointToBitmapCoords(new PointBigDecimal(graphX, BigDecimal.ZERO)).x,
+               ui.graph.mapPointToBitmapCoords(new PointBigDecimal(graphX, BigDecimal.ZERO)).x,
                equalTo(x));
          x++;
       }
-      assertThat(x, equalTo(ConsoleUserInterface.WIDTH_PIXELS));
+      assertThat(x, equalTo(GraphImageJLabel.WIDTH_PIXELS));
    }
    
    @Test

@@ -1,16 +1,16 @@
 package org.bradders.casiocfx9800g.ui;
 
 import java.awt.Graphics;
-import java.awt.Image;
+import java.awt.image.BufferedImage;
 
 import javax.swing.JLabel;
 
 @SuppressWarnings("serial")
 public class ScaledImageJLabel extends JLabel
 {
-   private Image image;
+   protected BufferedImage image;
 
-   public ScaledImageJLabel(Image image)
+   public ScaledImageJLabel(BufferedImage image)
    {
       super();
       this.image = image;
