@@ -82,7 +82,7 @@ public class Evaluator
       this.userInterface = userInterface;
    }
    
-   public String formatForDisplay(BigDecimal value)
+   public static String formatForDisplay(BigDecimal value)
    {
       value = value.round(DISPLAY_PRECISION).stripTrailingZeros();
       if (value.scale() <= 0) {

@@ -47,6 +47,12 @@ public class GraphImageJLabel extends ScaledImageJLabel
 
       imageRaster = image.getRaster();
       
+      graphics = image.createGraphics();
+      graphics.setColor(CalcColour.BACKGROUND.getColor());
+      graphics.fillRect(0, 0, WIDTH_PIXELS, HEIGHT_PIXELS);
+      graphics.setColor(CalcColour.BLACK.getColor());
+      
+      clearScreen(); 
       setPreferredSize(new Dimension(WIDTH_PIXELS * IMAGE_SCALE, HEIGHT_PIXELS * IMAGE_SCALE));
    }
    
@@ -62,11 +68,6 @@ public class GraphImageJLabel extends ScaledImageJLabel
          BigDecimal xMin, BigDecimal xMax, BigDecimal xScale,
          BigDecimal yMin, BigDecimal yMax, BigDecimal yScale)
    {
-      graphics = image.createGraphics();
-      graphics.setColor(CalcColour.BACKGROUND.getColor());
-      graphics.fillRect(0, 0, WIDTH_PIXELS, HEIGHT_PIXELS);
-      graphics.setColor(CalcColour.BLACK.getColor());
-      
       // We can't use graphics.scale / graphics.translate since it messes with the line
       // widths, and we need exactly 1px lines for that retro look
       this.xMin = xMin;
@@ -77,9 +78,6 @@ public class GraphImageJLabel extends ScaledImageJLabel
    
    public void line(CalcColour colour)
    {
-      if (graphics == null) {
-         throw new RuntimeException("You may not call 'Plot' without first calling 'Range'");
-      }
       if (prevPoint == null || prevPrevPoint == null) {
          throw new RuntimeException("You may not call 'Line' without first calling 'Plot' twice");
       }
@@ -92,9 +90,6 @@ public class GraphImageJLabel extends ScaledImageJLabel
    
    public void plot(CalcColour colour, BigDecimal x, BigDecimal y)
    {
-      if (graphics == null) {
-         throw new RuntimeException("You may not call 'Plot' without first calling 'Range'");
-      }
       graphics.setColor(colour.getColor());
       
       PointBigDecimal requestedPoint = new PointBigDecimal(x, y);
@@ -112,9 +107,6 @@ public class GraphImageJLabel extends ScaledImageJLabel
    
    public void graphDot(BigDecimal dotX, BigDecimal dotY, GraphShading shading)
    {
-      if (graphics == null) {
-         throw new RuntimeException("You may not draw graphs without first calling 'Range'");
-      }
       graphics.setColor(CalcColour.BLACK.getColor());
       PointBigDecimal requestedPoint = new PointBigDecimal(dotX, dotY);
       Point point = mapPointToBitmapCoords(requestedPoint);
@@ -226,10 +218,6 @@ public class GraphImageJLabel extends ScaledImageJLabel
    
    public void clearScreen()
    {
-      if (graphics == null) {
-         throw new RuntimeException("You may not call 'clearScreen' without first calling 'Range'");
-      }
-
       graphics.setColor(CalcColour.BACKGROUND.getColor());
       graphics.fillRect(0, 0, WIDTH_PIXELS, HEIGHT_PIXELS);
       afterImageChange();
@@ -251,6 +239,10 @@ public class GraphImageJLabel extends ScaledImageJLabel
    Point mapPointToBitmapCoords(
          PointBigDecimal point)
    {
+      if (xMin == null) {
+         throw new RuntimeException("You must first call 'Range'");
+      }
+      
       // x = (int)Math.round(((point.x - xMin) / (xMax - xMin) * WIDTH_PIXELS))
       BigDecimal xWidthG = xMax.subtract(xMin, Evaluator.STORED_PRECISION);
       BigDecimal xOffG = point.x.subtract(xMin, Evaluator.STORED_PRECISION);

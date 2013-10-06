@@ -7,13 +7,23 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
 import java.io.StringReader;
 import java.math.BigDecimal;
+import java.util.concurrent.locks.Condition;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 
+import javax.swing.AbstractAction;
+import javax.swing.Action;
 import javax.swing.JApplet;
+import javax.swing.JFileChooser;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.JTextPane;
+import javax.swing.SwingUtilities;
 import javax.swing.text.Document;
 import javax.swing.text.Style;
 import javax.swing.text.StyleConstants;
@@ -21,10 +31,16 @@ import javax.swing.text.StyleContext;
 
 import org.bradders.casiocfx9800g.CompiledFile;
 import org.bradders.casiocfx9800g.Compiler;
+import org.bradders.casiocfx9800g.Evaluator;
 import org.bradders.casiocfx9800g.RuntimeContext;
 import org.bradders.casiocfx9800g.StatementRunner;
 
-public class AppletUserInterface extends JApplet implements ActionListener, UserInterface
+/**
+ * Runs the CFX emulator in an Applet.
+ * 
+ * The emulator is run on its own thread.
+ */
+public class AppletUserInterface extends JApplet implements UserInterface
 {
    private JTextField inputField;
    private JTextPane transcript;
@@ -32,6 +48,18 @@ public class AppletUserInterface extends JApplet implements ActionListener, User
    private RuntimeContext context;
    private StatementRunner runner;
    private GraphImageJLabel graph;
+   
+   /**
+    * See EmulatorState, onInputFieldEnterPressed() and runEmulator()
+    */
+   private Lock emulatorLock = new ReentrantLock();
+   private Condition inputReady = emulatorLock.newCondition();
+   private BigDecimal inputtedValue;
+   private Condition programReady = emulatorLock.newCondition();
+   private CompiledFile inputtedProgram;
+   private Condition continuePressed = emulatorLock.newCondition();
+   private EmulatorState emulatorState;
+   private Thread emulatorThread;
 
    /**
     * Style constant for monospaced black.
@@ -62,9 +90,18 @@ public class AppletUserInterface extends JApplet implements ActionListener, User
    private void initEmulator()
    {
       compiler = new Compiler();
-      // compiler.setBaseDir("qq");
       context = new RuntimeContext();
       runner = new StatementRunner(context, compiler, this);
+      
+      emulatorThread = new Thread(new Runnable() {
+         @Override
+         public void run()
+         {
+            runEmulator();
+         }
+      }, "emulator thread");
+      
+      emulatorThread.start();
    }
 
    protected void initUI()
@@ -73,7 +110,13 @@ public class AppletUserInterface extends JApplet implements ActionListener, User
       setPreferredSize(new Dimension(450,350));
       
       inputField = new JTextField();
-      inputField.addActionListener(this);
+      inputField.addActionListener(new ActionListener() {
+         @Override
+         public void actionPerformed(ActionEvent arg0)
+         {
+            onInputFieldEnterPressed();
+         }
+      });
       inputField.setFont(new Font("Monospaced", Font.PLAIN, 12));
       
       transcript = new JTextPane();
@@ -87,7 +130,11 @@ public class AppletUserInterface extends JApplet implements ActionListener, User
       
       graph = new GraphImageJLabel();
       
-      //setJMenuBar(new MiffsMenus(this).generate());
+      JMenuBar menuBar = new JMenuBar();
+      setJMenuBar(menuBar);
+      JMenu mnuFile = new JMenu("File");
+      menuBar.add(mnuFile);
+      mnuFile.add(new OpenFileAction());
       
       Container c = getContentPane();
       c.removeAll();
@@ -117,47 +164,158 @@ public class AppletUserInterface extends JApplet implements ActionListener, User
       Style error = transcript.addStyle(ST_ERR, regular);
       StyleConstants.setForeground(error, Color.red);
    }
-
-   @Override
-   public void actionPerformed(ActionEvent evt)
+   
+   /**
+    * Entry point for the emulator thread
+    */
+   private void runEmulator()
    {
-      if (evt.getSource() == inputField) {
-         String input = inputField.getText();
+      while (true) {
+         try {
+            emulatorLock.lockInterruptibly();
+            CompiledFile program;
+            try {
+               emulatorState = EmulatorState.awaitingProgramInput;
+               programReady.await();
+               program = inputtedProgram;
+               emulatorState = EmulatorState.running;
+            } finally {
+               emulatorLock.unlock();
+            }
+            BigDecimal retVal = runner.run(program);
+            if (retVal != null) {
+               printLine(Evaluator.formatForDisplay(retVal), ST_RESULT);
+            }
+         } catch (InterruptedException e) {
+            // resume loop
+         } catch (Exception e) {
+            if (e.getCause() instanceof InterruptedException) {
+               // resume loop
+            } else {
+               printLine(e, ST_ERR);
+            }
+         }
+      }
+   }
 
-         if ((input == null) || input.equals(""))
-           return;
-
-         printLine(input, ST_ECHO_INPUT);
-         respond(input);
-         inputField.selectAll();
-         inputField.requestFocus();
-       }
+   private class OpenFileAction extends AbstractAction
+   {
+      @Override
+      public Object getValue(String key)
+      {
+         if (Action.NAME.equals(key)) {
+            return "Open";
+         }
+         return super.getValue(key);
+      }
+      
+      @Override
+      public void actionPerformed(ActionEvent evt)
+      {
+         emulatorLock.lock();
+         try {
+            if (emulatorState != EmulatorState.awaitingProgramInput) {
+               return; // disallow open file while emulator is running
+               // TODO: pop up a message?
+            }
+            
+            try {
+               // TODO: see 'we are an Applet' in Nonog.java
+               JFileChooser ch = new JFileChooser(new File("."));
+               if (ch.showOpenDialog(AppletUserInterface.this) == JFileChooser.APPROVE_OPTION) {
+                  final File selectedFile = ch.getSelectedFile();
+                  
+                  printLine("Open file: " + selectedFile.getName(), ST_ECHO_INPUT);
+                  
+                  try {
+                     compiler.setBaseDir(selectedFile.getAbsoluteFile().getParentFile());
+                     inputtedProgram = compiler.loadFile(selectedFile.getAbsolutePath());
+                     programReady.signal();
+                  } catch (Exception e) {
+                     printLine(e, ST_ERR);
+                  }
+               }
+            } catch (Exception e) {
+               printLine(e, ST_ERR);
+            }
+         } finally {
+            emulatorLock.unlock();
+         }
+      }
    }
    
-   protected void printLine(Object o, String style)
+   private void onInputFieldEnterPressed()
    {
-     String text = o.toString() + "\n";
-     Document doc = transcript.getDocument();
+      emulatorLock.lock();
+      try {
+         if (emulatorState == EmulatorState.running) {
+            // ignore the press
+         } else if (emulatorState == EmulatorState.awaitingContinuePress) {
+            continuePressed.signal();
+         } else {
+            String input = inputField.getText();
+   
+            if ((input == null) || input.equals("")) {
+              return;
+            }
+   
+            printLine(input, ST_ECHO_INPUT);
+   
+            if (emulatorState == EmulatorState.awaitingProgramInput) {
+               // assume input is a program to be executed
+               try {
+                  inputtedProgram = compiler.compile(new StringReader(input));
+                  programReady.signal();
+               } catch (Exception e) {
+                  printLine(e, ST_ERR);
+               }
+            } else if (emulatorState == EmulatorState.awaitingValueInput) {
+               try {
+                  inputtedValue = new BigDecimal(input, Evaluator.STORED_PRECISION);
+                  inputReady.signal();
+               } catch (Exception e) {
+                  printLine("Bad input, must be number: " + e.getMessage(), ST_ERR);
+               }
+            } else {
+               throw new RuntimeException("Bad emulator state: " + emulatorState);
+            }
+            
+            inputField.selectAll();
+            inputField.requestFocus();
+         }
+      } finally {
+         emulatorLock.unlock();
+      }
+   }
 
-     try {
-       doc.insertString(doc.getLength(), text, transcript.getStyle(style));
-     } catch (Exception e) {
-       e.printStackTrace();
-     }
+   protected void printLine(final Object o, final String style)
+   {
+      if (!SwingUtilities.isEventDispatchThread()) {
+         try {
+            SwingUtilities.invokeAndWait(new Runnable() {
+               @Override
+               public void run()
+               {
+                  printLine(o, style);
+               }
+            });
+         } catch (Exception e) {
+            e.printStackTrace();
+         }
+      } else {
+         String text = o.toString() + "\n";
+         Document doc = transcript.getDocument();
 
-     transcript.setCaretPosition(doc.getLength());
+         try {
+            doc.insertString(doc.getLength(), text, transcript.getStyle(style));
+         } catch (Exception e) {
+            e.printStackTrace();
+         }
+
+         transcript.setCaretPosition(doc.getLength());
+      }
    }
    
-   public void respond(String input)
-   {
-     try {
-        CompiledFile compiledInput = compiler.compile(new StringReader(input));
-        runner.run(compiledInput);
-     } catch (Exception e) {
-       printLine(e, ST_ERR);
-     }
-   }
-
    @Override
    public void printLine(String string)
    {
@@ -169,12 +327,34 @@ public class AppletUserInterface extends JApplet implements ActionListener, User
    {
       printLine(value, ST_RESULT);
       printLine("- Disp -", ST_RESULT);
+      emulatorLock.lock();
+      try {
+         emulatorState = EmulatorState.awaitingContinuePress;
+         continuePressed.await();
+         emulatorState = EmulatorState.running;
+      } catch (InterruptedException e) {
+         throw new RuntimeException(e);
+      } finally {
+         emulatorLock.unlock();
+      }
    }
 
    @Override
    public BigDecimal readValue()
    {
-      throw new RuntimeException("// TODO Auto-generated method stub");
+      printLine("?", ST_ECHO_INPUT);
+
+      emulatorLock.lock();
+      try {
+         emulatorState = EmulatorState.awaitingValueInput;
+         inputReady.await();
+         emulatorState = EmulatorState.running;
+         return inputtedValue;
+      } catch (InterruptedException e) {
+         throw new RuntimeException(e);
+      } finally {
+         emulatorLock.unlock();
+      }
    }
 
    @Override
@@ -212,5 +392,28 @@ public class AppletUserInterface extends JApplet implements ActionListener, User
    public void clearScreen()
    {
       graph.clearScreen();
+   }
+   
+   private static enum EmulatorState
+   {
+      /**
+       * The emulator is ready for a new program.
+       * The thread is blocked on 'programReady' and expects a program in 'inputtedProgram'
+       */
+      awaitingProgramInput,
+      /**
+       * The emulator is waiting for a value from the user.
+       * The thread is blocked on 'inputReady' and expects a value in 'inputtedValue'
+       */
+      awaitingValueInput,
+      /**
+       * A value has been displayed, the user must press enter to continue.
+       * The thread is blocked on 'continuePressed'
+       */
+      awaitingContinuePress,
+      /**
+       * The emulator is working, user input should not be accepted
+       */
+      running;
    }
 }

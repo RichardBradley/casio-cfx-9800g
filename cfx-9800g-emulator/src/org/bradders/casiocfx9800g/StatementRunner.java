@@ -160,7 +160,7 @@ public class StatementRunner
       BigDecimal value = evaluator.evaluate(statement.getExpression());
       context.setVariableValue(statement.getVariableName().getText(), value);
       if (null != statement.getPrintResult()) {
-         userInterface.printResult(evaluator.formatForDisplay(value));
+         userInterface.printResult(Evaluator.formatForDisplay(value));
       }
       
       return new StatementRetValValue(value);
@@ -169,7 +169,9 @@ public class StatementRunner
    private StatementRetVal run(APrintvalStatement statement)
    {
       BigDecimal value = evaluator.evaluate(statement.getExpression());
-      userInterface.printResult(evaluator.formatForDisplay(value));
+      if (statement.getPrintResult() != null) {
+         userInterface.printResult(Evaluator.formatForDisplay(value));
+      }
       return new StatementRetValValue(value);
    }
 

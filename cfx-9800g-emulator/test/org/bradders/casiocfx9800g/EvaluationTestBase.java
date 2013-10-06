@@ -36,7 +36,7 @@ public abstract class EvaluationTestBase
       PExpression expression = stm.getExpression();
       
       BigDecimal val = evaluator.evaluate(expression);
-      return evaluator.formatForDisplay(val);
+      return Evaluator.formatForDisplay(val);
    }
    
    /**
