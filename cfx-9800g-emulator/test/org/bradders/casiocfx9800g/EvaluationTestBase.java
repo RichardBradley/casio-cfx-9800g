@@ -1,5 +1,6 @@
 package org.bradders.casiocfx9800g;
 
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.Reader;
 import java.io.StringReader;
@@ -70,11 +71,11 @@ public abstract class EvaluationTestBase
    private class MockFileCompiler extends Compiler
    {
       @Override
-      protected Reader openFile(String filename) throws FileNotFoundException
+      protected Reader openFile(File file) throws FileNotFoundException
       {
-         String fileContents = fileContentsByFileName.get(filename);
+         String fileContents = fileContentsByFileName.get(file.toString());
          if (fileContents == null) {
-            throw new FileNotFoundException(filename);
+            throw new FileNotFoundException(file.toString());
          }
          return new StringReader(fileContents);
       }

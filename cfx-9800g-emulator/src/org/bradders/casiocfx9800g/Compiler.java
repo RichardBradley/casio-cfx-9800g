@@ -21,21 +21,27 @@ public class Compiler
    public CompiledFile loadFile(String filename) throws Exception
    {
       if (!loadedFilesByName.containsKey(filename)) {
-         Reader programText = openFile(filename);
+         File file = resolveFilename(filename);
+         Reader programText = openFile(file);
          CompiledFile out = compile(programText);
+         out.setFile(file);
          loadedFilesByName.put(filename, out);
       }
       return loadedFilesByName.get(filename);
    }
-
-   protected Reader openFile(String filename)
-         throws FileNotFoundException
+   
+   protected File resolveFilename(String filename)
    {
       File file = new File(filename);
       if (!file.isAbsolute()) {
          file = new File(baseDir, filename);
       }
-      
+      return file;
+   }
+
+   protected Reader openFile(File file)
+         throws FileNotFoundException
+   {
       return new BufferedReader(new FileReader(file));
    }
 

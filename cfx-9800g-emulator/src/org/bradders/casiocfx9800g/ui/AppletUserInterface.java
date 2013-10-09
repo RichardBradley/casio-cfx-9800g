@@ -20,6 +20,7 @@ import javax.swing.JApplet;
 import javax.swing.JFileChooser;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
+import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.JTextPane;
@@ -135,6 +136,7 @@ public class AppletUserInterface extends JApplet implements UserInterface
       JMenu mnuFile = new JMenu("File");
       menuBar.add(mnuFile);
       mnuFile.add(new OpenFileAction());
+      mnuFile.add(new InterruptAction());
       
       Container c = getContentPane();
       c.removeAll();
@@ -183,14 +185,22 @@ public class AppletUserInterface extends JApplet implements UserInterface
                emulatorLock.unlock();
             }
             BigDecimal retVal = runner.run(program);
-            if (retVal != null) {
-               printLine(Evaluator.formatForDisplay(retVal), ST_RESULT);
+            
+            // for program files, print "(terminated)"; for input expressions,
+            // print the return value
+            if (program.getFile() != null) {
+               printLine("(terminated)", ST_RESULT);
+            } else {
+               if (retVal != null) {
+                  printLine(Evaluator.formatForDisplay(retVal), ST_RESULT);
+               }
             }
          } catch (InterruptedException e) {
             // resume loop
+            printLine("(cancelled)", ST_RESULT);
          } catch (Exception e) {
             if (e.getCause() instanceof InterruptedException) {
-               // resume loop
+               printLine("(cancelled)", ST_RESULT);
             } else {
                printLine(e, ST_ERR);
             }
@@ -215,8 +225,13 @@ public class AppletUserInterface extends JApplet implements UserInterface
          emulatorLock.lock();
          try {
             if (emulatorState != EmulatorState.awaitingProgramInput) {
+               JOptionPane.showConfirmDialog(
+                     AppletUserInterface.this,
+                     "Cannot start a new program while one is running. Please choose 'interrupt' from the menu.",
+                     "cfx-9800g-emulator",
+                     JOptionPane.ERROR_MESSAGE,
+                     JOptionPane.OK_OPTION);
                return; // disallow open file while emulator is running
-               // TODO: pop up a message?
             }
             
             try {
@@ -241,6 +256,24 @@ public class AppletUserInterface extends JApplet implements UserInterface
          } finally {
             emulatorLock.unlock();
          }
+      }
+   }
+   
+   private class InterruptAction extends AbstractAction
+   {
+      @Override
+      public Object getValue(String key)
+      {
+         if (Action.NAME.equals(key)) {
+            return "Interrupt";
+         }
+         return super.getValue(key);
+      }
+      
+      @Override
+      public void actionPerformed(ActionEvent arg0)
+      {
+         emulatorThread.interrupt();
       }
    }
    
@@ -325,6 +358,10 @@ public class AppletUserInterface extends JApplet implements UserInterface
    @Override
    public void printResult(String value)
    {
+      if (Thread.currentThread() != emulatorThread) {
+         throw new RuntimeException("Only the emulator thread should call this method");
+      }
+      
       printLine(value, ST_RESULT);
       printLine("- Disp -", ST_RESULT);
       emulatorLock.lock();
@@ -342,6 +379,10 @@ public class AppletUserInterface extends JApplet implements UserInterface
    @Override
    public BigDecimal readValue()
    {
+      if (Thread.currentThread() != emulatorThread) {
+         throw new RuntimeException("Only the emulator thread should call this method");
+      }
+
       printLine("?", ST_ECHO_INPUT);
 
       emulatorLock.lock();
