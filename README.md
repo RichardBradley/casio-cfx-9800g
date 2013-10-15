@@ -26,12 +26,16 @@ This emulator is useful for verifying the accuracy of the Java emulator (see "cf
 
 The fx-9800G USB has a screen resolution of 128x64, whereas the CFX-9800G has only 96x64.
 
+The ruby script notices magic comments starting '// fx-emulator:' to allow for modifications to the program (for example, to change the Range of the graph image to account for the different screen resolutions).
+
 "cfx-9800g-emulator"
 --------------------
 
 This is a Java interpreter I wrote to run the casio programs. It uses [SableCC](http://sablecc.org/)
 
-Currently, text input & output is handled via the console, and the app launches a JFrame to display any graphics drawn by the program. The emulator simulates the 3-colour display available on the CFX-9800G.
+There are two front ends to the app. It can run as a standalone java app which handles text input & output via the console, and launches a JFrame to display any graphics drawn by the program. Or it can run as an Applet to embed the emulator in a web page (as on [my website](http://bradders.org/cfx-9800g/)).
+
+The emulator simulates the 3-colour display available on the CFX-9800G. It can run all the programs here, but only has a small subset of the CFX's fucntionality.
 
 Installation and Setup
 ======================
@@ -44,7 +48,8 @@ Casio's emulator
 To run the programs using Casio's emulator, you will need to be using Windows. Then:
 
 * Install [AutoIt](http://www.autoitscript.com/site/autoit/downloads/) and Ruby
-* Convert the program from ".txt" to ".au3":  `ruby casio-prog-txt-to-au3.rb calc-programs/p1-powerseqs.txt emulator-autoit-scripts/p1-powerseqs.au3`
+* Convert the program from ".txt" to ".au3": `ruby casio-prog-txt-to-au3.rb calc-programs/p1-powerseqs.txt emulator-autoit-scripts/p1-powerseqs.au3`
+** (Note that converted copies of all my programs are checked in to this repos.)
 * Launch the generated ".au3" script: `start emulator-autoit-scripts/p1-powerseqs.au3`
 * The script will launch a new emulator, type in the program and execute it
 
@@ -66,11 +71,10 @@ In program mode, the CFX-9800G has several symbols which are difficult to reprod
 
 `->`   is used for the right arrow symbol, meaning "assign to variable"
 
-`=>`   is used for the double right arrow symbol, meaning "then" (and implying
-       a preceeding if)
+`=>`   is used for the double right arrow symbol, meaning "then" (there is no preceeding "if")
 
 `\n`   normal newlines are used in the files where the Casio would display a
-       return symbol (U+23CE)
+       return symbol (like U+23CE)
 
 `/`    is used for the division symbol (U+00F7)
 
@@ -101,7 +105,6 @@ In program mode, the CFX-9800G has several symbols which are difficult to reprod
        (The function stack is only 10 deep on the Casio.)
 
 (Range from my old casio is referred to as 'View Window' in the new casio)
-       from the emulator
 
 Programming Langauge Quickstart
 ===============================
