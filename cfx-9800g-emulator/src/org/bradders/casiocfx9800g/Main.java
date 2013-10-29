@@ -1,6 +1,7 @@
 package org.bradders.casiocfx9800g;
 
 import java.io.File;
+import java.net.URL;
 
 import org.bradders.casiocfx9800g.ui.ConsoleUserInterface;
 
@@ -31,10 +32,10 @@ public class Main
          return;
       }
       
-      File fileLocation = new File(args[0]); 
+      URL fileLocation = new File(args[0]).toURI().toURL();
       Compiler compiler = new Compiler();
-      compiler.setBaseDir(fileLocation.getAbsoluteFile().getParentFile());
-      CompiledFile file = compiler.loadFile(fileLocation.getAbsolutePath());
+      compiler.setBaseDir(fileLocation);
+      CompiledFile file = compiler.loadFile(fileLocation);
       RuntimeContext context = new RuntimeContext();
       ConsoleUserInterface ui = new ConsoleUserInterface();      
       StatementRunner runner = new StatementRunner(context, compiler, ui);

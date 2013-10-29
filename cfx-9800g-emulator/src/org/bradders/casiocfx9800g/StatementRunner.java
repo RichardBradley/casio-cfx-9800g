@@ -299,8 +299,8 @@ public class StatementRunner
       
       try
       {
-         CompiledFile file = compiler.loadFile(filename);
-         BigDecimal ret = run(file);
+         CompiledFile compiledFile = compiler.loadFileRelative(filename);
+         BigDecimal ret = run(compiledFile);
          return ret == null ? null : new StatementRetValValue(ret);
       }
       catch (Exception e)

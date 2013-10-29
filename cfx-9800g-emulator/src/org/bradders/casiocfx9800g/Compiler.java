@@ -1,48 +1,52 @@
 package org.bradders.casiocfx9800g;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
+import java.io.BufferedInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.PushbackReader;
 import java.io.Reader;
+import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.apache.commons.io.Charsets;
 import org.bradders.casiocfx9800g.lexer.Lexer;
 import org.bradders.casiocfx9800g.node.Start;
 import org.bradders.casiocfx9800g.parser.Parser;
 
 public class Compiler
 {
-   Map<String, CompiledFile> loadedFilesByName = new HashMap<String, CompiledFile>();
-   private File baseDir;
+   Map<URL, CompiledFile> loadedFilesByURL = new HashMap<URL, CompiledFile>();
+   private UrlResolverWithBaseDir urlResolver = new UrlResolverWithBaseDir();
 
-   public CompiledFile loadFile(String filename) throws Exception
+   /**
+    * Loads a file from a relative path.
+    * 
+    */
+   public CompiledFile loadFileRelative(String filename) throws Exception
    {
-      if (!loadedFilesByName.containsKey(filename)) {
-         File file = resolveFilename(filename);
+      URL file = urlResolver.resolveFilename(filename);
+      return loadFile(file);
+   }
+   
+   public CompiledFile loadFile(URL file) throws Exception
+   {
+      if (!loadedFilesByURL.containsKey(file)) {
          Reader programText = openFile(file);
          CompiledFile out = compile(programText);
          out.setFile(file);
-         loadedFilesByName.put(filename, out);
+         loadedFilesByURL.put(file, out);
       }
-      return loadedFilesByName.get(filename);
-   }
-   
-   protected File resolveFilename(String filename)
-   {
-      File file = new File(filename);
-      if (!file.isAbsolute()) {
-         file = new File(baseDir, filename);
-      }
-      return file;
+      return loadedFilesByURL.get(file);
    }
 
-   protected Reader openFile(File file)
-         throws FileNotFoundException
+   protected Reader openFile(URL file)
+         throws IOException
    {
-      return new BufferedReader(new FileReader(file));
+      InputStream urlStream = new BufferedInputStream(file.openStream());
+      InputStreamReader reader = new InputStreamReader(urlStream, Charsets.UTF_8);
+      return reader;
    }
 
    public CompiledFile compile(Reader programText)
@@ -59,8 +63,13 @@ public class Compiler
       return file;
    }
 
-   public void setBaseDir(File baseDir)
+   public String getFilename(URL url)
    {
-      this.baseDir = baseDir;
+      return urlResolver.getFilename(url);
+   }
+
+   public void setBaseDir(URL url)
+   {
+      urlResolver.setBaseDir(url);
    }
 }

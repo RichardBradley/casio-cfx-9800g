@@ -5,11 +5,12 @@ import java.awt.Color;
 import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.Frame;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.File;
 import java.io.StringReader;
 import java.math.BigDecimal;
+import java.net.URL;
 import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
@@ -17,7 +18,6 @@ import java.util.concurrent.locks.ReentrantLock;
 import javax.swing.AbstractAction;
 import javax.swing.Action;
 import javax.swing.JApplet;
-import javax.swing.JFileChooser;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JOptionPane;
@@ -40,6 +40,8 @@ import org.bradders.casiocfx9800g.StatementRunner;
  * Runs the CFX emulator in an Applet.
  * 
  * The emulator is run on its own thread.
+ * 
+ * TODO: use swing.plaf?
  */
 public class AppletUserInterface extends JApplet implements UserInterface
 {
@@ -235,22 +237,18 @@ public class AppletUserInterface extends JApplet implements UserInterface
             }
             
             try {
-               // TODO: see 'we are an Applet' in Nonog.java
-               JFileChooser ch = new JFileChooser(new File("."));
-               if (ch.showOpenDialog(AppletUserInterface.this) == JFileChooser.APPROVE_OPTION) {
-                  final File selectedFile = ch.getSelectedFile();
+               Frame frame = (Frame) SwingUtilities.getAncestorOfClass(Frame.class, AppletUserInterface.this);
+               URL selectedFile = ProgramFileChooserFrame.chooseProgramFile(frame);
+
+               if (selectedFile != null) {
+                  printLine("Open file: " + compiler.getFilename(selectedFile), ST_ECHO_INPUT);
                   
-                  printLine("Open file: " + selectedFile.getName(), ST_ECHO_INPUT);
-                  
-                  try {
-                     compiler.setBaseDir(selectedFile.getAbsoluteFile().getParentFile());
-                     inputtedProgram = compiler.loadFile(selectedFile.getAbsolutePath());
-                     programReady.signal();
-                  } catch (Exception e) {
-                     printLine(e, ST_ERR);
-                  }
+                  compiler.setBaseDir(selectedFile);
+                  inputtedProgram = compiler.loadFile(selectedFile);
+                  programReady.signal();
                }
             } catch (Exception e) {
+               e.printStackTrace();
                printLine(e, ST_ERR);
             }
          } finally {

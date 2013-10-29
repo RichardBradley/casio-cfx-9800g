@@ -14,4 +14,11 @@
 	<natures>
 		<nature>org.eclipse.jdt.core.javanature</nature>
 	</natures>
+	<linkedResources>
+		<link>
+			<name>src/calc-programs</name>
+			<type>2</type>
+			<location>C:/Users/rtb/Documents/personal/src/casio-cfx-9800g/calc-programs</location>
+		</link>
+	</linkedResources>
 </projectDescription>

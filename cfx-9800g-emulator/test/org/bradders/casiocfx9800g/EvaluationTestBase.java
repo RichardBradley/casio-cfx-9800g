@@ -1,10 +1,14 @@
 package org.bradders.casiocfx9800g;
 
-import java.io.File;
+import static org.hamcrest.Matchers.startsWith;
+import static org.junit.Assert.assertThat;
+
 import java.io.FileNotFoundException;
 import java.io.Reader;
 import java.io.StringReader;
 import java.math.BigDecimal;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -70,12 +74,27 @@ public abstract class EvaluationTestBase
    
    private class MockFileCompiler extends Compiler
    {
-      @Override
-      protected Reader openFile(File file) throws FileNotFoundException
+      private final static String FILE_BASE_DIR = "file:/mock_files/";
+
+      public MockFileCompiler()
       {
-         String fileContents = fileContentsByFileName.get(file.toString());
+         try {
+            setBaseDir(new URL(FILE_BASE_DIR));
+         } catch (MalformedURLException e) {
+            throw new RuntimeException(e);
+         }
+      }
+
+      @Override
+      protected Reader openFile(URL file) throws FileNotFoundException
+      {
+         String fileStr = file.toString();
+         assertThat(fileStr, startsWith(FILE_BASE_DIR));
+         fileStr = fileStr.substring(FILE_BASE_DIR.length());
+
+         String fileContents = fileContentsByFileName.get(fileStr);
          if (fileContents == null) {
-            throw new FileNotFoundException(file.toString());
+            throw new FileNotFoundException(fileStr);
          }
          return new StringReader(fileContents);
       }

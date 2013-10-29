@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
-	<classpathentry kind="src" path="src"/>
+	<classpathentry excluding="calc-programs/" kind="src" path="src"/>
+	<classpathentry kind="src" path="src/calc-programs"/>
 	<classpathentry kind="src" path="test"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="lib" path="lib/commons-math3-3.2.jar"/>
@@ -21,5 +22,6 @@
 	<classpathentry kind="lib" path="lib/test/jmock-2.6.0/jmock-legacy-2.6.0.jar"/>
 	<classpathentry kind="lib" path="lib/test/jmock-2.6.0/jmock-script-2.6.0.jar"/>
 	<classpathentry kind="lib" path="lib/test/jmock-2.6.0/objenesis-1.0.jar"/>
+	<classpathentry kind="lib" path="lib/commons-io-2.4.jar" sourcepath="lib/commons-io-2.4-sources.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
