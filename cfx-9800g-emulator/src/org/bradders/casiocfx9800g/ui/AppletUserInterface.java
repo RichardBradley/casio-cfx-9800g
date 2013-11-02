@@ -25,10 +25,10 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.JTextPane;
 import javax.swing.SwingUtilities;
-import javax.swing.text.Document;
 import javax.swing.text.Style;
 import javax.swing.text.StyleConstants;
 import javax.swing.text.StyleContext;
+import javax.swing.text.StyledDocument;
 
 import org.bradders.casiocfx9800g.CompiledFile;
 import org.bradders.casiocfx9800g.Compiler;
@@ -319,7 +319,7 @@ public class AppletUserInterface extends JApplet implements UserInterface
       }
    }
 
-   protected void printLine(final Object o, final String style)
+   protected void printLine(final Object o, final String styleName)
    {
       if (!SwingUtilities.isEventDispatchThread()) {
          try {
@@ -327,23 +327,25 @@ public class AppletUserInterface extends JApplet implements UserInterface
                @Override
                public void run()
                {
-                  printLine(o, style);
+                  printLine(o, styleName);
                }
             });
          } catch (Exception e) {
             e.printStackTrace();
          }
       } else {
-         String text = o.toString() + "\n";
-         Document doc = transcript.getDocument();
-
          try {
-            doc.insertString(doc.getLength(), text, transcript.getStyle(style));
+            String text = o.toString() + "\n";
+            StyledDocument doc = (StyledDocument) transcript.getDocument();
+
+            Style style = transcript.getStyle(styleName);
+            doc.setLogicalStyle(doc.getLength(), style);
+            doc.insertString(doc.getLength(), text, style);
+
+            transcript.setCaretPosition(doc.getLength());
          } catch (Exception e) {
             e.printStackTrace();
          }
-
-         transcript.setCaretPosition(doc.getLength());
       }
    }
    

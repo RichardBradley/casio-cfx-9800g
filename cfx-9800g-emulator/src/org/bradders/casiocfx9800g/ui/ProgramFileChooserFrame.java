@@ -98,7 +98,6 @@ public class ProgramFileChooserFrame extends JDialog
       JList fileList = (JList) evt.getSource();
 
       selectedFile = ((ProgramFile) fileList.getSelectedValue()).url;
-      System.err.println("selectedFile="+selectedFile);
       try {
          String fileContents = IOUtils.toString(selectedFile, Charsets.UTF_8);
          EditorKit editorKit = programContentPane.getEditorKit();
