@@ -227,12 +227,11 @@ public class AppletUserInterface extends JApplet implements UserInterface
          emulatorLock.lock();
          try {
             if (emulatorState != EmulatorState.awaitingProgramInput) {
-               JOptionPane.showConfirmDialog(
+               JOptionPane.showMessageDialog(
                      AppletUserInterface.this,
                      "Cannot start a new program while one is running. Please choose 'interrupt' from the menu.",
                      "cfx-9800g-emulator",
-                     JOptionPane.ERROR_MESSAGE,
-                     JOptionPane.OK_OPTION);
+                     JOptionPane.WARNING_MESSAGE);
                return; // disallow open file while emulator is running
             }
             

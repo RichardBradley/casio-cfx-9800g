@@ -45,8 +45,9 @@ public class StatementRunner
    /**
     * Runs the whole program in "file".
     * Returns the value from the last statement, if any.
+    * @throws InterruptedException   if the thread is interrupted during execution
     */
-   public BigDecimal run(CompiledFile file)
+   public BigDecimal run(CompiledFile file) throws InterruptedException
    {
       int statementPtr = 0;
       BigDecimal lastValue = null;
@@ -81,7 +82,12 @@ public class StatementRunner
             if (statementPtr >= file.statements.size()) {
                break;
             }
-         } 
+         }
+
+         // Check for interrupt which occurred while the thread was not blocked
+         if (Thread.interrupted()) {
+            throw new InterruptedException();
+         }
       }
       return lastValue;
    }
