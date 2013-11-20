@@ -1,4 +1,4 @@
-I found an emulator, but it was not for the colour version of the calc (qq fill in model numbers).
+I found an emulator, but it was not for the colour version of the calc.
 
 So I decided to write a simple emulator to run the graphical programs in 3 colours.
 

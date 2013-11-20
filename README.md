@@ -64,6 +64,8 @@ To run the programs using my Java emulator, you'll need Eclipse:
 
 (Or run it in your browser at [my website](http://bradders.org/cfx-9800g/)).
 
+You can build the jar with "ant".
+
 Notation
 ========
 
