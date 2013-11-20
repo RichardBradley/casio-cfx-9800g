@@ -19,16 +19,35 @@
      = library code, but that doesn't work with Applets (they don't have 
      = permission to mess with the class loaders). -->
 <!-- TODO: http://www.jdotsoft.com/JarClassLoader.php#applet -->
+  <!-- Note that we have to unzip the two included jars first, so we can
+     = rename their LICENSE files. Otherwise we would have a duplicate
+     = zip entry, which causes the applet to silently fail. -->
   <target name="applet-jar">
+    <mkdir dir="jar-build" />
+    <unjar src="lib/commons-math3-3.2.jar" 
+	   dest="jar-build"
+	   overwrite="false" />
+    <move file="jar-build/META-INF/LICENSE.txt"
+	  tofile="jar-build/META-INF/commons-math3-3.2-LICENSE.txt" />
+    <move file="jar-build/META-INF/NOTICE.txt"
+	  tofile="jar-build/META-INF/commons-math3-3.2-NOTICE.txt" />
+    <unjar src="lib/commons-io-2.4.jar" 
+	   dest="jar-build"
+	   overwrite="false" />
+    <move file="jar-build/META-INF/LICENSE.txt"
+	  tofile="jar-build/META-INF/commons-io-2.4-LICENSE.txt" />
+    <move file="jar-build/META-INF/NOTICE.txt"
+	  tofile="jar-build/META-INF/commons-io-2.4-NOTICE.txt" />
+    <copy todir="jar-build">
+      <fileset dir="bin" />
+    </copy>
     <jar destfile="cfx-9800g-emulator-applet.jar" index="true" filesetmanifest="mergewithoutmain">
       <manifest>
 	<attribute name="Main-Class" value="org.bradders.casiocfx9800g.Main"/>
 	<attribute name="Class-Path" value="."/>
       </manifest>
-      <zipfileset src="jar-in-jar-loader.zip"/>
-      <fileset dir="bin"/>
-      <zipfileset src="lib/commons-math3-3.2.jar" excludes="META-INF/*.SF" />
-      <zipfileset src="lib/commons-io-2.4.jar" excludes="META-INF/*.SF" />
+      <fileset dir="jar-build"/>
     </jar>
+    <delete dir="jar-build" />
   </target>
 </project>
