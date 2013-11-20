@@ -62,7 +62,7 @@ To run the programs using my Java emulator, you'll need Eclipse:
 * Launch the project with the program file as the sole command-line argument
 * The app will emulate the program, launching a JFrame to display any graphics if required
 
-TODO: package this into a JAR or something to make this easier.
+(Or run it in your browser at [my website](http://bradders.org/cfx-9800g/)).
 
 Notation
 ========
