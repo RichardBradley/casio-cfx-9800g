@@ -46,12 +46,7 @@ public class GraphImageJLabel extends ScaledImageJLabel
       super(createImage());
 
       imageRaster = image.getRaster();
-      
       graphics = image.createGraphics();
-      graphics.setColor(CalcColour.BACKGROUND.getColor());
-      graphics.fillRect(0, 0, WIDTH_PIXELS, HEIGHT_PIXELS);
-      graphics.setColor(CalcColour.BLACK.getColor());
-      
       clearScreen(); 
       setPreferredSize(new Dimension(WIDTH_PIXELS * IMAGE_SCALE, HEIGHT_PIXELS * IMAGE_SCALE));
    }
@@ -63,7 +58,7 @@ public class GraphImageJLabel extends ScaledImageJLabel
             HEIGHT_PIXELS,
             BufferedImage.TYPE_INT_ARGB);
    }
-
+   
    public void range(
          BigDecimal xMin, BigDecimal xMax, BigDecimal xScale,
          BigDecimal yMin, BigDecimal yMax, BigDecimal yScale)
@@ -74,6 +69,8 @@ public class GraphImageJLabel extends ScaledImageJLabel
       this.xMax = xMax;
       this.yMin = yMin;
       this.yMax = yMax;
+      
+      clearScreen();
    }
    
    public void line(CalcColour colour)
