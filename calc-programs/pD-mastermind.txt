@@ -1,3 +1,8 @@
+// This is an implementation of the Mastermind guessing game. The computer
+// will think of 4 numbers 0-9, and you have to guess by entering a four digit
+// number.
+// The computer will answer with the number of "hits" (exact matches by digit)
+// and "halves" (the right digit in the wrong column).
 "MASTER MIND"
 Int (Ran#*10)->G
 Lbl 1

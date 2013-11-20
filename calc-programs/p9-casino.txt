@@ -1,3 +1,5 @@
+// A slot machine simulator. The payouts are fairly generous, so it's easy
+// to become a millionaire (with patience).
 "CASINO"
 100->S
 0->H

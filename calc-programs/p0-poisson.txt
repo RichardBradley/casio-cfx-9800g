@@ -1,3 +1,4 @@
+// Calculates probabilities in the Poisson distribution, and keeps a running total.
 "POISSON"
 0->S
 "LAMBDA":?->r

@@ -1,4 +1,0 @@
-"PRIME OR PSEUDOPRIME"
-"'P'":?->P
-2^P->Q
-Q-P*Int (Q/P)#

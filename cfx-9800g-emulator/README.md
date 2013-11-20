@@ -5,7 +5,7 @@ So I decided to write a simple emulator to run the graphical programs in 3 colou
 First, download sablecc.
 
 Write the grammar file -- see sablecc/casio-cfx-9800g.sablecc 
-See qq for sablecc docs
+See http://sablecc.org/ for sablecc docs
 
 Use SableCC to generate a parser from the grammar file:
     java -jar lib/sablecc-3.7/lib/sablecc.jar -d src src/sablecc/casio-cfx-9800g.sablecc 

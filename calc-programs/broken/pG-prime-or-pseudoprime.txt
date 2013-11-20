@@ -1,0 +1,6 @@
+// Not sure what this does.
+// It doesn't look like I meant Fermat pseudoprimes.
+"PRIME OR PSEUDOPRIME"
+"'P'":?->P
+2^P->Q
+Q-P*Int (Q/P)#

@@ -1,3 +1,4 @@
+// Solves for the coefficients of cubic or quadratic sequences, given the first few terms.
 "POWER SEQS"
 Lbl 1
 "POWER? (2-3)"
